@@ -253,7 +253,8 @@
             </div>
         </div>
     </div>
-	    <div class="container">
+
+    <div class="container">
         <h1>Incident Management Checklist (IMC)</h1>
         
         <form id="imcForm">
@@ -394,7 +395,7 @@
                             <input type="checkbox" name="sendEmail" id="sendEmail" checked> Send Email
                         </label>
                         <div class="button-group" style="display:inline-flex;margin-left:15px;">
-                            <button type="button" class="btn btn-outline-primary btn-small" onclick="openEmailEditor(true)" style="margin-right:8px">✉️ Edit Email</button>
+                            <button type="button" class="btn btn-outline-primary btn-small" onclick="openEmailEditor(true)" id="editEmailActivityBtn" style="margin-right:8px">✉️ Edit Email</button>
                             <button type="button" class="btn btn-outline-success btn-small" id="submitActivityBtn" onclick="submitActivityLog()">Submit</button>
                         </div>
                     </td>
@@ -519,7 +520,7 @@
                 </tr>
                 <tr>
                     <td colspan="6" style="text-align:center;padding:15px;">
-                        <button type="button" class="btn btn-outline-primary" onclick="openEmailEditor(false)" style="margin-right:10px">✉️ Edit Email</button>
+                        <button type="button" class="btn btn-outline-primary" onclick="openEmailEditor(false)" id="editEmailMainBtn" style="margin-right:10px">✉️ Edit Email</button>
                         <button type="submit" id="mainSubmitBtn" class="btn btn-outline-success">Submit</button>
                         <button type="reset" class="btn btn-outline-danger" onclick="resetForm()">Clear</button>
                     </td>
@@ -860,7 +861,7 @@
         }
 
         // ========================================
-        // EMAIL EDITOR FUNCTIONS (✅ UPDATED)
+        // EMAIL EDITOR FUNCTIONS (✅ FIXED)
         // ========================================
 
         function openEmailEditor(isActivity) {
@@ -870,13 +871,18 @@
                 alert('Please fill required fields: Update # and Team Member');
                 return;
             }
+            
+            // ✅ FIXED: Only check troubleshooting steps if status is "Resolved"
             if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
-                alert('Troubleshooting steps required for Resolved status!');
+                alert('Troubleshooting steps are required for Resolved status!');
                 return;
             }
             
-            // ✅ UPDATED: Use Hugo's email for TEST status
-            const emailTo = data.ticketStatus === 'TEST' ? 'john_hugo.dado@telus.com' : 'dlApplicationSupport@telus.com';
+            // ✅ FIXED: Default to dlApplicationSupport for all statuses except TEST
+            const emailTo = data.ticketStatus === 'TEST' 
+                ? 'john_hugo.dado@telus.com' 
+                : 'dlApplicationSupport@telus.com';
+            
             document.getElementById('emailTo').value = emailTo;
             document.getElementById('emailCC').value = '';
             document.getElementById('emailSubject').value = HARDCODED_SUBJECT;
@@ -1062,8 +1068,7 @@
             
             previewContent.innerHTML = '<pre style="margin:0;font-family:\'Courier New\',monospace;white-space:pre-wrap;word-wrap:break-word;">' + formattedHTML + '</pre>';
         }
-
-        function generateEmailBody(data) {
+		        function generateEmailBody(data) {
             const isResolved = data.ticketStatus === 'Resolved';
             let body = '';
             
@@ -1244,9 +1249,7 @@
             
             const editedCC = document.getElementById('emailCC').value.trim();
             const editedBody = document.getElementById('emailBody').value;
-            
-            // ✅ UPDATED: Use Hugo's email for TEST status
-            const emailRecipient = data.ticketStatus === 'TEST' ? 'john_hugo.dado@telus.com' : 'dlApplicationSupport@telus.com';
+            const emailRecipient = document.getElementById('emailTo').value;
             
             data.customEmailBody = editedBody;
             data.customRecipient = emailRecipient;
@@ -1257,7 +1260,8 @@
             closeEmailModal();
             submitToServer(data, isActivity);
         }
-		        // ========================================
+
+        // ========================================
         // CORE FUNCTIONS
         // ========================================
 
@@ -1660,69 +1664,82 @@
             };
         }
 
-        // FUNCTION 1: submitActivityLog
-function submitActivityLog() {
-    const data = getAllFormData();
-    
-    if (!data.updateNumber || !data.teamMember) {
-        alert('Fill required fields: Update # and Team Member');
-        return;
-    }
-    if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
-        alert('Troubleshooting steps required for Resolved status!');
-        return;
-    }
-    if (data.sendEmail === 'false') {
-        alert('Submitted (no email sent)');
-        return;
-    }
-    
-    const emailRecipient = data.ticketStatus === 'TEST' ? 'john_hugo.dado@telus.com' : 'dlApplicationSupport@telus.com';
-    const emailBody = generateEmailBody(data);
-    
-    data.customEmailBody = emailBody;
-    data.customRecipient = emailRecipient;
-    data.customCC = '';
-    data.customSubject = HARDCODED_SUBJECT;
-    data.isCustomEmail = 'true';
-    
-    console.log('📧 Activity Log Submit - Recipient:', emailRecipient, '| Status:', data.ticketStatus);
-    
-    submitToServer(data, true);
-}
+        // ✅ FIXED: submitActivityLog - Default to dlApplicationSupport except TEST
+        function submitActivityLog() {
+            const data = getAllFormData();
+            
+            if (!data.updateNumber || !data.teamMember) {
+                alert('Fill required fields: Update # and Team Member');
+                return;
+            }
+            
+            // ✅ FIXED: Only check troubleshooting steps if status is "Resolved"
+            if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
+                alert('Troubleshooting steps are required for Resolved status!');
+                return;
+            }
+            
+            if (data.sendEmail === 'false') {
+                alert('Submitted (no email sent)');
+                return;
+            }
+            
+            // ✅ FIXED: Default to dlApplicationSupport for all statuses except TEST
+            const emailRecipient = data.ticketStatus === 'TEST' 
+                ? 'john_hugo.dado@telus.com' 
+                : 'dlApplicationSupport@telus.com';
+            
+            const emailBody = generateEmailBody(data);
+            
+            data.customEmailBody = emailBody;
+            data.customRecipient = emailRecipient;
+            data.customCC = '';
+            data.customSubject = HARDCODED_SUBJECT;
+            data.isCustomEmail = 'true';
+            
+            console.log('📧 Activity Log Submit - Recipient:', emailRecipient, '| Status:', data.ticketStatus);
+            
+            submitToServer(data, true);
+        }
 
-        // FUNCTION 2: Main form submit handler
-document.getElementById('imcForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    const data = getAllFormData();
-    
-    if (!data.ticketNumber || !data.updateNumber || !data.teamMember) {
-        alert('Fill required fields: Ticket #, Update #, and Team Member');
-        return;
-    }
-    if (!data.ticketPriority) {
-        alert('Please select a Priority');
-        return;
-    }
-    if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
-        alert('Troubleshooting steps required for Resolved status!');
-        return;
-    }
-    
-    const emailRecipient = data.ticketStatus === 'TEST' ? 'john_hugo.dado@telus.com' : 'dlApplicationSupport@telus.com';
-    const emailBody = generateEmailBody(data);
-    
-    data.customEmailBody = emailBody;
-    data.customRecipient = emailRecipient;
-    data.customCC = '';
-    data.customSubject = HARDCODED_SUBJECT;
-    data.isCustomEmail = 'true';
-    
-    console.log('📧 Main Submit - Recipient:', emailRecipient, '| Status:', data.ticketStatus);
-    
-    submitToServer(data, false);
-});
+        // ✅ FIXED: Main form submit handler - Default to dlApplicationSupport except TEST
+        document.getElementById('imcForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const data = getAllFormData();
+            
+            if (!data.ticketNumber || !data.updateNumber || !data.teamMember) {
+                alert('Fill required fields: Ticket #, Update #, and Team Member');
+                return;
+            }
+            if (!data.ticketPriority) {
+                alert('Please select a Priority');
+                return;
+            }
+            
+            // ✅ FIXED: Only check troubleshooting steps if status is "Resolved"
+            if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
+                alert('Troubleshooting steps are required for Resolved status!');
+                return;
+            }
+            
+            // ✅ FIXED: Default to dlApplicationSupport for all statuses except TEST
+            const emailRecipient = data.ticketStatus === 'TEST' 
+                ? 'john_hugo.dado@telus.com' 
+                : 'dlApplicationSupport@telus.com';
+            
+            const emailBody = generateEmailBody(data);
+            
+            data.customEmailBody = emailBody;
+            data.customRecipient = emailRecipient;
+            data.customCC = '';
+            data.customSubject = HARDCODED_SUBJECT;
+            data.isCustomEmail = 'true';
+            
+            console.log('📧 Main Submit - Recipient:', emailRecipient, '| Status:', data.ticketStatus);
+            
+            submitToServer(data, false);
+        });
 
         function submitToServer(data, isActivity) {
             const btn = isActivity ? document.getElementById('submitActivityBtn') : document.getElementById('mainSubmitBtn');
@@ -1764,7 +1781,7 @@ document.getElementById('imcForm').addEventListener('submit', (e) => {
                 btn.disabled = false;
                 btn.textContent = 'Submit';
                 
-                alert('✓ Email Sent!\n\nTo: ' + data.customRecipient + '\nCC: ' + (data.customCC || 'None') + '\nFrom: ' + data.teamMember);
+                alert('✓ Email Sent!\n\nTo: ' + data.customRecipient + '\nCC: ' + (data.customCC || 'None') + '\nFrom: Application Support\nCreated By: ' + data.teamMember);
                 
                 if (isActivity) {
                     const currentUpdate = parseInt(document.getElementById('updateNumber').value) || 0;
@@ -1795,25 +1812,48 @@ document.getElementById('imcForm').addEventListener('submit', (e) => {
             }, 2000);
         }
 
+        // ✅ FIXED: Troubleshooting validation - Only required for Resolved status
         function initializeTroubleshootingValidation() {
             const tsSteps = document.getElementById('tsSteps');
             const ticketStatus = document.getElementById('ticketStatus');
-            const btns = [document.getElementById('submitActivityBtn'), document.getElementById('mainSubmitBtn')];
+            const btns = [
+                document.getElementById('submitActivityBtn'), 
+                document.getElementById('mainSubmitBtn'),
+                document.getElementById('editEmailActivityBtn'),
+                document.getElementById('editEmailMainBtn')
+            ];
             
             function validate() {
                 const errorMsg = document.getElementById('tsStepsError');
+                
+                // ✅ FIXED: Only require troubleshooting steps when status is "Resolved"
                 if (ticketStatus.value === 'Resolved' && !tsSteps.value.trim()) {
                     tsSteps.classList.add('error-highlight');
+                    errorMsg.textContent = 'This field is required when status is "Resolved"';
                     errorMsg.style.display = 'block';
-                    btns.forEach(btn => { if(btn) { btn.disabled = true; btn.classList.add('btn-disabled'); }});
+                    btns.forEach(btn => { 
+                        if(btn) { 
+                            btn.disabled = true; 
+                            btn.classList.add('btn-disabled'); 
+                        }
+                    });
                 } else {
                     tsSteps.classList.remove('error-highlight');
                     errorMsg.style.display = 'none';
-                    btns.forEach(btn => { if(btn) { btn.disabled = false; btn.classList.remove('btn-disabled'); }});
+                    btns.forEach(btn => { 
+                        if(btn) { 
+                            btn.disabled = false; 
+                            btn.classList.remove('btn-disabled'); 
+                        }
+                    });
                 }
             }
+            
+            // Listen to both status changes and troubleshooting steps input
             ticketStatus.addEventListener('change', validate);
             tsSteps.addEventListener('input', validate);
+            
+            // Run validation on page load
             validate();
         }
 
