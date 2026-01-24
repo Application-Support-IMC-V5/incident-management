@@ -1,0 +1,1858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incident Management Checklist (IMC)</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; color: #4B286D !important; }
+        body { font-family: 'Inter', sans-serif; font-weight: 400; font-size: 12px; background: #F5F5F5; padding: 15px; min-height: 100vh; padding-bottom: 60px; }
+        .container { background: #FFFFFF; padding: 25px; border-radius: 8px; border: 3px solid #66CC66; max-width: 1400px; margin: auto; }
+        h1 { text-align: center; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 25px; font-size: 28px; letter-spacing: 1px; }
+        .table { margin-bottom: 20px; border: 2px solid #66CC66; border-radius: 8px; overflow: hidden; }
+        th { padding: 10px; font-family: 'Poppins', sans-serif; background: #66CC66 !important; font-size: 16px; font-weight: 700; border: 2px solid #4B286D !important; }
+        td { padding: 8px; vertical-align: middle; background: #FFFFFF; font-weight: 600; font-size: 12px; font-family: 'Inter', sans-serif; border: 1px solid #66CC66; }
+        input:required, select:required, textarea:required { border-color: #E91E63 !important; border-width: 2px !important; }
+        .form-control { border: 2px solid #66CC66; border-radius: 6px; background: #FFFFFF; font-size: 12px; font-family: 'Inter', sans-serif; font-weight: 600; padding: 8px 10px; transition: all 0.3s ease; }
+        .form-control:focus { border-color: #509E2F; outline: none; }
+        textarea { resize: vertical; }
+        .btn-outline-success { background: #66CC66; border: 2px solid #66CC66; padding: 10px 24px; font-weight: 700; font-size: 14px; font-family: 'Poppins', sans-serif; border-radius: 6px; color: #4B286D !important; }
+        .btn-outline-success:hover { background: #509E2F; border-color: #509E2F; }
+        .btn-outline-danger { background: #E91E63; border: 2px solid #E91E63; padding: 10px 24px; font-weight: 700; font-size: 14px; font-family: 'Poppins', sans-serif; border-radius: 6px; color: #FFFFFF !important; }
+        .btn-outline-danger:hover { background: #C2185B; border-color: #C2185B; }
+        .btn-outline-primary { background: #4B286D; border: 2px solid #4B286D; padding: 10px 24px; font-weight: 700; font-size: 14px; font-family: 'Poppins', sans-serif; border-radius: 6px; color: #FFFFFF !important; }
+        .btn-outline-primary:hover { background: #331C4A; border-color: #331C4A; }
+        .btn-small { padding: 8px 16px; font-size: 12px; }
+        .table-success { background: #66CC66 !important; border: 2px solid #4B286D !important; }
+        .save-indicator { position: fixed; top: 15px; right: 15px; background: #66CC66; padding: 8px 16px; border-radius: 6px; border: 2px solid #4B286D; font-weight: 600; opacity: 0; transition: opacity 0.3s ease; z-index: 10000; font-size: 11px; }
+        .save-indicator.show { opacity: 1; }
+        .draft-saved-indicator { position: fixed; top: 80px; right: 15px; background: #4B286D; color: #FFFFFF !important; padding: 8px 16px; border-radius: 6px; border: 2px solid #66CC66; font-weight: 600; opacity: 0; transition: opacity 0.3s ease; z-index: 10003; font-size: 11px; }
+        .draft-saved-indicator.show { opacity: 1; }
+        .draft-saved-indicator span { color: #FFFFFF !important; }
+        .signature { position: fixed; bottom: 15px; left: 15px; background: linear-gradient(135deg, #4B286D 0%, #66CC66 100%); color: #FFFFFF !important; padding: 8px 16px; border-radius: 6px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 11px; z-index: 9998; }
+        .signature span { color: #FFFFFF !important; }
+        input[type="checkbox"], input[type="radio"] { width: 16px; height: 16px; cursor: pointer; accent-color: #66CC66; }
+        .error-highlight { border-color: #FF0000 !important; border-width: 3px !important; background-color: #FFE6E6 !important; }
+        .btn-disabled { opacity: 0.5 !important; cursor: not-allowed !important; pointer-events: none !important; }
+        .error-message { color: #FF0000 !important; font-size: 11px; font-weight: 700; margin-top: 5px; display: none; padding: 6px; background-color: #FFE6E6; border-left: 3px solid #FF0000; }
+        .button-group { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
+        
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 9999; overflow-y: auto; padding: 15px; }
+        .modal-content { background: #FFFFFF; margin: 20px auto; padding: 0; border: 4px solid #66CC66; border-radius: 12px; max-width: 900px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); }
+        .modal-header { background: linear-gradient(135deg, #4B286D 0%, #66CC66 100%); color: #FFFFFF !important; padding: 18px 25px; border-radius: 8px 8px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h2 { color: #FFFFFF !important; margin: 0; font-size: 20px; font-family: 'Poppins', sans-serif; }
+        .close-btn { background: rgba(255,255,255,0.2); border: 2px solid #FFFFFF; color: #FFFFFF !important; font-size: 24px; cursor: pointer; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
+        .close-btn:hover { background: rgba(255,255,255,0.3); transform: rotate(90deg); }
+        .modal-body { padding: 25px; max-height: 70vh; overflow-y: auto; }
+        .modal-footer { padding: 18px 25px; border-top: 3px solid #66CC66; text-align: right; background: #F9F9F9; }
+        
+        .app-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 10001; padding: 15px; overflow-y: auto; }
+        .app-modal-content { background: #FFFFFF; max-width: 550px; margin: 40px auto; border-radius: 12px; border: 4px solid #66CC66; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+        .app-modal-header { background: linear-gradient(135deg, #4B286D, #66CC66); color: #FFFFFF !important; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .app-modal-header h3 { color: #FFFFFF !important; margin: 0; font-size: 18px; font-family: 'Poppins', sans-serif; }
+        .app-modal-body { padding: 15px; max-height: 450px; overflow-y: auto; }
+        .app-search { width: 100%; padding: 10px; border: 2px solid #66CC66; border-radius: 6px; margin-bottom: 12px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 12px; }
+        .app-list { list-style: none; padding: 0; margin: 0; }
+        .app-list-item { padding: 10px; border: 2px solid #66CC66; border-radius: 6px; margin-bottom: 6px; cursor: pointer; transition: all 0.3s ease; background: #FFFFFF; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 12px; }
+        .app-list-item:hover { background: #E8F5E9; border-color: #4B286D; transform: translateX(5px); }
+        
+        .selected-apps { display: flex; flex-wrap: wrap; gap: 6px; min-height: 45px; padding: 10px; border: 2px solid #66CC66; border-radius: 6px; background: #F9F9F9; margin-bottom: 8px; }
+        .app-tag { background: #4B286D; color: #FFFFFF !important; padding: 6px 12px; border-radius: 18px; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; }
+        .app-tag span { color: #FFFFFF !important; }
+        .app-tag-remove { background: #E91E63; color: #FFFFFF !important; border: none; border-radius: 50%; width: 18px; height: 18px; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+        .app-tag-remove:hover { background: #C2185B; transform: scale(1.1); }
+        .add-app-btn { background: #66CC66; border: 2px solid #66CC66; color: #4B286D !important; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 12px; transition: all 0.3s ease; font-family: 'Poppins', sans-serif; }
+        .add-app-btn:hover { background: #509E2F; border-color: #509E2F; color: #FFFFFF !important; }
+        .select-btn { background: #FFFFFF; border: 2px solid #66CC66; color: #4B286D !important; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 12px; transition: all 0.3s ease; font-family: 'Inter', sans-serif; min-width: 150px; text-align: left; display: inline-block; }
+        .select-btn:hover { background: #E8F5E9; border-color: #4B286D; }
+        .select-btn.selected { background: #66CC66; color: #4B286D !important; border-color: #66CC66; font-weight: 700; }
+        
+        .impact-app-row { background: #F9F9F9; padding: 12px; margin-bottom: 10px; border-radius: 6px; border-left: 4px solid #4B286D; display: flex; align-items: center; gap: 12px; }
+        .impact-app-name { flex: 0 0 180px; font-weight: 700; color: #4B286D !important; font-size: 12px; }
+        .impact-input-group { display: flex; align-items: center; gap: 8px; flex: 1; }
+        .impact-input-group label { font-weight: 700; font-size: 11px; margin: 0; white-space: nowrap; }
+        
+        .time-selector { display: flex; gap: 15px; align-items: center; justify-content: center; }
+        .time-input-group { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .time-input-group label { font-weight: 700; font-size: 14px; }
+        .time-input-group select { padding: 10px; border: 2px solid #66CC66; border-radius: 6px; font-size: 14px; font-weight: 700; min-width: 80px; }
+        
+        .date-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+        .date-header { text-align: center; font-weight: 700; padding: 8px; background: #66CC66; color: #4B286D !important; border-radius: 6px; font-size: 11px; }
+        .date-btn { padding: 10px; border: 2px solid #66CC66; border-radius: 6px; background: #FFFFFF; cursor: pointer; text-align: center; font-weight: 600; transition: all 0.3s ease; font-size: 12px; }
+        .date-btn:hover { background: #E8F5E9; border-color: #4B286D; }
+        .date-btn.selected { background: #4B286D; color: #FFFFFF !important; border-color: #4B286D; }
+        .date-btn.disabled { opacity: 0.3; cursor: not-allowed; }
+        .month-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .month-nav button { background: #66CC66; border: 2px solid #66CC66; color: #4B286D !important; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; }
+        .month-nav button:hover { background: #509E2F; color: #FFFFFF !important; }
+        .month-nav span { font-weight: 700; font-size: 16px; }
+        
+        .startup-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 99999; }
+        .startup-content { background: #FFFFFF; max-width: 500px; margin: 10% auto; border-radius: 16px; border: 5px solid #66CC66; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,0.5); }
+        .startup-header { background: linear-gradient(135deg, #4B286D, #66CC66); color: #FFFFFF !important; padding: 25px; text-align: center; }
+        .startup-header h2 { color: #FFFFFF !important; margin: 0; font-size: 24px; font-family: 'Poppins', sans-serif; }
+        .startup-body { padding: 30px; text-align: center; }
+        .startup-body p { font-size: 16px; margin-bottom: 25px; color: #4B286D !important; font-weight: 600; }
+        .startup-btn { background: #66CC66; border: 3px solid #66CC66; color: #4B286D !important; padding: 15px 40px; font-size: 16px; font-weight: 700; border-radius: 8px; margin: 10px; cursor: pointer; transition: all 0.3s ease; font-family: 'Poppins', sans-serif; }
+        .startup-btn:hover { background: #509E2F; border-color: #509E2F; color: #FFFFFF !important; transform: scale(1.05); }
+        .startup-btn.secondary { background: #4B286D; border-color: #4B286D; color: #FFFFFF !important; }
+        .startup-btn.secondary:hover { background: #331C4A; border-color: #331C4A; }
+        
+        .incident-card { background: #F9F9F9; border: 2px solid #66CC66; border-radius: 8px; padding: 15px; margin-bottom: 12px; transition: all 0.3s ease; }
+        .incident-card:hover { background: #E8F5E9; border-color: #4B286D; transform: translateX(5px); }
+        .incident-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .incident-ticket { font-size: 16px; font-weight: 700; color: #4B286D !important; }
+        .incident-status { padding: 4px 12px; border-radius: 12px; font-size: 10px; font-weight: 700; }
+        .status-progress { background: #FFF3CD; color: #856404 !important; }
+        .status-resolved { background: #D4EDDA; color: #155724 !important; }
+        .status-pending { background: #D1ECF1; color: #0C5460 !important; }
+        .incident-info { font-size: 11px; color: #666 !important; margin-top: 5px; }
+        .incident-actions { margin-top: 10px; display: flex; gap: 8px; }
+        .incident-btn { padding: 6px 14px; font-size: 11px; border-radius: 6px; border: 2px solid; cursor: pointer; font-weight: 700; transition: all 0.3s ease; }
+        .incident-btn.load { background: #66CC66; border-color: #66CC66; color: #4B286D !important; }
+        .incident-btn.load:hover { background: #509E2F; border-color: #509E2F; color: #FFFFFF !important; }
+        .incident-btn.delete { background: #E91E63; border-color: #E91E63; color: #FFFFFF !important; }
+        .incident-btn.delete:hover { background: #C2185B; border-color: #C2185B; }
+        
+        .current-incident-bar { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #4B286D, #66CC66); color: #FFFFFF !important; padding: 10px 20px; border-radius: 8px; z-index: 9999; box-shadow: 0 4px 12px rgba(0,0,0,0.3); font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 13px; display: none; }
+        .current-incident-bar span { color: #FFFFFF !important; }
+        .current-incident-bar button { background: rgba(255,255,255,0.2); border: 2px solid #FFFFFF; color: #FFFFFF !important; padding: 4px 12px; border-radius: 6px; margin-left: 15px; cursor: pointer; font-size: 11px; font-weight: 700; }
+        .current-incident-bar button:hover { background: rgba(255,255,255,0.4); }
+        
+        .email-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 10002; padding: 15px; overflow-y: auto; }
+        .email-modal-content { background: #FFFFFF; max-width: 900px; margin: 20px auto; border-radius: 12px; border: 4px solid #66CC66; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+        .email-modal-header { background: linear-gradient(135deg, #4B286D, #66CC66); color: #FFFFFF !important; padding: 18px 25px; display: flex; justify-content: space-between; align-items: center; }
+        .email-modal-header h3 { color: #FFFFFF !important; margin: 0; font-size: 20px; font-family: 'Poppins', sans-serif; }
+        .email-modal-body { padding: 25px; }
+        .email-field { margin-bottom: 15px; }
+        .email-field label { display: block; font-weight: 700; margin-bottom: 5px; font-size: 13px; }
+        .email-field input, .email-field textarea { width: 100%; padding: 10px; border: 2px solid #66CC66; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 12px; }
+        .email-field textarea { min-height: 400px; font-family: 'Courier New', monospace; resize: vertical; }
+        .email-modal-footer { padding: 18px 25px; border-top: 3px solid #66CC66; text-align: right; background: #F9F9F9; display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+        .email-preview-badge { display: inline-block; background: #4B286D; color: #FFFFFF !important; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 700; margin-left: 10px; }
+        
+        .email-preview-container { background: #f8f9fa; border: 3px solid #66CC66; border-radius: 8px; padding: 20px; margin-top: 20px; max-height: 500px; overflow-y: auto; }
+        .email-preview-header { background: linear-gradient(135deg, #4B286D, #66CC66); color: #FFFFFF !important; padding: 15px 20px; border-radius: 6px; margin-bottom: 20px; text-align: center; }
+        .email-preview-header h4 { color: #FFFFFF !important; margin: 0; font-size: 18px; font-family: 'Poppins', sans-serif; }
+        .email-preview-body { background: #FFFFFF; border: 2px solid #dee2e6; border-radius: 6px; padding: 25px; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.8; white-space: pre-wrap; word-wrap: break-word; }
+        
+        .cc-suggestions { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+        .cc-suggestion-btn { background: #e8f5e9; border: 2px solid #66CC66; color: #4B286D !important; padding: 4px 12px; border-radius: 15px; font-size: 11px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; }
+        .cc-suggestion-btn:hover { background: #66CC66; color: #FFFFFF !important; transform: scale(1.05); }
+        
+        .preview-toggle-btn { background: #4B286D; border: 2px solid #4B286D; color: #FFFFFF !important; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 12px; transition: all 0.3s ease; margin-bottom: 15px; width: 100%; }
+        .preview-toggle-btn:hover { background: #331C4A; border-color: #331C4A; }
+        .preview-toggle-btn.active { background: #66CC66; border-color: #66CC66; color: #4B286D !important; }
+        
+        label { font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="startup-modal" id="startupModal">
+        <div class="startup-content">
+            <div class="startup-header">
+                <h2>🎯 Incident Management</h2>
+            </div>
+            <div class="startup-body">
+                <p>Would you like to create a new incident or continue with an existing one?</p>
+                <button class="startup-btn" onclick="createNewIncident()">📝 New Incident</button>
+                <button class="startup-btn secondary" onclick="showIncidentManager()">📂 Load Existing</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="current-incident-bar" id="currentIncidentBar">
+        <span id="currentIncidentDisplay">No incident loaded</span>
+        <button onclick="showIncidentManager()">Switch</button>
+        <button onclick="createNewIncident()">New</button>
+    </div>
+
+    <div class="save-indicator" id="saveIndicator">Auto-saved</div>
+    <div class="draft-saved-indicator" id="draftSavedIndicator"><span>Draft Saved</span></div>
+    <div class="signature"><span>Application Support 2026</span></div>
+
+    <div class="app-modal" id="incidentManagerModal">
+        <div class="app-modal-content" style="max-width: 700px;">
+            <div class="app-modal-header">
+                <h3>📂 Saved Incidents</h3>
+                <button class="close-btn" onclick="closeIncidentManager()">&times;</button>
+            </div>
+            <div class="app-modal-body">
+                <div id="incidentList"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="email-modal" id="emailModal">
+        <div class="email-modal-content">
+            <div class="email-modal-header">
+                <h3>✉️ Edit Email <span class="email-preview-badge" id="emailStatusBadge">IN PROGRESS</span></h3>
+                <button class="close-btn" onclick="closeEmailModal()">&times;</button>
+            </div>
+            <div class="email-modal-body">
+                <div class="email-field">
+                    <label>To:</label>
+                    <input type="text" id="emailTo" readonly>
+                </div>
+                <div class="email-field">
+                    <label>CC: <small style="color:#999!important;font-weight:400">(Editable - Add multiple emails separated by comma)</small></label>
+                    <input type="text" id="emailCC" placeholder="Enter CC emails separated by comma">
+                    <div class="cc-suggestions">
+                        <small style="color:#666!important;font-weight:600;margin-right:5px;">Quick Add:</small>
+                        <button type="button" class="cc-suggestion-btn" onclick="addCCSuggestion('dlApplicationSupport@telus.com')">+ dlApplicationSupport@telus.com</button>
+                        <button type="button" class="cc-suggestion-btn" onclick="addCCSuggestion('dlTIP-TIDSApplicationSupport@telus.com')">+ dlTIP-TIDSApplicationSupport@telus.com</button>
+                    </div>
+                </div>
+                <div class="email-field">
+                    <label>Subject:</label>
+                    <input type="text" id="emailSubject" readonly>
+                </div>
+                
+                <button type="button" class="preview-toggle-btn" id="previewToggleBtn" onclick="toggleEmailPreview()">
+                    📧 Switch to Preview Mode
+                </button>
+                
+                <div class="email-field" id="emailEditMode">
+                    <label>Email Body: <small style="color:#999!important;font-weight:400">(Edit as needed)</small></label>
+                    <textarea id="emailBody"></textarea>
+                </div>
+                
+                <div class="email-preview-container" id="emailPreviewMode" style="display:none;">
+                    <div class="email-preview-header">
+                        <h4>📧 Email Preview</h4>
+                    </div>
+                    <div class="email-preview-body" id="emailPreviewContent"></div>
+                </div>
+            </div>
+            <div class="email-modal-footer">
+                <button type="button" class="btn btn-outline-primary btn-small" onclick="saveDraft()">💾 Save Draft</button>
+                <button type="button" class="btn btn-outline-primary btn-small" onclick="loadDraft()">📂 Load Draft</button>
+                <button type="button" class="btn btn-outline-danger btn-small" onclick="deleteDraft()">🗑️ Delete Draft</button>
+                <button type="button" class="btn btn-outline-primary btn-small" onclick="copyEmailToClipboard()">📋 Copy</button>
+                <button type="button" class="btn btn-outline-success btn-small" onclick="sendEditedEmail()">📧 Send</button>
+                <button type="button" class="btn btn-outline-danger btn-small" onclick="closeEmailModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-modal" id="appModal">
+        <div class="app-modal-content">
+            <div class="app-modal-header">
+                <h3 id="modalTitle">Select</h3>
+                <button class="close-btn" onclick="closeAppModal()">&times;</button>
+            </div>
+            <div class="app-modal-body">
+                <input type="text" class="app-search" id="appSearch" placeholder="Search..." onkeyup="filterModalItems()" style="display:none;">
+                <div id="modalContent"></div>
+                <ul class="app-list" id="modalList"></ul>
+            </div>
+        </div>
+    </div>
+	    <div class="container">
+        <h1>Incident Management Checklist (IMC)</h1>
+        
+        <form id="imcForm">
+            <table class="table table-bordered">
+                <tr><th colspan="6" class="table-success text-center">DETAILS OF THE ISSUE</th></tr>
+                <tr>
+                    <td style="width:18%">Ticket #:</td>
+                    <td style="width:15%"><input type="text" name="ticketNumber" id="ticketNumber" class="form-control" required></td>
+                    <td style="width:12%">Priority:</td>
+                    <td colspan="3">
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
+                            <input type="radio" name="ticketPriority" value="PRIORITY 1" required> PRIORITY 1
+                        </label>
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
+                            <input type="radio" name="ticketPriority" value="PRIORITY 2"> PRIORITY 2
+                        </label>
+                        <label style="display:inline-flex;align-items:center;gap:6px;">
+                            <input type="radio" name="ticketPriority" value="PRIORITY 3"> PRIORITY 3
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Status:</td>
+                    <td colspan="5">
+                        <button type="button" class="select-btn selected" onclick="openStatusSelector()" id="statusBtn">In Progress</button>
+                        <input type="hidden" id="ticketStatus" name="ticketStatus" value="In Progress">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Impacted Apps:</td>
+                    <td colspan="5">
+                        <div class="selected-apps" id="selectedAppsDisplay"></div>
+                        <button type="button" class="add-app-btn" onclick="openAppSelector()">+ Add Application</button>
+                        <input type="hidden" id="impactedApps1" name="impactedApps1">
+                        <input type="hidden" id="impactedApps2" name="impactedApps2">
+                        <input type="hidden" id="impactedApps3" name="impactedApps3">
+                    </td>
+                </tr>
+                <tr>
+                    <td>If it is not listed, please select 'Others' and enter the required information:</td>
+                    <td colspan="5">
+                        <textarea id="impactedAppOthers" name="impactedAppOthers" rows="2" class="form-control" placeholder="Enter additional applications"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>What is the CUSTOMER/AGENT Impact?:</td>
+                    <td colspan="5"><textarea id="custAgentImpact" name="custAgentImpact" rows="2" class="form-control"></textarea></td>
+                </tr>
+                <tr>
+                    <td>What is the TECHNICAL Impact?:</td>
+                    <td colspan="5"><textarea id="technicalImpact" name="technicalImpact" rows="2" class="form-control"></textarea></td>
+                </tr>
+                <tr>
+                    <td>Start Time (ET):</td>
+                    <td>
+                        <button type="button" class="select-btn" onclick="openTimeSelector('start')" id="startTimeBtn">Select Time</button>
+                        <input type="hidden" id="startTime" name="startTime">
+                    </td>
+                    <td>Date:</td>
+                    <td>
+                        <button type="button" class="select-btn selected" onclick="openDateSelector('start')" id="startDateBtn">Today</button>
+                        <input type="hidden" id="startDate" name="startDate" required>
+                    </td>
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <td>End Time (ET):</td>
+                    <td>
+                        <button type="button" class="select-btn" onclick="openTimeSelector('end')" id="endTimeBtn">Select Time</button>
+                        <input type="hidden" id="endTime" name="endTime">
+                    </td>
+                    <td>Date:</td>
+                    <td>
+                        <button type="button" class="select-btn selected" onclick="openDateSelector('end')" id="endDateBtn">Today</button>
+                        <input type="hidden" id="endDate" name="endDate" required>
+                    </td>
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <td>Explanation for the Start & End Time:</td>
+                    <td colspan="5"><textarea name="explainTime" rows="2" class="form-control"></textarea></td>
+                </tr>
+                <tr>
+                    <td>Can we replicate the incident?:</td>
+                    <td colspan="2">
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
+                            <input type="radio" name="ticketReplication" value="Yes"> Yes
+                        </label>
+                        <label style="display:inline-flex;align-items:center;gap:6px;">
+                            <input type="radio" name="ticketReplication" value="No" checked> No
+                        </label>
+                    </td>
+                    <td>How many CSESM Samples?:</td>
+                    <td colspan="2">
+                        <input type="number" id="numSamples" name="numSamples" class="form-control" style="width:150px;display:inline-block;" min="0" max="999" placeholder="Enter number">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Line of Business Impacted:</td>
+                    <td colspan="5">
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
+                            <input type="radio" name="lobImpact" value="Wireline"> Wireline
+                        </label>
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
+                            <input type="radio" name="lobImpact" value="Wireless"> Wireless
+                        </label>
+                        <label style="display:inline-flex;align-items:center;gap:6px;">
+                            <input type="radio" name="lobImpact" value="" checked> N/A
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Have you identified any possible workarounds or mitigation strategies?:</td>
+                    <td colspan="2">
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
+                            <input type="radio" name="workaroundStrat" value="Yes"> Yes
+                        </label>
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
+                            <input type="radio" name="workaroundStrat" value="No"> No
+                        </label>
+                        <label style="display:inline-flex;align-items:center;gap:6px;">
+                            <input type="radio" name="workaroundStrat" value="NA" checked> N/A
+                        </label>
+                    </td>
+                    <td>Workaround/Mitigation Strategies:</td>
+                    <td colspan="2"><textarea name="mitigationDesc" rows="2" class="form-control"></textarea></td>
+                </tr>
+
+                <tr><th colspan="6" class="table-success text-center">ACTIVITY LOGS</th></tr>
+                <tr>
+                    <td>Update #:</td>
+                    <td><input type="text" name="updateNumber" id="updateNumber" class="form-control" required></td>
+                    <td>Created By:</td>
+                    <td colspan="3">
+                        <button type="button" class="select-btn" onclick="openTeamMemberSelector()" id="teamMemberBtn">Select Team Member</button>
+                        <input type="hidden" id="teamMember" name="teamMember" required>
+                        <label style="margin-left:15px;display:inline-flex;align-items:center;gap:6px;">
+                            <input type="checkbox" name="sendEmail" id="sendEmail" checked> Send Email
+                        </label>
+                        <div class="button-group" style="display:inline-flex;margin-left:15px;">
+                            <button type="button" class="btn btn-outline-primary btn-small" onclick="openEmailEditor(true)" style="margin-right:8px">✉️ Edit Email</button>
+                            <button type="button" class="btn btn-outline-success btn-small" id="submitActivityBtn" onclick="submitActivityLog()">Submit</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Record the names of teams/individuals on the bridge:</td>
+                    <td colspan="5"><textarea name="teamsOnBridge" rows="3" class="form-control"></textarea></td>
+                </tr>
+                <tr>
+                    <td>Details:</td>
+                    <td colspan="5"><textarea name="detailsTxtbox" rows="5" class="form-control"></textarea></td>
+                </tr>
+
+                <tr><th colspan="6" class="table-success text-center">CHANGE/DEFECTS INFORMATION</th></tr>
+                <tr>
+                    <td>Is the issue related to a recent change?:</td>
+                    <td colspan="2">
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
+                            <input type="radio" name="detailsCRQ1" value="Yes"> Yes
+                        </label>
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
+                            <input type="radio" name="detailsCRQ1" value="No"> No
+                        </label>
+                        <label style="display:inline-flex;align-items:center;gap:6px;">
+                            <input type="radio" name="detailsCRQ1" value="" checked> Undetermined
+                        </label>
+                    </td>
+                    <td>Details (Schedule and Implementer):</td>
+                    <td colspan="2"><textarea name="detailsCRQ1Text" rows="2" class="form-control"></textarea></td>
+                </tr>
+                <tr>
+                    <td>Is there a NEW change req'd for this incident?:</td>
+                    <td colspan="2">
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
+                            <input type="radio" name="detailsCRQ2" value="Yes"> Yes
+                        </label>
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
+                            <input type="radio" name="detailsCRQ2" value="No"> No
+                        </label>
+                        <label style="display:inline-flex;align-items:center;gap:6px;">
+                            <input type="radio" name="detailsCRQ2" value="" checked> Undetermined
+                        </label>
+                    </td>
+                    <td>Details (Schedule and Implementer):</td>
+                    <td colspan="2"><textarea name="detailsCRQ2Text" rows="2" class="form-control"></textarea></td>
+                </tr>
+                <tr>
+                    <td>Is there a defect related to this incident?:</td>
+                    <td colspan="2">
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
+                            <input type="radio" name="defectRelated" value="Yes"> Yes
+                        </label>
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
+                            <input type="radio" name="defectRelated" value="No"> No
+                        </label>
+                        <label style="display:inline-flex;align-items:center;gap:6px;">
+                            <input type="radio" name="defectRelated" value="" checked> Undetermined
+                        </label>
+                    </td>
+                    <td>Details (Schedule & Team Assigned):</td>
+                    <td colspan="2"><textarea name="defectDetails" rows="2" class="form-control"></textarea></td>
+                </tr>
+                <tr>
+                    <td>Is there a NEW defect created as a product of this incident?:</td>
+                    <td colspan="2">
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
+                            <input type="radio" name="defectNew" value="Yes"> Yes
+                        </label>
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
+                            <input type="radio" name="defectNew" value="No"> No
+                        </label>
+                        <label style="display:inline-flex;align-items:center;gap:6px;">
+                            <input type="radio" name="defectNew" value="" checked> Undetermined
+                        </label>
+                    </td>
+                    <td>Details (Schedule & Team Assigned):</td>
+                    <td colspan="2"><textarea name="defectNewDetails" rows="2" class="form-control"></textarea></td>
+                </tr>
+
+                <tr><th colspan="6" class="table-success text-center">ROOT CAUSE AND RESOLUTION</th></tr>
+                <tr>
+                    <td>Who and from which team resolved the issue?:</td>
+                    <td colspan="2"><textarea name="resolverTeam" id="resolverTeam" rows="2" class="form-control"></textarea></td>
+                    <td>Applicable Root Cause Category:</td>
+                    <td colspan="2">
+                        <button type="button" class="select-btn" onclick="openRCASelector()" id="rcaBtn">Select RCA Category</button>
+                        <input type="hidden" id="rcaCategory" name="rcaCategory" value="Undetermined">
+                    </td>
+                </tr>
+                <tr>
+                    <td>What is the root cause of the issue?:</td>
+                    <td colspan="5"><textarea name="rootcause" id="rootcause" rows="2" class="form-control"></textarea></td>
+                </tr>
+                <tr>
+                    <td>What is the impacted/failing component (i.e. domain/service)?:</td>
+                    <td colspan="5"><textarea name="impactedComponent" id="impactedComponent" rows="1" class="form-control"></textarea></td>
+                </tr>
+                <tr>
+                    <td>What are the troubleshooting steps done to resolve the issue?:</td>
+                    <td colspan="5">
+                        <textarea name="tsSteps" id="tsSteps" rows="2" class="form-control"></textarea>
+                        <div class="error-message" id="tsStepsError">This field is required when status is "Resolved"</div>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="table table-bordered">
+                <tr><th colspan="6" class="table-success text-center">IMPACT ASSESSMENT</th></tr>
+                <tr>
+                    <td colspan="6">
+                        <div id="impactAssessmentRows"></div>
+                        <input type="hidden" id="impactPercent1" name="impactPercent1">
+                        <input type="hidden" id="impactPercent2" name="impactPercent2">
+                        <input type="hidden" id="impactPercent3" name="impactPercent3">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:18%">If Others, Provide App then Impact Percentage (i.e. SD=10%,DT1=5%):</td>
+                    <td colspan="2"><textarea id="impactPercentOthers" name="impactPercentOthers" rows="2" class="form-control" readonly></textarea></td>
+                    <td style="width:12%">Remarks (If Any):</td>
+                    <td colspan="2"><textarea name="impactedRemarks" rows="2" class="form-control"></textarea></td>
+                </tr>
+                <tr>
+                    <td colspan="6" style="text-align:center;padding:15px;">
+                        <button type="button" class="btn btn-outline-primary" onclick="openEmailEditor(false)" style="margin-right:10px">✉️ Edit Email</button>
+                        <button type="submit" id="mainSubmitBtn" class="btn btn-outline-success">Submit</button>
+                        <button type="reset" class="btn btn-outline-danger" onclick="resetForm()">Clear</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+	    <script>
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/a/macros/telusinternational.com/s/AKfycbwSNWTTFRy4XEkDpRSHbb7HXy_tDQgMrABV3_iFZGuGf6_bYK3WS6NNO8ylw5n2Q63jZg/exec';
+        const HARDCODED_SUBJECT = 'AppSupport - Incident Management Checklist';
+        
+        const EMAIL_MAP = {
+            'Angelo Anastacio': 'angelodominic.anastacio@telus.com',
+            'Algin Zoleta': 'algin.zoleta2@telus.com',
+            'Brian Dela Cruz': 'johnbrian.delacruz@telus.com',
+            'Christian Padayao': 'christian.padayao@telus.com',
+            'Dariel Somera': 'dariel.somera1@telus.com',
+            'David Marquez': 'david.marquez@telus.com',
+            'Hugo Dado': 'john_hugo.dado@telus.com',
+            'Jeanne Kahili': 'jeannepierre.kahili@telus.com',
+            'Jonathan Crisang': 'jonathanhelbert.crisang@telus.com',
+            'Manny Ho': 'manny.ho@telus.com',
+            'Moises Cupcupin': 'moisesvergel.cupcupin@telus.com',
+            'Ican Balinong': 'ican.balinong@telus.com'
+        };
+
+        const ALL_APPS = [
+            'Bill Viewer', 'CASA', 'CES (FFH Billing - Enabler)', 'CIA', 'Circuit Vision',
+            'Credit Card and Debit Payments', 'Credit Check and Address Check', 'CSCM-KSCM',
+            'CSDB', 'CSQSM-KSQSM', 'Customer Profile', 'Channel Dashboard', 'Device Returns System',
+            'D2C - Direct to Consumer', 'Dealer Partner Site', 'Desktop One', 'Digital Signature',
+            'DSS-KDSS', 'Extended Warranty System (EWS)', 'HS3', 'Insight 10', 'ITSM Enterprise',
+            'IWS - Softphone', 'Knowbility', 'Kong', 'Koodo Self-Serve', 'My TELUS', 'My TELUS App',
+            'Mobility Sales System (MSS)', 'Netcracker Compass (ASF)', 'NetCracker FIFA Agent Portal (CSR Desktop)',
+            'Netcracker FIFA Self-Serve Portal', 'Notification Engine', 'Offer Assignment Tool (OAT)',
+            'OMNI', 'OMS', 'One Stop Tool', 'RendezVous Click Schedule', 'RendezVous Field Link',
+            'RIS', 'Sales-Mobility (MSS)', 'SDF (Service Delivery Framework)', 'Self-Serve Classic - Mobility',
+            'SEMS', 'Service Access Qualification', 'Service Management Portal', 'Smart Desktop',
+            'SRD (Smart Repair Dashboard)', 'SRM (Service Resource Mgmt)', 'TELUS Prepaid Wireless Services',
+            'TELUS com - Website', 'UBB (Usage Based Billing)', 'Wireless Number Portability (WNP)',
+            'Wireless Provisioning', 'Wireline Sales (FIFA F2F)', 'Others'
+        ];
+
+        const STATUSES = ['In Progress', 'Pending', 'Resolved', 'Downgraded', 'Merge', 'Cancelled', 'TEST'];
+        const RCA_CATEGORIES = ['Undetermined', 'Application Defect', 'Capacity', 'Change-Adherence', 'Change-Process', 'Change-Planning', 'Change-Execution', 'Configuration', 'Database', 'Environmental', 'External', 'Hardware', 'Human Error', 'Network', 'Procedural', 'Release-Execution', 'Release-Planning', 'Software Failure', 'User'];
+
+        let selectedApps = [];
+        let autoSaveTimer;
+        let currentTimeField = '';
+        let currentDateField = '';
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        let currentIncidentId = null;
+
+        // ========================================
+        // INCIDENT MANAGEMENT FUNCTIONS
+        // ========================================
+
+        function showStartupModal() {
+            document.getElementById('startupModal').style.display = 'block';
+        }
+
+        function createNewIncident() {
+            document.getElementById('startupModal').style.display = 'none';
+            currentIncidentId = null;
+            resetForm();
+            document.getElementById('currentIncidentBar').style.display = 'none';
+            console.log('✓ New incident created');
+        }
+
+        function showIncidentManager() {
+            document.getElementById('startupModal').style.display = 'none';
+            const incidents = getAllIncidents();
+            const list = document.getElementById('incidentList');
+            
+            if (incidents.length === 0) {
+                list.innerHTML = '<p style="text-align:center;padding:30px;color:#999!important;font-style:italic;">No saved incidents found. Create a new one!</p>';
+            } else {
+                list.innerHTML = '';
+                incidents.forEach(incident => {
+                    const card = createIncidentCard(incident);
+                    list.appendChild(card);
+                });
+            }
+            
+            document.getElementById('incidentManagerModal').style.display = 'block';
+        }
+
+        function closeIncidentManager() {
+            document.getElementById('incidentManagerModal').style.display = 'none';
+        }
+
+        function createIncidentCard(incident) {
+            const card = document.createElement('div');
+            card.className = 'incident-card';
+            
+            const statusClass = incident.ticketStatus === 'In Progress' ? 'status-progress' : 
+                               incident.ticketStatus === 'Resolved' ? 'status-resolved' : 'status-pending';
+            
+            const lastSaved = new Date(incident.lastSaved).toLocaleString();
+            
+            card.innerHTML = `
+                <div class="incident-card-header">
+                    <div class="incident-ticket">🎫 ${incident.ticketNumber || 'Untitled'}</div>
+                    <div class="incident-status ${statusClass}">${incident.ticketStatus || 'Unknown'}</div>
+                </div>
+                <div class="incident-info">
+                    📅 Last saved: ${lastSaved}<br>
+                    👤 Team: ${incident.teamMember || 'N/A'} | 🔢 Update: ${incident.updateNumber || 'N/A'}
+                </div>
+                <div class="incident-actions">
+                    <button class="incident-btn load" onclick="loadIncident('${incident.id}')">Load</button>
+                    <button class="incident-btn delete" onclick="deleteIncident('${incident.id}')">Delete</button>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        function getAllIncidents() {
+            const incidents = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.startsWith('imc_incident_')) {
+                    try {
+                        const data = JSON.parse(localStorage.getItem(key));
+                        data.id = key;
+                        incidents.push(data);
+                    } catch (e) {
+                        console.log('Error parsing incident:', key);
+                    }
+                }
+            }
+            incidents.sort((a, b) => new Date(b.lastSaved) - new Date(a.lastSaved));
+            return incidents;
+        }
+
+        function loadIncident(incidentId) {
+            try {
+                const data = JSON.parse(localStorage.getItem(incidentId));
+                if (!data) {
+                    alert('Incident not found!');
+                    return;
+                }
+                
+                currentIncidentId = incidentId;
+                restoreIncidentData(data);
+                closeIncidentManager();
+                
+                document.getElementById('currentIncidentDisplay').textContent = '📋 ' + (data.ticketNumber || 'Untitled');
+                document.getElementById('currentIncidentBar').style.display = 'block';
+                
+                alert('✓ Incident loaded: ' + (data.ticketNumber || 'Untitled'));
+            } catch (e) {
+                alert('Error loading incident: ' + e.message);
+            }
+        }
+
+        function deleteIncident(incidentId) {
+            const data = JSON.parse(localStorage.getItem(incidentId));
+            const ticketNum = data.ticketNumber || 'this incident';
+            
+            if (confirm('Delete ' + ticketNum + '?')) {
+                localStorage.removeItem(incidentId);
+                showIncidentManager();
+                
+                if (currentIncidentId === incidentId) {
+                    currentIncidentId = null;
+                    document.getElementById('currentIncidentBar').style.display = 'none';
+                }
+            }
+        }
+
+        function saveCurrentIncident() {
+            const ticketNumber = document.getElementById('ticketNumber').value.trim();
+            
+            if (!ticketNumber) {
+                console.log('No ticket number - not saving');
+                return;
+            }
+            
+            if (!currentIncidentId) {
+                currentIncidentId = 'imc_incident_' + ticketNumber.replace(/[^a-zA-Z0-9]/g, '_');
+            }
+            
+            const data = {
+                ticketNumber: ticketNumber,
+                ticketPriority: getRadioValue('ticketPriority'),
+                ticketStatus: document.getElementById('ticketStatus').value,
+                selectedApps: selectedApps,
+                impactedAppOthers: document.getElementById('impactedAppOthers').value,
+                custAgentImpact: document.getElementById('custAgentImpact').value,
+                technicalImpact: document.getElementById('technicalImpact').value,
+                startTime: document.getElementById('startTime').value,
+                startDate: document.getElementById('startDate').value,
+                endTime: document.getElementById('endTime').value,
+                endDate: document.getElementById('endDate').value,
+                explainTime: document.querySelector('[name="explainTime"]').value,
+                ticketReplication: getRadioValue('ticketReplication'),
+                numSamples: document.getElementById('numSamples').value,
+                lobImpact: getRadioValue('lobImpact'),
+                workaroundStrat: getRadioValue('workaroundStrat'),
+                mitigationDesc: document.querySelector('[name="mitigationDesc"]').value,
+                updateNumber: document.getElementById('updateNumber').value,
+                teamMember: document.getElementById('teamMember').value,
+                teamsOnBridge: document.querySelector('[name="teamsOnBridge"]').value,
+                details: document.querySelector('[name="detailsTxtbox"]').value,
+                detailsCRQ1: getRadioValue('detailsCRQ1'),
+                detailsCRQ1Text: document.querySelector('[name="detailsCRQ1Text"]').value,
+                detailsCRQ2: getRadioValue('detailsCRQ2'),
+                detailsCRQ2Text: document.querySelector('[name="detailsCRQ2Text"]').value,
+                defectRelated: getRadioValue('defectRelated'),
+                defectDetails: document.querySelector('[name="defectDetails"]').value,
+                defectNew: getRadioValue('defectNew'),
+                defectNewDetails: document.querySelector('[name="defectNewDetails"]').value,
+                resolverTeam: document.getElementById('resolverTeam').value,
+                rcaCategory: document.getElementById('rcaCategory').value,
+                rootcause: document.getElementById('rootcause').value,
+                impactedComponent: document.getElementById('impactedComponent').value,
+                tsSteps: document.getElementById('tsSteps').value,
+                impactedRemarks: document.querySelector('[name="impactedRemarks"]').value,
+                lastSaved: new Date().toISOString()
+            };
+            
+            localStorage.setItem(currentIncidentId, JSON.stringify(data));
+            
+            document.getElementById('currentIncidentDisplay').textContent = '📋 ' + ticketNumber;
+            document.getElementById('currentIncidentBar').style.display = 'block';
+            
+            const indicator = document.getElementById('saveIndicator');
+            indicator.textContent = 'Saved ' + new Date().toLocaleTimeString();
+            indicator.classList.add('show');
+            setTimeout(() => indicator.classList.remove('show'), 2000);
+        }
+
+        function restoreIncidentData(data) {
+            if (data.ticketNumber) document.getElementById('ticketNumber').value = data.ticketNumber;
+            if (data.updateNumber) document.getElementById('updateNumber').value = data.updateNumber;
+            if (data.custAgentImpact) document.getElementById('custAgentImpact').value = data.custAgentImpact;
+            if (data.technicalImpact) document.getElementById('technicalImpact').value = data.technicalImpact;
+            if (data.explainTime) document.querySelector('[name="explainTime"]').value = data.explainTime;
+            if (data.mitigationDesc) document.querySelector('[name="mitigationDesc"]').value = data.mitigationDesc;
+            if (data.teamsOnBridge) document.querySelector('[name="teamsOnBridge"]').value = data.teamsOnBridge;
+            if (data.details) document.querySelector('[name="detailsTxtbox"]').value = data.details;
+            if (data.detailsCRQ1Text) document.querySelector('[name="detailsCRQ1Text"]').value = data.detailsCRQ1Text;
+            if (data.detailsCRQ2Text) document.querySelector('[name="detailsCRQ2Text"]').value = data.detailsCRQ2Text;
+            if (data.defectDetails) document.querySelector('[name="defectDetails"]').value = data.defectDetails;
+            if (data.defectNewDetails) document.querySelector('[name="defectNewDetails"]').value = data.defectNewDetails;
+            if (data.resolverTeam) document.getElementById('resolverTeam').value = data.resolverTeam;
+            if (data.rootcause) document.getElementById('rootcause').value = data.rootcause;
+            if (data.impactedComponent) document.getElementById('impactedComponent').value = data.impactedComponent;
+            if (data.tsSteps) document.getElementById('tsSteps').value = data.tsSteps;
+            if (data.impactedRemarks) document.querySelector('[name="impactedRemarks"]').value = data.impactedRemarks;
+            if (data.impactedAppOthers) document.getElementById('impactedAppOthers').value = data.impactedAppOthers;
+            
+            if (data.ticketPriority) {
+                const priorityRadio = document.querySelector('input[name="ticketPriority"][value="' + data.ticketPriority + '"]');
+                if (priorityRadio) priorityRadio.checked = true;
+            }
+            if (data.ticketReplication) {
+                const repRadio = document.querySelector('input[name="ticketReplication"][value="' + data.ticketReplication + '"]');
+                if (repRadio) repRadio.checked = true;
+            }
+            if (data.lobImpact !== undefined) {
+                const lobRadio = document.querySelector('input[name="lobImpact"][value="' + data.lobImpact + '"]');
+                if (lobRadio) lobRadio.checked = true;
+            }
+            if (data.workaroundStrat) {
+                const workRadio = document.querySelector('input[name="workaroundStrat"][value="' + data.workaroundStrat + '"]');
+                if (workRadio) workRadio.checked = true;
+            }
+            if (data.detailsCRQ1 !== undefined) {
+                const crq1Radio = document.querySelector('input[name="detailsCRQ1"][value="' + data.detailsCRQ1 + '"]');
+                if (crq1Radio) crq1Radio.checked = true;
+            }
+            if (data.detailsCRQ2 !== undefined) {
+                const crq2Radio = document.querySelector('input[name="detailsCRQ2"][value="' + data.detailsCRQ2 + '"]');
+                if (crq2Radio) crq2Radio.checked = true;
+            }
+            if (data.defectRelated !== undefined) {
+                const defRadio = document.querySelector('input[name="defectRelated"][value="' + data.defectRelated + '"]');
+                if (defRadio) defRadio.checked = true;
+            }
+            if (data.defectNew !== undefined) {
+                const newDefRadio = document.querySelector('input[name="defectNew"][value="' + data.defectNew + '"]');
+                if (newDefRadio) newDefRadio.checked = true;
+            }
+            
+            if (data.ticketStatus) {
+                document.getElementById('ticketStatus').value = data.ticketStatus;
+                document.getElementById('statusBtn').textContent = data.ticketStatus;
+                document.getElementById('statusBtn').classList.add('selected');
+            }
+            if (data.teamMember) {
+                document.getElementById('teamMember').value = data.teamMember;
+                document.getElementById('teamMemberBtn').textContent = data.teamMember;
+                document.getElementById('teamMemberBtn').classList.add('selected');
+            }
+            if (data.rcaCategory) {
+                document.getElementById('rcaCategory').value = data.rcaCategory;
+                document.getElementById('rcaBtn').textContent = data.rcaCategory;
+                document.getElementById('rcaBtn').classList.add('selected');
+            }
+            if (data.numSamples) {
+                document.getElementById('numSamples').value = data.numSamples;
+            }
+            if (data.startTime) {
+                document.getElementById('startTime').value = data.startTime;
+                document.getElementById('startTimeBtn').textContent = data.startTime;
+                document.getElementById('startTimeBtn').classList.add('selected');
+            }
+            if (data.endTime) {
+                document.getElementById('endTime').value = data.endTime;
+                document.getElementById('endTimeBtn').textContent = data.endTime;
+                document.getElementById('endTimeBtn').classList.add('selected');
+            }
+            if (data.startDate) {
+                document.getElementById('startDate').value = data.startDate;
+                const dateObj = new Date(data.startDate);
+                const formatted = (dateObj.getMonth() + 1) + '/' + dateObj.getDate() + '/' + dateObj.getFullYear();
+                document.getElementById('startDateBtn').textContent = formatted;
+                document.getElementById('startDateBtn').classList.add('selected');
+            }
+            if (data.endDate) {
+                document.getElementById('endDate').value = data.endDate;
+                const dateObj = new Date(data.endDate);
+                const formatted = (dateObj.getMonth() + 1) + '/' + dateObj.getDate() + '/' + dateObj.getFullYear();
+                document.getElementById('endDateBtn').textContent = formatted;
+                document.getElementById('endDateBtn').classList.add('selected');
+            }
+            
+            if (data.selectedApps && Array.isArray(data.selectedApps)) {
+                selectedApps = data.selectedApps;
+                updateSelectedAppsDisplay();
+                updateHiddenFields();
+                syncToImpactAssessment();
+            }
+        }
+
+        // ========================================
+        // EMAIL EDITOR FUNCTIONS (✅ UPDATED)
+        // ========================================
+
+        function openEmailEditor(isActivity) {
+            const data = getAllFormData();
+            
+            if (!data.updateNumber || !data.teamMember) {
+                alert('Please fill required fields: Update # and Team Member');
+                return;
+            }
+            if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
+                alert('Troubleshooting steps required for Resolved status!');
+                return;
+            }
+            
+            // ✅ UPDATED: Use Hugo's email for TEST status
+            const emailTo = data.ticketStatus === 'TEST' ? 'john_hugo.dado@telus.com' : 'dlApplicationSupport@telus.com';
+            document.getElementById('emailTo').value = emailTo;
+            document.getElementById('emailCC').value = '';
+            document.getElementById('emailSubject').value = HARDCODED_SUBJECT;
+            document.getElementById('emailStatusBadge').textContent = data.ticketStatus.toUpperCase();
+            
+            const emailBody = generateEmailBody(data);
+            document.getElementById('emailBody').value = emailBody;
+            
+            document.getElementById('emailEditMode').style.display = 'block';
+            document.getElementById('emailPreviewMode').style.display = 'none';
+            document.getElementById('previewToggleBtn').textContent = '📧 Switch to Preview Mode';
+            document.getElementById('previewToggleBtn').classList.remove('active');
+            
+            const draftKey = 'imc_draft_' + data.ticketNumber.replace(/[^a-zA-Z0-9]/g, '_');
+            const existingDraft = localStorage.getItem(draftKey);
+            if (existingDraft) {
+                try {
+                    const draft = JSON.parse(existingDraft);
+                    if (confirm('Found saved draft from ' + new Date(draft.savedAt).toLocaleString() + '\n\nLoad draft?')) {
+                        document.getElementById('emailCC').value = draft.emailCC || '';
+                        document.getElementById('emailBody').value = draft.emailBody || emailBody;
+                    }
+                } catch (e) {
+                    console.log('Error loading draft:', e);
+                }
+            }
+            
+            document.getElementById('emailModal').setAttribute('data-is-activity', isActivity);
+            document.getElementById('emailModal').style.display = 'block';
+        }
+
+        function closeEmailModal() {
+            document.getElementById('emailModal').style.display = 'none';
+        }
+
+        function saveDraft() {
+            const ticketNumber = document.getElementById('ticketNumber').value.trim();
+            
+            if (!ticketNumber) {
+                alert('Please enter a Ticket # before saving draft');
+                return;
+            }
+            
+            const draftData = {
+                ticketNumber: ticketNumber,
+                emailTo: document.getElementById('emailTo').value,
+                emailCC: document.getElementById('emailCC').value,
+                emailSubject: document.getElementById('emailSubject').value,
+                emailBody: document.getElementById('emailBody').value,
+                status: document.getElementById('ticketStatus').value,
+                teamMember: document.getElementById('teamMember').value,
+                updateNumber: document.getElementById('updateNumber').value,
+                savedAt: new Date().toISOString()
+            };
+            
+            const draftKey = 'imc_draft_' + ticketNumber.replace(/[^a-zA-Z0-9]/g, '_');
+            localStorage.setItem(draftKey, JSON.stringify(draftData));
+            
+            const indicator = document.getElementById('draftSavedIndicator');
+            indicator.innerHTML = '<span>💾 Draft Saved ' + new Date().toLocaleTimeString() + '</span>';
+            indicator.classList.add('show');
+            setTimeout(() => indicator.classList.remove('show'), 2500);
+            
+            console.log('✓ Email draft saved:', draftKey);
+        }
+
+        function loadDraft() {
+            const ticketNumber = document.getElementById('ticketNumber').value.trim();
+            
+            if (!ticketNumber) {
+                alert('Please enter a Ticket # to load draft');
+                return;
+            }
+            
+            const draftKey = 'imc_draft_' + ticketNumber.replace(/[^a-zA-Z0-9]/g, '_');
+            const draftData = localStorage.getItem(draftKey);
+            
+            if (!draftData) {
+                alert('No draft found for this ticket');
+                return;
+            }
+            
+            try {
+                const draft = JSON.parse(draftData);
+                
+                document.getElementById('emailTo').value = draft.emailTo || '';
+                document.getElementById('emailCC').value = draft.emailCC || '';
+                document.getElementById('emailSubject').value = draft.emailSubject || '';
+                document.getElementById('emailBody').value = draft.emailBody || '';
+                
+                const savedDate = new Date(draft.savedAt).toLocaleString();
+                alert('✓ Draft loaded!\n\nSaved: ' + savedDate);
+                
+            } catch (e) {
+                alert('Error loading draft: ' + e.message);
+            }
+        }
+
+        function deleteDraft() {
+            const ticketNumber = document.getElementById('ticketNumber').value.trim();
+            
+            if (!ticketNumber) {
+                alert('Please enter a Ticket # to delete draft');
+                return;
+            }
+            
+            const draftKey = 'imc_draft_' + ticketNumber.replace(/[^a-zA-Z0-9]/g, '_');
+            
+            if (localStorage.getItem(draftKey)) {
+                if (confirm('Delete email draft for ' + ticketNumber + '?')) {
+                    localStorage.removeItem(draftKey);
+                    alert('✓ Draft deleted');
+                }
+            } else {
+                alert('No draft found for this ticket');
+            }
+        }
+
+        function addCCSuggestion(email) {
+            const ccInput = document.getElementById('emailCC');
+            const currentCC = ccInput.value.trim();
+            
+            if (currentCC.includes(email)) {
+                alert('This email is already in CC list!');
+                return;
+            }
+            
+            if (currentCC === '') {
+                ccInput.value = email;
+            } else {
+                ccInput.value = currentCC + ', ' + email;
+            }
+            
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = '✓ Added!';
+            btn.style.background = '#66CC66';
+            btn.style.color = '#FFFFFF';
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = '#e8f5e9';
+                btn.style.color = '#4B286D';
+            }, 1500);
+        }
+
+        function toggleEmailPreview() {
+            const editMode = document.getElementById('emailEditMode');
+            const previewMode = document.getElementById('emailPreviewMode');
+            const toggleBtn = document.getElementById('previewToggleBtn');
+            const emailBody = document.getElementById('emailBody').value;
+            
+            if (editMode.style.display === 'none') {
+                editMode.style.display = 'block';
+                previewMode.style.display = 'none';
+                toggleBtn.textContent = '📧 Switch to Preview Mode';
+                toggleBtn.classList.remove('active');
+            } else {
+                editMode.style.display = 'none';
+                previewMode.style.display = 'block';
+                toggleBtn.textContent = '✏️ Switch to Edit Mode';
+                toggleBtn.classList.add('active');
+                generateEmailPreview(emailBody);
+            }
+        }
+
+        function generateEmailPreview(emailBody) {
+            const previewContent = document.getElementById('emailPreviewContent');
+            
+            let formattedHTML = emailBody
+                .replace(/═══════════════════════════════════════════════════/g, '<div class="email-section-divider"></div>')
+                .replace(/📋 DETAILS OF THE ISSUE/g, '<div class="email-field-label">📋 DETAILS OF THE ISSUE</div>')
+                .replace(/📝 ACTIVITY LOGS/g, '<div class="email-field-label">📝 ACTIVITY LOGS</div>')
+                .replace(/🔧 CHANGE\/DEFECTS INFORMATION/g, '<div class="email-field-label">🔧 CHANGE/DEFECTS INFORMATION</div>')
+                .replace(/🎯 ROOT CAUSE AND RESOLUTION/g, '<div class="email-field-label">🎯 ROOT CAUSE AND RESOLUTION</div>')
+                .replace(/📊 IMPACT ASSESSMENT/g, '<div class="email-field-label">📊 IMPACT ASSESSMENT</div>')
+                .replace(/Application Support Team/g, '<div class="email-field-label">Application Support Team</div>');
+            
+            formattedHTML = formattedHTML.replace(/(Ticket #:|Priority:|Status:|Update #:|Created By:|Timestamp:|Resolved By:|Root Cause Category:|Root Cause:|Impacted Component:|Troubleshooting Steps:)/g, 
+                '<strong style="color:#4B286D!important;">$1</strong>');
+            
+            formattedHTML = formattedHTML.replace(/  - /g, '&nbsp;&nbsp;- ');
+            
+            previewContent.innerHTML = '<pre style="margin:0;font-family:\'Courier New\',monospace;white-space:pre-wrap;word-wrap:break-word;">' + formattedHTML + '</pre>';
+        }
+
+        function generateEmailBody(data) {
+            const isResolved = data.ticketStatus === 'Resolved';
+            let body = '';
+            
+            body += '═══════════════════════════════════════════════════\n';
+            body += '📋 DETAILS OF THE ISSUE\n';
+            body += '═══════════════════════════════════════════════════\n\n';
+            
+            body += `Ticket #: ${data.ticketNumber}\n`;
+            body += `Priority: ${data.ticketPriority}\n`;
+            body += `Status: ${data.ticketStatus}\n\n`;
+            
+            body += `Impacted Applications:\n`;
+            if (data.impactedApps1) body += `  - ${data.impactedApps1}\n`;
+            if (data.impactedApps2) body += `  - ${data.impactedApps2}\n`;
+            if (data.impactedApps3) body += `  - ${data.impactedApps3}\n`;
+            if (data.impactedAppOthers) body += `  - Others: ${data.impactedAppOthers}\n`;
+            body += '\n';
+            
+            if (data.custAgentImpact) {
+                body += `Customer/Agent Impact:\n${data.custAgentImpact}\n\n`;
+            }
+            
+            if (data.technicalImpact) {
+                body += `Technical Impact:\n${data.technicalImpact}\n\n`;
+            }
+            
+            body += `Start Time: ${data.startTime} ET on ${data.startDate}\n`;
+            body += `End Time: ${data.endTime} ET on ${data.endDate}\n`;
+            if (data.explainTime) {
+                body += `Time Explanation: ${data.explainTime}\n`;
+            }
+            body += '\n';
+            
+            if (data.ticketReplication) {
+                body += `Can Replicate: ${data.ticketReplication}\n`;
+            }
+            if (data.numSamples) {
+                body += `CSESM Samples: ${data.numSamples}\n`;
+            }
+            if (data.lobImpact) {
+                body += `Line of Business: ${data.lobImpact}\n`;
+            }
+            body += '\n';
+            
+            if (data.workaroundStrat && data.workaroundStrat !== 'NA') {
+                body += `Workaround Available: ${data.workaroundStrat}\n`;
+                if (data.mitigationDesc) {
+                    body += `Mitigation Strategy:\n${data.mitigationDesc}\n`;
+                }
+                body += '\n';
+            }
+            
+            body += '═══════════════════════════════════════════════════\n';
+            body += '📝 ACTIVITY LOGS\n';
+            body += '═══════════════════════════════════════════════════\n\n';
+            
+            body += `Update #: ${data.updateNumber}\n`;
+            body += `Created By: ${data.teamMember}\n`;
+            body += `Timestamp: ${data.timestamp}\n\n`;
+            
+            if (data.teamsOnBridge) {
+                body += `Teams/Individuals on Bridge:\n${data.teamsOnBridge}\n\n`;
+            }
+            
+            if (data.details) {
+                body += `Details:\n${data.details}\n\n`;
+            }
+            
+            if (isResolved) {
+                body += '═══════════════════════════════════════════════════\n';
+                body += '🔧 CHANGE/DEFECTS INFORMATION\n';
+                body += '═══════════════════════════════════════════════════\n\n';
+                
+                if (data.detailsCRQ1) {
+                    body += `Related to Recent Change: ${data.detailsCRQ1}\n`;
+                    if (data.detailsCRQ1Text) body += `  Details: ${data.detailsCRQ1Text}\n`;
+                    body += '\n';
+                }
+                
+                if (data.detailsCRQ2) {
+                    body += `New Change Required: ${data.detailsCRQ2}\n`;
+                    if (data.detailsCRQ2Text) body += `  Details: ${data.detailsCRQ2Text}\n`;
+                    body += '\n';
+                }
+                
+                if (data.defectRelated) {
+                    body += `Defect Related: ${data.defectRelated}\n`;
+                    if (data.defectDetails) body += `  Details: ${data.defectDetails}\n`;
+                    body += '\n';
+                }
+                
+                if (data.defectNew) {
+                    body += `New Defect Created: ${data.defectNew}\n`;
+                    if (data.defectNewDetails) body += `  Details: ${data.defectNewDetails}\n`;
+                    body += '\n';
+                }
+                
+                body += '═══════════════════════════════════════════════════\n';
+                body += '🎯 ROOT CAUSE AND RESOLUTION\n';
+                body += '═══════════════════════════════════════════════════\n\n';
+                
+                if (data.resolverTeam) {
+                    body += `Resolved By: ${data.resolverTeam}\n\n`;
+                }
+                
+                if (data.rcaCategory) {
+                    body += `Root Cause Category: ${data.rcaCategory}\n\n`;
+                }
+                
+                if (data.rootcause) {
+                    body += `Root Cause:\n${data.rootcause}\n\n`;
+                }
+                
+                if (data.impactedComponent) {
+                    body += `Impacted Component: ${data.impactedComponent}\n\n`;
+                }
+                
+                if (data.tsSteps) {
+                    body += `Troubleshooting Steps:\n${data.tsSteps}\n\n`;
+                }
+                
+                body += '═══════════════════════════════════════════════════\n';
+                body += '📊 IMPACT ASSESSMENT\n';
+                body += '═══════════════════════════════════════════════════\n\n';
+                
+                if (data.impactPercent1) {
+                    body += `${data.impactPercent1}:\n`;
+                    body += `  Impact: ${data.impactPercentage1}%\n`;
+                    if (data.impactReason1) body += `  Reason: ${data.impactReason1}\n`;
+                    body += '\n';
+                }
+                
+                if (data.impactPercent2) {
+                    body += `${data.impactPercent2}:\n`;
+                    body += `  Impact: ${data.impactPercentage2}%\n`;
+                    if (data.impactReason2) body += `  Reason: ${data.impactReason2}\n`;
+                    body += '\n';
+                }
+                
+                if (data.impactPercent3) {
+                    body += `${data.impactPercent3}:\n`;
+                    body += `  Impact: ${data.impactPercentage3}%\n`;
+                    if (data.impactReason3) body += `  Reason: ${data.impactReason3}\n`;
+                    body += '\n';
+                }
+                
+                if (data.impactPercentOthers) {
+                    body += `Other Applications:\n${data.impactPercentOthers}\n\n`;
+                }
+                
+                if (data.impactedRemarks) {
+                    body += `Remarks: ${data.impactedRemarks}\n\n`;
+                }
+            }
+            
+            body += '═══════════════════════════════════════════════════\n';
+            body += 'Application Support Team\n';
+            body += '═══════════════════════════════════════════════════\n';
+            
+            return body;
+        }
+
+        function copyEmailToClipboard() {
+            const emailBody = document.getElementById('emailBody').value;
+            navigator.clipboard.writeText(emailBody).then(() => {
+                alert('✓ Email body copied to clipboard!');
+            }).catch(err => {
+                const textarea = document.getElementById('emailBody');
+                textarea.select();
+                document.execCommand('copy');
+                alert('✓ Email body copied to clipboard!');
+            });
+        }
+
+        function sendEditedEmail() {
+            const isActivity = document.getElementById('emailModal').getAttribute('data-is-activity') === 'true';
+            const data = getAllFormData();
+            
+            const editedCC = document.getElementById('emailCC').value.trim();
+            const editedBody = document.getElementById('emailBody').value;
+            
+            // ✅ UPDATED: Use Hugo's email for TEST status
+            const emailRecipient = data.ticketStatus === 'TEST' ? 'john_hugo.dado@telus.com' : 'dlApplicationSupport@telus.com';
+            
+            data.customEmailBody = editedBody;
+            data.customRecipient = emailRecipient;
+            data.customCC = editedCC;
+            data.customSubject = document.getElementById('emailSubject').value;
+            data.isCustomEmail = 'true';
+            
+            closeEmailModal();
+            submitToServer(data, isActivity);
+        }
+		        // ========================================
+        // CORE FUNCTIONS
+        // ========================================
+
+        function getRadioValue(name) {
+            const radios = document.querySelectorAll('input[name="' + name + '"]');
+            for (let radio of radios) {
+                if (radio.checked) return radio.value;
+            }
+            return '';
+        }
+
+        function openTimeSelector(field) {
+            currentTimeField = field;
+            document.getElementById('modalTitle').textContent = 'Select Time';
+            document.getElementById('appSearch').style.display = 'none';
+            document.getElementById('modalList').style.display = 'none';
+            const content = document.getElementById('modalContent');
+            content.style.display = 'block';
+            
+            let html = '<div class="time-selector">';
+            html += '<div class="time-input-group"><label>Hour</label><select id="hourSelect">';
+            for (let h = 1; h <= 12; h++) html += '<option value="' + h + '">' + h + '</option>';
+            html += '</select></div>';
+            html += '<div class="time-input-group"><label>Minute</label><select id="minuteSelect">';
+            for (let m = 0; m <= 59; m++) {
+                const min = String(m).padStart(2, '0');
+                html += '<option value="' + min + '">' + min + '</option>';
+            }
+            html += '</select></div>';
+            html += '<div class="time-input-group"><label>AM/PM</label><select id="ampmSelect"><option value="AM">AM</option><option value="PM">PM</option></select></div>';
+            html += '</div>';
+            html += '<div style="text-align:center;margin-top:20px;"><button type="button" class="btn btn-outline-success btn-small" onclick="confirmTime()">Confirm</button></div>';
+            
+            content.innerHTML = html;
+            document.getElementById('appModal').style.display = 'block';
+        }
+
+        function confirmTime() {
+            const hour = document.getElementById('hourSelect').value;
+            const minute = document.getElementById('minuteSelect').value;
+            const ampm = document.getElementById('ampmSelect').value;
+            const time = hour + ':' + minute + ' ' + ampm;
+            
+            if (currentTimeField === 'start') {
+                document.getElementById('startTime').value = time;
+                document.getElementById('startTimeBtn').textContent = time;
+                document.getElementById('startTimeBtn').classList.add('selected');
+            } else {
+                document.getElementById('endTime').value = time;
+                document.getElementById('endTimeBtn').textContent = time;
+                document.getElementById('endTimeBtn').classList.add('selected');
+            }
+            closeAppModal();
+            saveCurrentIncident();
+        }
+
+        function openDateSelector(field) {
+            currentDateField = field;
+            document.getElementById('modalTitle').textContent = 'Select Date';
+            document.getElementById('appSearch').style.display = 'none';
+            document.getElementById('modalList').style.display = 'none';
+            const content = document.getElementById('modalContent');
+            content.style.display = 'block';
+            renderCalendar();
+            document.getElementById('appModal').style.display = 'block';
+        }
+
+        function renderCalendar() {
+            const content = document.getElementById('modalContent');
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            
+            let html = '<div class="month-nav">';
+            html += '<button type="button" onclick="changeMonth(-1)">Previous</button>';
+            html += '<span>' + monthNames[currentMonth] + ' ' + currentYear + '</span>';
+            html += '<button type="button" onclick="changeMonth(1)">Next</button>';
+            html += '</div><div class="date-grid">';
+            
+            dayNames.forEach(day => html += '<div class="date-header">' + day + '</div>');
+            
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            
+            for (let i = 0; i < firstDay; i++) html += '<div class="date-btn disabled"></div>';
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateStr = currentYear + '-' + String(currentMonth + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+                html += '<div class="date-btn" onclick="selectDate(\'' + dateStr + '\')">' + day + '</div>';
+            }
+            html += '</div>';
+            content.innerHTML = html;
+        }
+
+        function changeMonth(delta) {
+            currentMonth += delta;
+            if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+            else if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+            renderCalendar();
+        }
+
+        function selectDate(dateStr) {
+            const dateObj = new Date(dateStr);
+            const formatted = (dateObj.getMonth() + 1) + '/' + dateObj.getDate() + '/' + dateObj.getFullYear();
+            
+            if (currentDateField === 'start') {
+                document.getElementById('startDate').value = dateStr;
+                document.getElementById('startDateBtn').textContent = formatted;
+                document.getElementById('startDateBtn').classList.add('selected');
+            } else {
+                document.getElementById('endDate').value = dateStr;
+                document.getElementById('endDateBtn').textContent = formatted;
+                document.getElementById('endDateBtn').classList.add('selected');
+            }
+            closeAppModal();
+            saveCurrentIncident();
+        }
+
+        function openStatusSelector() {
+            document.getElementById('modalTitle').textContent = 'Select Status';
+            document.getElementById('appSearch').style.display = 'none';
+            document.getElementById('modalContent').style.display = 'none';
+            document.getElementById('modalList').style.display = 'block';
+            const list = document.getElementById('modalList');
+            list.innerHTML = '';
+            STATUSES.forEach(status => {
+                const li = document.createElement('li');
+                li.className = 'app-list-item';
+                li.textContent = status;
+                li.onclick = () => selectStatus(status);
+                list.appendChild(li);
+            });
+            document.getElementById('appModal').style.display = 'block';
+        }
+
+        function selectStatus(status) {
+            document.getElementById('ticketStatus').value = status;
+            document.getElementById('statusBtn').textContent = status;
+            document.getElementById('statusBtn').classList.add('selected');
+            closeAppModal();
+            saveCurrentIncident();
+        }
+
+        function openTeamMemberSelector() {
+            document.getElementById('modalTitle').textContent = 'Select Team Member';
+            document.getElementById('appSearch').style.display = 'block';
+            document.getElementById('modalContent').style.display = 'none';
+            document.getElementById('modalList').style.display = 'block';
+            const list = document.getElementById('modalList');
+            list.innerHTML = '';
+            Object.keys(EMAIL_MAP).forEach(member => {
+                const li = document.createElement('li');
+                li.className = 'app-list-item';
+                li.textContent = member;
+                li.onclick = () => selectTeamMember(member);
+                list.appendChild(li);
+            });
+            document.getElementById('appModal').style.display = 'block';
+        }
+
+        function selectTeamMember(member) {
+            document.getElementById('teamMember').value = member;
+            document.getElementById('teamMemberBtn').textContent = member;
+            document.getElementById('teamMemberBtn').classList.add('selected');
+            closeAppModal();
+            saveCurrentIncident();
+        }
+
+        function openRCASelector() {
+            document.getElementById('modalTitle').textContent = 'Select RCA Category';
+            document.getElementById('appSearch').style.display = 'block';
+            document.getElementById('modalContent').style.display = 'none';
+            document.getElementById('modalList').style.display = 'block';
+            const list = document.getElementById('modalList');
+            list.innerHTML = '';
+            RCA_CATEGORIES.forEach(category => {
+                const li = document.createElement('li');
+                li.className = 'app-list-item';
+                li.textContent = category;
+                li.onclick = () => selectRCA(category);
+                list.appendChild(li);
+            });
+            document.getElementById('appModal').style.display = 'block';
+        }
+
+        function selectRCA(category) {
+            document.getElementById('rcaCategory').value = category;
+            document.getElementById('rcaBtn').textContent = category;
+            document.getElementById('rcaBtn').classList.add('selected');
+            closeAppModal();
+            saveCurrentIncident();
+        }
+
+        function openAppSelector() {
+            document.getElementById('modalTitle').textContent = 'Select Applications';
+            document.getElementById('appSearch').style.display = 'block';
+            document.getElementById('modalContent').style.display = 'none';
+            document.getElementById('modalList').style.display = 'block';
+            const list = document.getElementById('modalList');
+            list.innerHTML = '';
+            ALL_APPS.forEach(app => {
+                if (!selectedApps.includes(app)) {
+                    const li = document.createElement('li');
+                    li.className = 'app-list-item';
+                    li.textContent = app;
+                    li.onclick = () => addApp(app);
+                    list.appendChild(li);
+                }
+            });
+            document.getElementById('appModal').style.display = 'block';
+        }
+
+        function closeAppModal() {
+            document.getElementById('appModal').style.display = 'none';
+            document.getElementById('appSearch').value = '';
+        }
+
+        function addApp(appName) {
+            selectedApps.push(appName);
+            updateSelectedAppsDisplay();
+            updateHiddenFields();
+            syncToImpactAssessment();
+            closeAppModal();
+            saveCurrentIncident();
+        }
+
+        function removeApp(appName) {
+            selectedApps = selectedApps.filter(app => app !== appName);
+            updateSelectedAppsDisplay();
+            updateHiddenFields();
+            syncToImpactAssessment();
+            saveCurrentIncident();
+        }
+
+        function updateSelectedAppsDisplay() {
+            const display = document.getElementById('selectedAppsDisplay');
+            display.innerHTML = '';
+            if (selectedApps.length === 0) {
+                display.innerHTML = '<span style="color:#999!important;font-style:italic;padding:6px">No apps selected</span>';
+                return;
+            }
+            selectedApps.forEach(app => {
+                const tag = document.createElement('div');
+                tag.className = 'app-tag';
+                tag.innerHTML = '<span>' + app + '</span><button type="button" class="app-tag-remove" onclick="removeApp(\'' + app.replace(/'/g, "\\'") + '\')">&times;</button>';
+                display.appendChild(tag);
+            });
+        }
+
+        function updateHiddenFields() {
+            document.getElementById('impactedApps1').value = selectedApps[0] || '';
+            document.getElementById('impactedApps2').value = selectedApps[1] || '';
+            document.getElementById('impactedApps3').value = selectedApps[2] || '';
+        }
+
+        function syncToImpactAssessment() {
+            const container = document.getElementById('impactAssessmentRows');
+            const othersBox = document.getElementById('impactPercentOthers');
+            const detailsOthers = document.getElementById('impactedAppOthers').value;
+            container.innerHTML = '';
+            othersBox.value = detailsOthers;
+            
+            if (selectedApps.length === 0) {
+                container.innerHTML = '<p style="padding:15px;text-align:center;color:#999!important;font-style:italic">No applications selected</p>';
+                document.getElementById('impactPercent1').value = '';
+                document.getElementById('impactPercent2').value = '';
+                document.getElementById('impactPercent3').value = '';
+                return;
+            }
+            
+            selectedApps.forEach((app, index) => {
+                const row = document.createElement('div');
+                row.className = 'impact-app-row';
+                row.innerHTML = '<div class="impact-app-name">' + app + '</div>' +
+                    '<div class="impact-input-group">' +
+                    '<label>Impact %:</label>' +
+                    '<input type="text" name="impactPercentage' + (index + 1) + '" id="impactPercentage' + (index + 1) + '" class="form-control" style="width:80px">' +
+                    '<label style="margin-left:10px">Reason:</label>' +
+                    '<input type="text" name="impactReason' + (index + 1) + '" id="impactReason' + (index + 1) + '" class="form-control" placeholder="Impact reason" style="flex:1">' +
+                    '</div>';
+                container.appendChild(row);
+                
+                const percentInput = document.getElementById('impactPercentage' + (index + 1));
+                const reasonInput = document.getElementById('impactReason' + (index + 1));
+                if (percentInput) percentInput.addEventListener('input', () => { clearTimeout(autoSaveTimer); autoSaveTimer = setTimeout(saveCurrentIncident, 1000); });
+                if (reasonInput) reasonInput.addEventListener('input', () => { clearTimeout(autoSaveTimer); autoSaveTimer = setTimeout(saveCurrentIncident, 1000); });
+            });
+            
+            document.getElementById('impactPercent1').value = selectedApps[0] || '';
+            document.getElementById('impactPercent2').value = selectedApps[1] || '';
+            document.getElementById('impactPercent3').value = selectedApps[2] || '';
+        }
+
+        document.getElementById('impactedAppOthers').addEventListener('input', function() {
+            document.getElementById('impactPercentOthers').value = this.value;
+        });
+
+        function filterModalItems() {
+            const searchTerm = document.getElementById('appSearch').value.toLowerCase();
+            const items = document.querySelectorAll('.app-list-item');
+            items.forEach(item => {
+                item.style.display = item.textContent.toLowerCase().includes(searchTerm) ? 'block' : 'none';
+            });
+        }
+
+        function resetForm() {
+            selectedApps = [];
+            updateSelectedAppsDisplay();
+            syncToImpactAssessment();
+            document.getElementById('imcForm').reset();
+            document.getElementById('statusBtn').textContent = 'In Progress';
+            document.getElementById('statusBtn').classList.add('selected');
+            document.getElementById('teamMemberBtn').textContent = 'Select Team Member';
+            document.getElementById('teamMemberBtn').classList.remove('selected');
+            document.getElementById('rcaBtn').textContent = 'Select RCA Category';
+            document.getElementById('rcaBtn').classList.remove('selected');
+            
+            const today = new Date();
+            const todayStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+            const formatted = (today.getMonth() + 1) + '/' + today.getDate() + '/' + today.getFullYear();
+            document.getElementById('startDate').value = todayStr;
+            document.getElementById('endDate').value = todayStr;
+            document.getElementById('startDateBtn').textContent = formatted;
+            document.getElementById('endDateBtn').textContent = formatted;
+            document.getElementById('startDateBtn').classList.add('selected');
+            document.getElementById('endDateBtn').classList.add('selected');
+            document.getElementById('startTimeBtn').textContent = 'Select Time';
+            document.getElementById('startTimeBtn').classList.remove('selected');
+            document.getElementById('endTimeBtn').textContent = 'Select Time';
+            document.getElementById('endTimeBtn').classList.remove('selected');
+        }
+
+        function setupAutoSave() {
+            const formElements = document.querySelectorAll('#imcForm input[type="text"], #imcForm textarea, #imcForm input[type="number"]');
+            formElements.forEach(input => {
+                input.addEventListener('input', () => {
+                    clearTimeout(autoSaveTimer);
+                    autoSaveTimer = setTimeout(saveCurrentIncident, 1000);
+                });
+            });
+            
+            const radioElements = document.querySelectorAll('#imcForm input[type="radio"]');
+            radioElements.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    clearTimeout(autoSaveTimer);
+                    autoSaveTimer = setTimeout(saveCurrentIncident, 500);
+                });
+            });
+        }
+
+        function getAllFormData() {
+            return {
+                ticketNumber: document.getElementById('ticketNumber').value,
+                ticketPriority: getRadioValue('ticketPriority'),
+                ticketStatus: document.getElementById('ticketStatus').value,
+                impactedApps1: document.getElementById('impactedApps1').value,
+                impactedApps2: document.getElementById('impactedApps2').value,
+                impactedApps3: document.getElementById('impactedApps3').value,
+                impactedAppOthers: document.getElementById('impactedAppOthers').value,
+                custAgentImpact: document.getElementById('custAgentImpact').value,
+                technicalImpact: document.getElementById('technicalImpact').value,
+                startTime: document.getElementById('startTime').value,
+                startDate: document.getElementById('startDate').value,
+                endTime: document.getElementById('endTime').value,
+                endDate: document.getElementById('endDate').value,
+                explainTime: document.querySelector('[name="explainTime"]').value,
+                ticketReplication: getRadioValue('ticketReplication'),
+                numSamples: document.getElementById('numSamples').value,
+                lobImpact: getRadioValue('lobImpact'),
+                workaroundStrat: getRadioValue('workaroundStrat'),
+                mitigationDesc: document.querySelector('[name="mitigationDesc"]').value,
+                updateNumber: document.getElementById('updateNumber').value,
+                teamMember: document.getElementById('teamMember').value,
+                sendEmail: document.getElementById('sendEmail').checked ? 'true' : 'false',
+                teamsOnBridge: document.querySelector('[name="teamsOnBridge"]').value,
+                details: document.querySelector('[name="detailsTxtbox"]').value,
+                detailsCRQ1: getRadioValue('detailsCRQ1'),
+                detailsCRQ1Text: document.querySelector('[name="detailsCRQ1Text"]').value,
+                detailsCRQ2: getRadioValue('detailsCRQ2'),
+                detailsCRQ2Text: document.querySelector('[name="detailsCRQ2Text"]').value,
+                defectRelated: getRadioValue('defectRelated'),
+                defectDetails: document.querySelector('[name="defectDetails"]').value,
+                defectNew: getRadioValue('defectNew'),
+                defectNewDetails: document.querySelector('[name="defectNewDetails"]').value,
+                resolverTeam: document.getElementById('resolverTeam').value,
+                rcaCategory: document.getElementById('rcaCategory').value,
+                rootcause: document.getElementById('rootcause').value,
+                impactedComponent: document.getElementById('impactedComponent').value,
+                tsSteps: document.getElementById('tsSteps').value,
+                impactPercent1: document.getElementById('impactPercent1').value,
+                impactPercentage1: document.getElementById('impactPercentage1') ? document.getElementById('impactPercentage1').value : '',
+                impactReason1: document.getElementById('impactReason1') ? document.getElementById('impactReason1').value : '',
+                impactPercent2: document.getElementById('impactPercent2').value,
+                impactPercentage2: document.getElementById('impactPercentage2') ? document.getElementById('impactPercentage2').value : '',
+                impactReason2: document.getElementById('impactReason2') ? document.getElementById('impactReason2').value : '',
+                impactPercent3: document.getElementById('impactPercent3').value,
+                impactPercentage3: document.getElementById('impactPercentage3') ? document.getElementById('impactPercentage3').value : '',
+                impactReason3: document.getElementById('impactReason3') ? document.getElementById('impactReason3').value : '',
+                impactPercentOthers: document.getElementById('impactPercentOthers').value,
+                impactedRemarks: document.querySelector('[name="impactedRemarks"]').value,
+                timestamp: new Date().toLocaleString()
+            };
+        }
+
+        // FUNCTION 1: submitActivityLog
+function submitActivityLog() {
+    const data = getAllFormData();
+    
+    if (!data.updateNumber || !data.teamMember) {
+        alert('Fill required fields: Update # and Team Member');
+        return;
+    }
+    if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
+        alert('Troubleshooting steps required for Resolved status!');
+        return;
+    }
+    if (data.sendEmail === 'false') {
+        alert('Submitted (no email sent)');
+        return;
+    }
+    
+    const emailRecipient = data.ticketStatus === 'TEST' ? 'john_hugo.dado@telus.com' : 'dlApplicationSupport@telus.com';
+    const emailBody = generateEmailBody(data);
+    
+    data.customEmailBody = emailBody;
+    data.customRecipient = emailRecipient;
+    data.customCC = '';
+    data.customSubject = HARDCODED_SUBJECT;
+    data.isCustomEmail = 'true';
+    
+    console.log('📧 Activity Log Submit - Recipient:', emailRecipient, '| Status:', data.ticketStatus);
+    
+    submitToServer(data, true);
+}
+
+        // FUNCTION 2: Main form submit handler
+document.getElementById('imcForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const data = getAllFormData();
+    
+    if (!data.ticketNumber || !data.updateNumber || !data.teamMember) {
+        alert('Fill required fields: Ticket #, Update #, and Team Member');
+        return;
+    }
+    if (!data.ticketPriority) {
+        alert('Please select a Priority');
+        return;
+    }
+    if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
+        alert('Troubleshooting steps required for Resolved status!');
+        return;
+    }
+    
+    const emailRecipient = data.ticketStatus === 'TEST' ? 'john_hugo.dado@telus.com' : 'dlApplicationSupport@telus.com';
+    const emailBody = generateEmailBody(data);
+    
+    data.customEmailBody = emailBody;
+    data.customRecipient = emailRecipient;
+    data.customCC = '';
+    data.customSubject = HARDCODED_SUBJECT;
+    data.isCustomEmail = 'true';
+    
+    console.log('📧 Main Submit - Recipient:', emailRecipient, '| Status:', data.ticketStatus);
+    
+    submitToServer(data, false);
+});
+
+        function submitToServer(data, isActivity) {
+            const btn = isActivity ? document.getElementById('submitActivityBtn') : document.getElementById('mainSubmitBtn');
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+            
+            console.log('=== SUBMIT TO SERVER ===');
+            console.log('Recipient:', data.customRecipient);
+            console.log('Status:', data.ticketStatus);
+            console.log('Team Member:', data.teamMember);
+            console.log('Send Email:', data.sendEmail);
+            
+            const iframeName = 'submit_iframe_' + Date.now();
+            const iframe = document.createElement('iframe');
+            iframe.name = iframeName;
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+            
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = GOOGLE_SCRIPT_URL;
+            form.target = iframeName;
+            form.style.display = 'none';
+            
+            Object.entries(data).forEach(([key, value]) => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = value || '';
+                form.appendChild(input);
+            });
+            
+            document.body.appendChild(form);
+            form.submit();
+            
+            setTimeout(() => {
+                document.body.removeChild(form);
+                document.body.removeChild(iframe);
+                btn.disabled = false;
+                btn.textContent = 'Submit';
+                
+                alert('✓ Email Sent!\n\nTo: ' + data.customRecipient + '\nCC: ' + (data.customCC || 'None') + '\nFrom: Application Support\nCreated By: ' + data.teamMember);
+                
+                if (isActivity) {
+                    const currentUpdate = parseInt(document.getElementById('updateNumber').value) || 0;
+                    document.getElementById('updateNumber').value = currentUpdate + 1;
+                    document.querySelector('[name="detailsTxtbox"]').value = '';
+                    document.getElementById('sendEmail').checked = true;
+                    saveCurrentIncident();
+                } else {
+                    if (confirm('Email sent successfully!\n\nCreate another incident?')) {
+                        const currentUpdate = document.getElementById('updateNumber').value;
+                        const currentTeamMember = document.getElementById('teamMember').value;
+                        const currentTeamsOnBridge = document.querySelector('[name="teamsOnBridge"]').value;
+                        
+                        currentIncidentId = null;
+                        resetForm();
+                        
+                        const updateNum = parseInt(currentUpdate) || 0;
+                        document.getElementById('updateNumber').value = updateNum + 1;
+                        document.getElementById('teamMember').value = currentTeamMember;
+                        if (currentTeamMember) {
+                            document.getElementById('teamMemberBtn').textContent = currentTeamMember;
+                            document.getElementById('teamMemberBtn').classList.add('selected');
+                        }
+                        document.querySelector('[name="teamsOnBridge"]').value = currentTeamsOnBridge;
+                        document.getElementById('currentIncidentBar').style.display = 'none';
+                    }
+                }
+            }, 2000);
+        }
+
+        function initializeTroubleshootingValidation() {
+            const tsSteps = document.getElementById('tsSteps');
+            const ticketStatus = document.getElementById('ticketStatus');
+            const btns = [document.getElementById('submitActivityBtn'), document.getElementById('mainSubmitBtn')];
+            
+            function validate() {
+                const errorMsg = document.getElementById('tsStepsError');
+                if (ticketStatus.value === 'Resolved' && !tsSteps.value.trim()) {
+                    tsSteps.classList.add('error-highlight');
+                    errorMsg.style.display = 'block';
+                    btns.forEach(btn => { if(btn) { btn.disabled = true; btn.classList.add('btn-disabled'); }});
+                } else {
+                    tsSteps.classList.remove('error-highlight');
+                    errorMsg.style.display = 'none';
+                    btns.forEach(btn => { if(btn) { btn.disabled = false; btn.classList.remove('btn-disabled'); }});
+                }
+            }
+            ticketStatus.addEventListener('change', validate);
+            tsSteps.addEventListener('input', validate);
+            validate();
+        }
+
+        document.getElementById('ticketStatus').addEventListener('change', function() {
+            const fields = ['rootcause', 'resolverTeam', 'impactedComponent', 'tsSteps'];
+            fields.forEach(id => { document.getElementById(id).required = this.value === 'Resolved'; });
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const today = new Date();
+            const todayStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+            const formatted = (today.getMonth() + 1) + '/' + today.getDate() + '/' + today.getFullYear();
+            document.getElementById('startDate').value = todayStr;
+            document.getElementById('endDate').value = todayStr;
+            document.getElementById('startDateBtn').textContent = formatted;
+            document.getElementById('endDateBtn').textContent = formatted;
+            
+            const iframe = document.createElement('iframe');
+            iframe.name = 'hidden_iframe';
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+            
+            updateSelectedAppsDisplay();
+            syncToImpactAssessment();
+            document.getElementById('ticketStatus').value = 'In Progress';
+            
+            initializeTroubleshootingValidation();
+            setupAutoSave();
+            
+            showStartupModal();
+        });
+
+        window.addEventListener('beforeunload', saveCurrentIncident);
+
+        window.onclick = (e) => {
+            if (e.target.id === 'appModal') closeAppModal();
+            if (e.target.id === 'emailModal') closeEmailModal();
+            if (e.target.id === 'incidentManagerModal') closeIncidentManager();
+        }
+    </script>
+</body>
+</html>
