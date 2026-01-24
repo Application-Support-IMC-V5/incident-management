@@ -3,156 +3,1374 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Incident Management Checklist (IMC)</title>
+    <title>Incident Management Checklist (IMC) - Modern Edition</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; color: #4B286D !important; }
-        body { font-family: 'Inter', sans-serif; font-weight: 400; font-size: 12px; background: #F5F5F5; padding: 15px; min-height: 100vh; padding-bottom: 60px; }
-        .container { background: #FFFFFF; padding: 25px; border-radius: 8px; border: 3px solid #66CC66; max-width: 1400px; margin: auto; }
-        h1 { text-align: center; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 25px; font-size: 28px; letter-spacing: 1px; }
-        .table { margin-bottom: 20px; border: 2px solid #66CC66; border-radius: 8px; overflow: hidden; }
-        th { padding: 10px; font-family: 'Poppins', sans-serif; background: #66CC66 !important; font-size: 16px; font-weight: 700; border: 2px solid #4B286D !important; }
-        td { padding: 8px; vertical-align: middle; background: #FFFFFF; font-weight: 600; font-size: 12px; font-family: 'Inter', sans-serif; border: 1px solid #66CC66; }
-        input:required, select:required, textarea:required { border-color: #E91E63 !important; border-width: 2px !important; }
-        .form-control { border: 2px solid #66CC66; border-radius: 6px; background: #FFFFFF; font-size: 12px; font-family: 'Inter', sans-serif; font-weight: 600; padding: 8px 10px; transition: all 0.3s ease; }
-        .form-control:focus { border-color: #509E2F; outline: none; }
-        textarea { resize: vertical; }
-        .btn-outline-success { background: #66CC66; border: 2px solid #66CC66; padding: 10px 24px; font-weight: 700; font-size: 14px; font-family: 'Poppins', sans-serif; border-radius: 6px; color: #4B286D !important; }
-        .btn-outline-success:hover { background: #509E2F; border-color: #509E2F; }
-        .btn-outline-danger { background: #E91E63; border: 2px solid #E91E63; padding: 10px 24px; font-weight: 700; font-size: 14px; font-family: 'Poppins', sans-serif; border-radius: 6px; color: #FFFFFF !important; }
-        .btn-outline-danger:hover { background: #C2185B; border-color: #C2185B; }
-        .btn-outline-primary { background: #4B286D; border: 2px solid #4B286D; padding: 10px 24px; font-weight: 700; font-size: 14px; font-family: 'Poppins', sans-serif; border-radius: 6px; color: #FFFFFF !important; }
-        .btn-outline-primary:hover { background: #331C4A; border-color: #331C4A; }
-        .btn-small { padding: 8px 16px; font-size: 12px; }
-        .table-success { background: #66CC66 !important; border: 2px solid #4B286D !important; }
-        .save-indicator { position: fixed; top: 15px; right: 15px; background: #66CC66; padding: 8px 16px; border-radius: 6px; border: 2px solid #4B286D; font-weight: 600; opacity: 0; transition: opacity 0.3s ease; z-index: 10000; font-size: 11px; }
-        .save-indicator.show { opacity: 1; }
-        .draft-saved-indicator { position: fixed; top: 80px; right: 15px; background: #4B286D; color: #FFFFFF !important; padding: 8px 16px; border-radius: 6px; border: 2px solid #66CC66; font-weight: 600; opacity: 0; transition: opacity 0.3s ease; z-index: 10003; font-size: 11px; }
-        .draft-saved-indicator.show { opacity: 1; }
-        .draft-saved-indicator span { color: #FFFFFF !important; }
-        .signature { position: fixed; bottom: 15px; left: 15px; background: linear-gradient(135deg, #4B286D 0%, #66CC66 100%); color: #FFFFFF !important; padding: 8px 16px; border-radius: 6px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 11px; z-index: 9998; }
-        .signature span { color: #FFFFFF !important; }
-        input[type="checkbox"], input[type="radio"] { width: 16px; height: 16px; cursor: pointer; accent-color: #66CC66; }
-        .error-highlight { border-color: #FF0000 !important; border-width: 3px !important; background-color: #FFE6E6 !important; }
-        .btn-disabled { opacity: 0.5 !important; cursor: not-allowed !important; pointer-events: none !important; }
-        .error-message { color: #FF0000 !important; font-size: 11px; font-weight: 700; margin-top: 5px; display: none; padding: 6px; background-color: #FFE6E6; border-left: 3px solid #FF0000; }
-        .button-group { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
-        
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 9999; overflow-y: auto; padding: 15px; }
-        .modal-content { background: #FFFFFF; margin: 20px auto; padding: 0; border: 4px solid #66CC66; border-radius: 12px; max-width: 900px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); }
-        .modal-header { background: linear-gradient(135deg, #4B286D 0%, #66CC66 100%); color: #FFFFFF !important; padding: 18px 25px; border-radius: 8px 8px 0 0; display: flex; justify-content: space-between; align-items: center; }
-        .modal-header h2 { color: #FFFFFF !important; margin: 0; font-size: 20px; font-family: 'Poppins', sans-serif; }
-        .close-btn { background: rgba(255,255,255,0.2); border: 2px solid #FFFFFF; color: #FFFFFF !important; font-size: 24px; cursor: pointer; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
-        .close-btn:hover { background: rgba(255,255,255,0.3); transform: rotate(90deg); }
-        .modal-body { padding: 25px; max-height: 70vh; overflow-y: auto; }
-        .modal-footer { padding: 18px 25px; border-top: 3px solid #66CC66; text-align: right; background: #F9F9F9; }
-        
-        .app-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 10001; padding: 15px; overflow-y: auto; }
-        .app-modal-content { background: #FFFFFF; max-width: 550px; margin: 40px auto; border-radius: 12px; border: 4px solid #66CC66; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
-        .app-modal-header { background: linear-gradient(135deg, #4B286D, #66CC66); color: #FFFFFF !important; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .app-modal-header h3 { color: #FFFFFF !important; margin: 0; font-size: 18px; font-family: 'Poppins', sans-serif; }
-        .app-modal-body { padding: 15px; max-height: 450px; overflow-y: auto; }
-        .app-search { width: 100%; padding: 10px; border: 2px solid #66CC66; border-radius: 6px; margin-bottom: 12px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 12px; }
-        .app-list { list-style: none; padding: 0; margin: 0; }
-        .app-list-item { padding: 10px; border: 2px solid #66CC66; border-radius: 6px; margin-bottom: 6px; cursor: pointer; transition: all 0.3s ease; background: #FFFFFF; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 12px; }
-        .app-list-item:hover { background: #E8F5E9; border-color: #4B286D; transform: translateX(5px); }
-        
-        .selected-apps { display: flex; flex-wrap: wrap; gap: 6px; min-height: 45px; padding: 10px; border: 2px solid #66CC66; border-radius: 6px; background: #F9F9F9; margin-bottom: 8px; }
-        .app-tag { background: #4B286D; color: #FFFFFF !important; padding: 6px 12px; border-radius: 18px; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; }
-        .app-tag span { color: #FFFFFF !important; }
-        .app-tag-remove { background: #E91E63; color: #FFFFFF !important; border: none; border-radius: 50%; width: 18px; height: 18px; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 700; }
-        .app-tag-remove:hover { background: #C2185B; transform: scale(1.1); }
-        .add-app-btn { background: #66CC66; border: 2px solid #66CC66; color: #4B286D !important; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 12px; transition: all 0.3s ease; font-family: 'Poppins', sans-serif; }
-        .add-app-btn:hover { background: #509E2F; border-color: #509E2F; color: #FFFFFF !important; }
-        .select-btn { background: #FFFFFF; border: 2px solid #66CC66; color: #4B286D !important; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 12px; transition: all 0.3s ease; font-family: 'Inter', sans-serif; min-width: 150px; text-align: left; display: inline-block; }
-        .select-btn:hover { background: #E8F5E9; border-color: #4B286D; }
-        .select-btn.selected { background: #66CC66; color: #4B286D !important; border-color: #66CC66; font-weight: 700; }
-        
-        .impact-app-row { background: #F9F9F9; padding: 12px; margin-bottom: 10px; border-radius: 6px; border-left: 4px solid #4B286D; display: flex; align-items: center; gap: 12px; }
-        .impact-app-name { flex: 0 0 180px; font-weight: 700; color: #4B286D !important; font-size: 12px; }
-        .impact-input-group { display: flex; align-items: center; gap: 8px; flex: 1; }
-        .impact-input-group label { font-weight: 700; font-size: 11px; margin: 0; white-space: nowrap; }
-        
-        .time-selector { display: flex; gap: 15px; align-items: center; justify-content: center; }
-        .time-input-group { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-        .time-input-group label { font-weight: 700; font-size: 14px; }
-        .time-input-group select { padding: 10px; border: 2px solid #66CC66; border-radius: 6px; font-size: 14px; font-weight: 700; min-width: 80px; }
-        
-        .date-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
-        .date-header { text-align: center; font-weight: 700; padding: 8px; background: #66CC66; color: #4B286D !important; border-radius: 6px; font-size: 11px; }
-        .date-btn { padding: 10px; border: 2px solid #66CC66; border-radius: 6px; background: #FFFFFF; cursor: pointer; text-align: center; font-weight: 600; transition: all 0.3s ease; font-size: 12px; }
-        .date-btn:hover { background: #E8F5E9; border-color: #4B286D; }
-        .date-btn.selected { background: #4B286D; color: #FFFFFF !important; border-color: #4B286D; }
-        .date-btn.disabled { opacity: 0.3; cursor: not-allowed; }
-        .month-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .month-nav button { background: #66CC66; border: 2px solid #66CC66; color: #4B286D !important; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; }
-        .month-nav button:hover { background: #509E2F; color: #FFFFFF !important; }
-        .month-nav span { font-weight: 700; font-size: 16px; }
-        
-        .startup-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 99999; }
-        .startup-content { background: #FFFFFF; max-width: 500px; margin: 10% auto; border-radius: 16px; border: 5px solid #66CC66; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,0.5); }
-        .startup-header { background: linear-gradient(135deg, #4B286D, #66CC66); color: #FFFFFF !important; padding: 25px; text-align: center; }
-        .startup-header h2 { color: #FFFFFF !important; margin: 0; font-size: 24px; font-family: 'Poppins', sans-serif; }
-        .startup-body { padding: 30px; text-align: center; }
-        .startup-body p { font-size: 16px; margin-bottom: 25px; color: #4B286D !important; font-weight: 600; }
-        .startup-btn { background: #66CC66; border: 3px solid #66CC66; color: #4B286D !important; padding: 15px 40px; font-size: 16px; font-weight: 700; border-radius: 8px; margin: 10px; cursor: pointer; transition: all 0.3s ease; font-family: 'Poppins', sans-serif; }
-        .startup-btn:hover { background: #509E2F; border-color: #509E2F; color: #FFFFFF !important; transform: scale(1.05); }
-        .startup-btn.secondary { background: #4B286D; border-color: #4B286D; color: #FFFFFF !important; }
-        .startup-btn.secondary:hover { background: #331C4A; border-color: #331C4A; }
-        
-        .incident-card { background: #F9F9F9; border: 2px solid #66CC66; border-radius: 8px; padding: 15px; margin-bottom: 12px; transition: all 0.3s ease; }
-        .incident-card:hover { background: #E8F5E9; border-color: #4B286D; transform: translateX(5px); }
-        .incident-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .incident-ticket { font-size: 16px; font-weight: 700; color: #4B286D !important; }
-        .incident-status { padding: 4px 12px; border-radius: 12px; font-size: 10px; font-weight: 700; }
-        .status-progress { background: #FFF3CD; color: #856404 !important; }
-        .status-resolved { background: #D4EDDA; color: #155724 !important; }
-        .status-pending { background: #D1ECF1; color: #0C5460 !important; }
-        .incident-info { font-size: 11px; color: #666 !important; margin-top: 5px; }
-        .incident-actions { margin-top: 10px; display: flex; gap: 8px; }
-        .incident-btn { padding: 6px 14px; font-size: 11px; border-radius: 6px; border: 2px solid; cursor: pointer; font-weight: 700; transition: all 0.3s ease; }
-        .incident-btn.load { background: #66CC66; border-color: #66CC66; color: #4B286D !important; }
-        .incident-btn.load:hover { background: #509E2F; border-color: #509E2F; color: #FFFFFF !important; }
-        .incident-btn.delete { background: #E91E63; border-color: #E91E63; color: #FFFFFF !important; }
-        .incident-btn.delete:hover { background: #C2185B; border-color: #C2185B; }
-        
-        .current-incident-bar { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #4B286D, #66CC66); color: #FFFFFF !important; padding: 10px 20px; border-radius: 8px; z-index: 9999; box-shadow: 0 4px 12px rgba(0,0,0,0.3); font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 13px; display: none; }
-        .current-incident-bar span { color: #FFFFFF !important; }
-        .current-incident-bar button { background: rgba(255,255,255,0.2); border: 2px solid #FFFFFF; color: #FFFFFF !important; padding: 4px 12px; border-radius: 6px; margin-left: 15px; cursor: pointer; font-size: 11px; font-weight: 700; }
-        .current-incident-bar button:hover { background: rgba(255,255,255,0.4); }
-        
-        .email-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 10002; padding: 15px; overflow-y: auto; }
-        .email-modal-content { background: #FFFFFF; max-width: 900px; margin: 20px auto; border-radius: 12px; border: 4px solid #66CC66; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
-        .email-modal-header { background: linear-gradient(135deg, #4B286D, #66CC66); color: #FFFFFF !important; padding: 18px 25px; display: flex; justify-content: space-between; align-items: center; }
-        .email-modal-header h3 { color: #FFFFFF !important; margin: 0; font-size: 20px; font-family: 'Poppins', sans-serif; }
-        .email-modal-body { padding: 25px; }
-        .email-field { margin-bottom: 15px; }
-        .email-field label { display: block; font-weight: 700; margin-bottom: 5px; font-size: 13px; }
-        .email-field input, .email-field textarea { width: 100%; padding: 10px; border: 2px solid #66CC66; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 12px; }
-        .email-field textarea { min-height: 400px; font-family: 'Courier New', monospace; resize: vertical; }
-        .email-modal-footer { padding: 18px 25px; border-top: 3px solid #66CC66; text-align: right; background: #F9F9F9; display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
-        .email-preview-badge { display: inline-block; background: #4B286D; color: #FFFFFF !important; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 700; margin-left: 10px; }
-        
-        .email-preview-container { background: #f8f9fa; border: 3px solid #66CC66; border-radius: 8px; padding: 20px; margin-top: 20px; max-height: 500px; overflow-y: auto; }
-        .email-preview-header { background: linear-gradient(135deg, #4B286D, #66CC66); color: #FFFFFF !important; padding: 15px 20px; border-radius: 6px; margin-bottom: 20px; text-align: center; }
-        .email-preview-header h4 { color: #FFFFFF !important; margin: 0; font-size: 18px; font-family: 'Poppins', sans-serif; }
-        .email-preview-body { background: #FFFFFF; border: 2px solid #dee2e6; border-radius: 6px; padding: 25px; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.8; white-space: pre-wrap; word-wrap: break-word; }
-        
-        .cc-suggestions { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
-        .cc-suggestion-btn { background: #e8f5e9; border: 2px solid #66CC66; color: #4B286D !important; padding: 4px 12px; border-radius: 15px; font-size: 11px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; }
-        .cc-suggestion-btn:hover { background: #66CC66; color: #FFFFFF !important; transform: scale(1.05); }
-        
-        .preview-toggle-btn { background: #4B286D; border: 2px solid #4B286D; color: #FFFFFF !important; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 12px; transition: all 0.3s ease; margin-bottom: 15px; width: 100%; }
-        .preview-toggle-btn:hover { background: #331C4A; border-color: #331C4A; }
-        .preview-toggle-btn.active { background: #66CC66; border-color: #66CC66; color: #4B286D !important; }
-        
-        label { font-size: 12px; }
+        /* ========================================
+           🎨 MODERN UI - CORE VARIABLES
+           ======================================== */
+        :root {
+            --primary-purple: #4B286D;
+            --primary-green: #66CC66;
+            --accent-pink: #E91E63;
+            --dark-purple: #331C4A;
+            --light-green: #509E2F;
+            --bg-light: #F5F5F5;
+            --bg-white: #FFFFFF;
+            --text-dark: #4B286D;
+            --border-radius: 12px;
+            --transition-speed: 0.3s;
+            --shadow-sm: 0 2px 8px rgba(75, 40, 109, 0.1);
+            --shadow-md: 0 4px 16px rgba(75, 40, 109, 0.15);
+            --shadow-lg: 0 8px 32px rgba(75, 40, 109, 0.2);
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(75, 40, 109, 0.2);
+        }
+
+        /* Dark Mode Variables */
+        [data-theme="dark"] {
+            --bg-light: #1a1a2e;
+            --bg-white: #16213e;
+            --text-dark: #e8e8e8;
+            --glass-bg: rgba(22, 33, 62, 0.7);
+            --glass-border: rgba(102, 204, 102, 0.3);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ========================================
+           🌐 BASE STYLES
+           ======================================== */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            color: var(--text-dark) !important;
+            transition: background-color var(--transition-speed), 
+                        border-color var(--transition-speed),
+                        color var(--transition-speed);
+        }
+
+        body { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-weight: 400; 
+            font-size: 12px; 
+            background: var(--bg-light);
+            padding: 15px; 
+            min-height: 100vh; 
+            padding-bottom: 60px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                rgba(75, 40, 109, 0.05) 0%, 
+                rgba(102, 204, 102, 0.05) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        [data-theme="dark"] body::before {
+            background: linear-gradient(135deg, 
+                rgba(102, 204, 102, 0.1) 0%, 
+                rgba(75, 40, 109, 0.1) 100%);
+        }
+
+        /* ========================================
+           🎴 GLASSMORPHISM CONTAINER
+           ======================================== */
+        .container { 
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 35px; 
+            border-radius: 24px;
+            border: 2px solid var(--glass-border);
+            max-width: 1400px; 
+            margin: auto;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ========================================
+           📝 TYPOGRAPHY
+           ======================================== */
+        h1 { 
+            text-align: center; 
+            font-family: 'Poppins', sans-serif; 
+            font-weight: 700; 
+            margin-bottom: 35px; 
+            font-size: 32px; 
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, var(--primary-purple), var(--primary-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        label { 
+            font-size: 12px; 
+            font-weight: 600;
+        }
+
+        /* ========================================
+           🎴 MODERN CARD TABLES
+           ======================================== */
+        .table { 
+            margin-bottom: 25px; 
+            border: none;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            background: var(--bg-white);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        th { 
+            padding: 16px; 
+            font-family: 'Poppins', sans-serif; 
+            background: linear-gradient(135deg, var(--primary-purple), var(--primary-green)) !important;
+            font-size: 16px; 
+            font-weight: 700; 
+            border: none !important;
+            color: #FFFFFF !important;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        td { 
+            padding: 12px; 
+            vertical-align: middle; 
+            background: var(--bg-white);
+            font-weight: 600; 
+            font-size: 12px; 
+            font-family: 'Inter', sans-serif; 
+            border: 1px solid var(--glass-border);
+            transition: background-color 0.2s ease;
+        }
+
+        tr:hover td {
+            background: rgba(102, 204, 102, 0.05);
+        }
+
+        .table-success { 
+            background: linear-gradient(135deg, var(--primary-purple), var(--primary-green)) !important;
+            border: none !important;
+        }
+
+        /* ========================================
+           📥 FORM CONTROLS
+           ======================================== */
+        input:required, select:required, textarea:required { 
+            border-color: var(--accent-pink) !important; 
+            border-width: 2px !important; 
+        }
+
+        .form-control { 
+            border: 2px solid var(--glass-border);
+            border-radius: 8px;
+            background: var(--bg-white);
+            font-size: 12px; 
+            font-family: 'Inter', sans-serif; 
+            font-weight: 600; 
+            padding: 10px 12px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .form-control:focus { 
+            border-color: var(--primary-green);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 204, 102, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .form-control:hover {
+            border-color: var(--primary-purple);
+        }
+
+        textarea { 
+            resize: vertical; 
+        }
+
+        input[type="checkbox"], input[type="radio"] { 
+            width: 18px; 
+            height: 18px; 
+            cursor: pointer; 
+            accent-color: var(--primary-green);
+        }
+
+        /* ========================================
+           🔘 MODERN BUTTONS
+           ======================================== */
+        .btn-outline-success { 
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            border: none;
+            padding: 12px 28px; 
+            font-weight: 700; 
+            font-size: 14px; 
+            font-family: 'Poppins', sans-serif; 
+            border-radius: 8px;
+            color: #FFFFFF !important;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .btn-outline-success::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-outline-success:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-outline-success:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 204, 102, 0.4);
+        }
+
+        .btn-outline-success:active {
+            transform: translateY(0);
+        }
+
+        .btn-outline-danger { 
+            background: linear-gradient(135deg, var(--accent-pink), #C2185B);
+            border: none;
+            padding: 12px 28px; 
+            font-weight: 700; 
+            font-size: 14px; 
+            font-family: 'Poppins', sans-serif; 
+            border-radius: 8px;
+            color: #FFFFFF !important;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-outline-danger:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(233, 30, 99, 0.4);
+        }
+
+        .btn-outline-primary { 
+            background: linear-gradient(135deg, var(--primary-purple), var(--dark-purple));
+            border: none;
+            padding: 12px 28px; 
+            font-weight: 700; 
+            font-size: 14px; 
+            font-family: 'Poppins', sans-serif; 
+            border-radius: 8px;
+            color: #FFFFFF !important;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-outline-primary:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(75, 40, 109, 0.4);
+        }
+
+        .btn-small { 
+            padding: 8px 18px; 
+            font-size: 12px; 
+        }
+
+        .btn-disabled { 
+            opacity: 0.5 !important; 
+            cursor: not-allowed !important; 
+            pointer-events: none !important; 
+        }
+
+        .button-group { 
+            display: flex; 
+            align-items: center; 
+            justify-content: flex-end; 
+            gap: 8px; 
+        }
+
+        /* ========================================
+           🌓 DARK MODE TOGGLE
+           ======================================== */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10001;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 10px 18px;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .theme-icon {
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle:hover .theme-icon {
+            transform: rotate(20deg);
+        }
+
+        /* ========================================
+           💾 SAVE INDICATORS
+           ======================================== */
+        .save-indicator { 
+            position: fixed; 
+            top: 80px; 
+            right: 20px;
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            padding: 10px 18px;
+            border-radius: 50px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            font-weight: 600; 
+            opacity: 0; 
+            transition: all 0.3s ease;
+            z-index: 10000; 
+            font-size: 12px;
+            color: #FFFFFF !important;
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(10px);
+        }
+
+        .save-indicator.show { 
+            opacity: 1; 
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .draft-saved-indicator { 
+            position: fixed; 
+            top: 140px; 
+            right: 20px;
+            background: linear-gradient(135deg, var(--primary-purple), var(--dark-purple));
+            color: #FFFFFF !important; 
+            padding: 10px 18px;
+            border-radius: 50px;
+            border: 2px solid rgba(102, 204, 102, 0.3);
+            font-weight: 600; 
+            opacity: 0; 
+            transition: all 0.3s ease;
+            z-index: 10003; 
+            font-size: 12px;
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(10px);
+        }
+
+        .draft-saved-indicator.show { 
+            opacity: 1; 
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        .draft-saved-indicator span { 
+            color: #FFFFFF !important; 
+        }
+
+        /* ========================================
+           📌 SIGNATURE
+           ======================================== */
+        .signature { 
+            position: fixed; 
+            bottom: 20px; 
+            left: 20px;
+            background: linear-gradient(135deg, var(--primary-purple), var(--primary-green));
+            color: #FFFFFF !important; 
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif; 
+            font-weight: 600; 
+            font-size: 12px; 
+            z-index: 9998;
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .signature span { 
+            color: #FFFFFF !important; 
+        }
+
+        /* ========================================
+           ⚠️ ERROR STATES
+           ======================================== */
+        .error-highlight { 
+            border-color: #FF0000 !important; 
+            border-width: 3px !important; 
+            background-color: #FFE6E6 !important;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .error-message { 
+            color: #FF0000 !important; 
+            font-size: 11px; 
+            font-weight: 700; 
+            margin-top: 8px;
+            display: none; 
+            padding: 8px 12px;
+            background: linear-gradient(135deg, #FFE6E6, #FFD6D6);
+            border-left: 4px solid #FF0000;
+            border-radius: 6px;
+            animation: slideDown2 0.3s ease-out;
+        }
+
+        @keyframes slideDown2 {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ========================================
+           🔔 POPUP NOTIFICATION
+           ======================================== */
+        .popup-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 3px solid var(--accent-pink);
+            border-radius: 16px;
+            padding: 30px 40px;
+            box-shadow: 0 10px 40px rgba(233, 30, 99, 0.3);
+            z-index: 99999;
+            max-width: 500px;
+            text-align: center;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .popup-notification.show {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .popup-notification-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .popup-notification-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent-pink) !important;
+            margin-bottom: 10px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .popup-notification-message {
+            font-size: 14px;
+            color: var(--text-dark) !important;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .popup-notification-btn {
+            background: linear-gradient(135deg, var(--accent-pink), #C2185B);
+            color: #FFFFFF !important;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .popup-notification-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(233, 30, 99, 0.4);
+        }
+
+        /* ========================================
+           🎴 MODERN MODALS - PART 1
+           ======================================== */
+        .modal-overlay, .app-modal, .email-modal, .startup-modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 9999; 
+            overflow-y: auto; 
+            padding: 15px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content, .app-modal-content, .email-modal-content, .startup-content { 
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            margin: 40px auto;
+            padding: 0;
+            border: 2px solid var(--glass-border);
+            border-radius: 20px;
+            max-width: 900px; 
+            box-shadow: var(--shadow-lg);
+            animation: scaleIn 0.3s ease-out;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .app-modal-content {
+            max-width: 550px;
+        }
+
+        .startup-content {
+            max-width: 500px;
+            margin: 10% auto;
+        }
+
+        .modal-header, .app-modal-header, .email-modal-header, .startup-header { 
+            background: linear-gradient(135deg, var(--primary-purple), var(--primary-green));
+            color: #FFFFFF !important; 
+            padding: 20px 30px;
+            border-radius: 18px 18px 0 0;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+        }
+
+        .startup-header {
+            display: block;
+            text-align: center;
+        }
+
+        .modal-header h2, .modal-header h3, 
+        .app-modal-header h3, .email-modal-header h3, 
+        .startup-header h2 { 
+            color: #FFFFFF !important; 
+            margin: 0; 
+            font-size: 20px; 
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+        }
+
+        .startup-header h2 {
+            font-size: 24px;
+        }
+
+        .close-btn { 
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            color: #FFFFFF !important; 
+            font-size: 24px; 
+            cursor: pointer; 
+            width: 40px; 
+            height: 40px;
+            border-radius: 50%;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-weight: 700;
+        }
+
+        .close-btn:hover { 
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg) scale(1.1);
+        }
+
+        .modal-body, .app-modal-body, .email-modal-body, .startup-body { 
+            padding: 30px;
+            max-height: 70vh; 
+            overflow-y: auto;
+            background: var(--bg-white);
+        }
+
+        .app-modal-body {
+            padding: 15px;
+            max-height: 450px;
+        }
+
+        .startup-body {
+            text-align: center;
+        }
+
+        .startup-body p {
+            font-size: 16px;
+            margin-bottom: 25px;
+            color: var(--text-dark) !important;
+            font-weight: 600;
+        }
+
+        .modal-footer, .email-modal-footer { 
+            padding: 20px 30px;
+            border-top: 2px solid var(--glass-border);
+            text-align: right; 
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 0 0 18px 18px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+
+        /* Continue with modal styles... */
+        .app-search { 
+            width: 100%; 
+            padding: 10px; 
+            border: 2px solid var(--glass-border);
+            border-radius: 8px;
+            margin-bottom: 12px; 
+            font-family: 'Inter', sans-serif; 
+            font-weight: 600; 
+            font-size: 12px;
+            background: var(--bg-white);
+            transition: all 0.3s ease;
+        }
+
+        .app-search:focus {
+            border-color: var(--primary-green);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 204, 102, 0.1);
+        }
+
+        .app-list { 
+            list-style: none; 
+            padding: 0; 
+            margin: 0; 
+        }
+
+        .app-list-item { 
+            padding: 12px; 
+            border: 2px solid var(--glass-border);
+            border-radius: 8px;
+            margin-bottom: 8px; 
+            cursor: pointer; 
+            transition: all 0.3s ease;
+            background: var(--bg-white);
+            font-family: 'Inter', sans-serif; 
+            font-weight: 600; 
+            font-size: 12px;
+        }
+
+        .app-list-item:hover { 
+            background: rgba(102, 204, 102, 0.1);
+            border-color: var(--primary-purple);
+            transform: translateX(5px);
+        }
+
+        /* ========================================
+           🏷️ SELECTED APPS & TAGS
+           ======================================== */
+        .selected-apps { 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 8px; 
+            min-height: 45px; 
+            padding: 12px;
+            border: 2px solid var(--glass-border);
+            border-radius: 8px;
+            background: var(--bg-white);
+            margin-bottom: 10px;
+        }
+
+        .app-tag { 
+            background: linear-gradient(135deg, var(--primary-purple), var(--dark-purple));
+            color: #FFFFFF !important; 
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px; 
+            font-weight: 600; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 6px; 
+            font-family: 'Inter', sans-serif;
+            animation: popIn 0.3s ease-out;
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .app-tag span { 
+            color: #FFFFFF !important; 
+        }
+
+        .app-tag-remove { 
+            background: var(--accent-pink);
+            color: #FFFFFF !important; 
+            border: none; 
+            border-radius: 50%;
+            width: 18px; 
+            height: 18px; 
+            font-size: 12px; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+
+        .app-tag-remove:hover { 
+            background: #C2185B;
+            transform: scale(1.2) rotate(90deg);
+        }
+
+        .add-app-btn { 
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            border: none;
+            color: #FFFFFF !important; 
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 700; 
+            cursor: pointer; 
+            font-size: 12px; 
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .add-app-btn:hover { 
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .select-btn { 
+            background: var(--bg-white);
+            border: 2px solid var(--glass-border);
+            color: var(--text-dark) !important; 
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 700; 
+            cursor: pointer; 
+            font-size: 12px; 
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif; 
+            min-width: 150px; 
+            text-align: left; 
+            display: inline-block;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .select-btn:hover { 
+            background: rgba(102, 204, 102, 0.1);
+            border-color: var(--primary-purple);
+            transform: translateY(-1px);
+        }
+
+        .select-btn.selected { 
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            color: #FFFFFF !important; 
+            border-color: var(--primary-green);
+            font-weight: 700;
+        }
+
+        /* ========================================
+           📊 IMPACT ASSESSMENT
+           ======================================== */
+        .impact-app-row { 
+            background: var(--bg-white);
+            padding: 15px;
+            margin-bottom: 12px; 
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-purple);
+            display: flex; 
+            align-items: center; 
+            gap: 12px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+        .impact-app-row:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .impact-app-name { 
+            flex: 0 0 180px; 
+            font-weight: 700; 
+            color: var(--primary-purple) !important; 
+            font-size: 12px; 
+        }
+
+        .impact-input-group { 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            flex: 1; 
+        }
+
+        .impact-input-group label { 
+            font-weight: 700; 
+            font-size: 11px; 
+            margin: 0; 
+            white-space: nowrap; 
+        }
+
+        /* ========================================
+           ⏰ TIME & DATE SELECTORS
+           ======================================== */
+        .time-selector { 
+            display: flex; 
+            gap: 15px; 
+            align-items: center; 
+            justify-content: center; 
+        }
+
+        .time-input-group { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 8px; 
+        }
+
+        .time-input-group label { 
+            font-weight: 700; 
+            font-size: 14px; 
+        }
+
+        .time-input-group select { 
+            padding: 10px; 
+            border: 2px solid var(--glass-border);
+            border-radius: 8px;
+            font-size: 14px; 
+            font-weight: 700; 
+            min-width: 80px;
+            background: var(--bg-white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .time-input-group select:focus {
+            border-color: var(--primary-green);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 204, 102, 0.1);
+        }
+
+        .date-grid { 
+            display: grid; 
+            grid-template-columns: repeat(7, 1fr); 
+            gap: 6px; 
+        }
+
+        .date-header { 
+            text-align: center; 
+            font-weight: 700; 
+            padding: 8px; 
+            background: var(--primary-green);
+            color: #FFFFFF !important; 
+            border-radius: 6px;
+            font-size: 11px; 
+        }
+
+        .date-btn { 
+            padding: 10px; 
+            border: 2px solid var(--glass-border);
+            border-radius: 6px;
+            background: var(--bg-white);
+            cursor: pointer; 
+            text-align: center; 
+            font-weight: 600; 
+            transition: all 0.3s ease;
+            font-size: 12px; 
+        }
+
+        .date-btn:hover { 
+            background: rgba(102, 204, 102, 0.1);
+            border-color: var(--primary-purple);
+            transform: scale(1.05);
+        }
+
+        .date-btn.selected { 
+            background: var(--primary-purple);
+            color: #FFFFFF !important; 
+            border-color: var(--primary-purple);
+        }
+
+        .date-btn.disabled { 
+            opacity: 0.3; 
+            cursor: not-allowed; 
+        }
+
+        .month-nav { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 15px; 
+        }
+
+        .month-nav button { 
+            background: var(--primary-green);
+            border: none;
+            color: #FFFFFF !important; 
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 700; 
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .month-nav button:hover { 
+            background: var(--light-green);
+            transform: translateY(-2px);
+        }
+
+        .month-nav span { 
+            font-weight: 700; 
+            font-size: 16px; 
+        }
+
+        /* ========================================
+           🎫 INCIDENT CARDS
+           ======================================== */
+        .incident-card { 
+            background: var(--bg-white);
+            border: 2px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 15px; 
+            margin-bottom: 12px; 
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .incident-card:hover { 
+            background: rgba(102, 204, 102, 0.05);
+            border-color: var(--primary-purple);
+            transform: translateX(5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .incident-card-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 10px; 
+        }
+
+        .incident-ticket { 
+            font-size: 16px; 
+            font-weight: 700; 
+            color: var(--primary-purple) !important; 
+        }
+
+        .incident-status { 
+            padding: 4px 12px; 
+            border-radius: 12px;
+            font-size: 10px; 
+            font-weight: 700; 
+        }
+
+        .status-progress { 
+            background: #FFF3CD; 
+            color: #856404 !important; 
+        }
+
+        .status-resolved { 
+            background: #D4EDDA; 
+            color: #155724 !important; 
+        }
+
+        .status-pending { 
+            background: #D1ECF1; 
+            color: #0C5460 !important; 
+        }
+
+        .incident-info { 
+            font-size: 11px; 
+            color: #666 !important; 
+            margin-top: 5px; 
+        }
+
+        .incident-actions { 
+            margin-top: 10px; 
+            display: flex; 
+            gap: 8px; 
+        }
+
+        .incident-btn { 
+            padding: 6px 14px; 
+            font-size: 11px; 
+            border-radius: 6px;
+            border: 2px solid; 
+            cursor: pointer; 
+            font-weight: 700; 
+            transition: all 0.3s ease;
+        }
+
+        .incident-btn.load { 
+            background: var(--primary-green);
+            border-color: var(--primary-green);
+            color: #FFFFFF !important; 
+        }
+
+        .incident-btn.load:hover { 
+            background: var(--light-green);
+            transform: translateY(-2px);
+        }
+
+        .incident-btn.delete { 
+            background: var(--accent-pink);
+            border-color: var(--accent-pink);
+            color: #FFFFFF !important; 
+        }
+
+        .incident-btn.delete:hover { 
+            background: #C2185B;
+            transform: translateY(-2px);
+        }
+
+        /* ========================================
+           📍 CURRENT INCIDENT BAR
+           ======================================== */
+        .current-incident-bar { 
+            position: fixed; 
+            top: 20px; 
+            left: 50%; 
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--primary-purple), var(--primary-green));
+            color: #FFFFFF !important; 
+            padding: 12px 24px;
+            border-radius: 50px;
+            z-index: 9999; 
+            box-shadow: var(--shadow-lg);
+            font-family: 'Poppins', sans-serif; 
+            font-weight: 600; 
+            font-size: 13px; 
+            display: none;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .current-incident-bar span { 
+            color: #FFFFFF !important; 
+        }
+
+        .current-incident-bar button { 
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            color: #FFFFFF !important; 
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-left: 15px; 
+            cursor: pointer; 
+            font-size: 11px; 
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .current-incident-bar button:hover { 
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.05);
+        }
+
+        /* ========================================
+           ✉️ EMAIL MODAL SPECIFIC
+           ======================================== */
+        .email-modal {
+            z-index: 10002;
+        }
+
+        .email-field { 
+            margin-bottom: 15px; 
+        }
+
+        .email-field label { 
+            display: block; 
+            font-weight: 700; 
+            margin-bottom: 5px; 
+            font-size: 13px; 
+        }
+
+        .email-field input, .email-field textarea { 
+            width: 100%; 
+            padding: 10px; 
+            border: 2px solid var(--glass-border);
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif; 
+            font-size: 12px;
+            background: var(--bg-white);
+            transition: all 0.3s ease;
+        }
+
+        .email-field input:focus, .email-field textarea:focus {
+            border-color: var(--primary-green);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 204, 102, 0.1);
+        }
+
+        .email-field textarea { 
+            min-height: 400px; 
+            font-family: 'Courier New', monospace; 
+            resize: vertical; 
+        }
+
+        .email-preview-badge { 
+            display: inline-block; 
+            background: var(--primary-purple);
+            color: #FFFFFF !important; 
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px; 
+            font-weight: 700; 
+            margin-left: 10px; 
+        }
+
+        .email-preview-container { 
+            background: var(--bg-light);
+            border: 3px solid var(--primary-green);
+            border-radius: 8px;
+            padding: 20px; 
+            margin-top: 20px; 
+            max-height: 500px; 
+            overflow-y: auto;
+        }
+
+        .email-preview-header { 
+            background: linear-gradient(135deg, var(--primary-purple), var(--primary-green));
+            color: #FFFFFF !important; 
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin-bottom: 20px; 
+            text-align: center; 
+        }
+
+        .email-preview-header h4 { 
+            color: #FFFFFF !important; 
+            margin: 0; 
+            font-size: 18px; 
+            font-family: 'Poppins', sans-serif; 
+        }
+
+        .email-preview-body { 
+            background: var(--bg-white);
+            border: 2px solid var(--glass-border);
+            border-radius: 6px;
+            padding: 25px; 
+            font-family: 'Courier New', monospace; 
+            font-size: 13px; 
+            line-height: 1.8; 
+            white-space: pre-wrap; 
+            word-wrap: break-word; 
+        }
+
+        .cc-suggestions { 
+            display: flex; 
+            gap: 8px; 
+            margin-top: 8px; 
+            flex-wrap: wrap; 
+        }
+
+        .cc-suggestion-btn { 
+            background: rgba(102, 204, 102, 0.1);
+            border: 2px solid var(--primary-green);
+            color: var(--primary-purple) !important; 
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 11px; 
+            cursor: pointer; 
+            font-weight: 600; 
+            transition: all 0.3s ease;
+        }
+
+        .cc-suggestion-btn:hover { 
+            background: var(--primary-green);
+            color: #FFFFFF !important; 
+            transform: scale(1.05);
+        }
+
+        .preview-toggle-btn { 
+            background: linear-gradient(135deg, var(--primary-purple), var(--dark-purple));
+            border: none;
+            color: #FFFFFF !important; 
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 700; 
+            cursor: pointer; 
+            font-size: 12px; 
+            transition: all 0.3s ease;
+            margin-bottom: 15px; 
+            width: 100%;
+            box-shadow: var(--shadow-md);
+        }
+
+        .preview-toggle-btn:hover { 
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .preview-toggle-btn.active { 
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+        }
+
+        /* ========================================
+           🎨 STARTUP MODAL
+           ======================================== */
+        .startup-btn { 
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            border: none;
+            color: #FFFFFF !important; 
+            padding: 15px 40px;
+            font-size: 16px; 
+            font-weight: 700; 
+            border-radius: 8px;
+            margin: 10px; 
+            cursor: pointer; 
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: var(--shadow-md);
+        }
+
+        .startup-btn:hover { 
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .startup-btn.secondary { 
+            background: linear-gradient(135deg, var(--primary-purple), var(--dark-purple));
+        }
+
+        /* ========================================
+           📱 SCROLLBAR STYLING
+           ======================================== */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-light);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary-purple), var(--primary-green));
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--dark-purple), var(--light-green));
+        }
     </style>
 </head>
 <body>
+    <!-- ========================================
+         🌓 DARK MODE TOGGLE
+         ======================================== -->
+    <div class="theme-toggle" onclick="toggleTheme()">
+        <span class="theme-icon" id="themeIcon">🌙</span>
+        <span id="themeText">Dark Mode</span>
+    </div>
+
+    <!-- ========================================
+         🎯 STARTUP MODAL
+         ======================================== -->
     <div class="startup-modal" id="startupModal">
         <div class="startup-content">
             <div class="startup-header">
@@ -166,16 +1384,37 @@
         </div>
     </div>
 
+    <!-- ========================================
+         📍 CURRENT INCIDENT BAR
+         ======================================== -->
     <div class="current-incident-bar" id="currentIncidentBar">
         <span id="currentIncidentDisplay">No incident loaded</span>
         <button onclick="showIncidentManager()">Switch</button>
         <button onclick="createNewIncident()">New</button>
     </div>
 
+    <!-- ========================================
+         💾 SAVE INDICATORS
+         ======================================== -->
     <div class="save-indicator" id="saveIndicator">Auto-saved</div>
     <div class="draft-saved-indicator" id="draftSavedIndicator"><span>Draft Saved</span></div>
     <div class="signature"><span>Application Support 2026</span></div>
 
+    <!-- ========================================
+         🔔 POPUP NOTIFICATION
+         ======================================== -->
+    <div class="popup-notification" id="popupNotification">
+        <div class="popup-notification-icon">⚠️</div>
+        <div class="popup-notification-title">Troubleshooting Steps Required</div>
+        <div class="popup-notification-message">
+            When status is "Resolved", you must fill in the troubleshooting steps before sending the email.
+        </div>
+        <button class="popup-notification-btn" onclick="closePopupNotification()">Got It!</button>
+    </div>
+
+    <!-- ========================================
+         📂 INCIDENT MANAGER MODAL
+         ======================================== -->
     <div class="app-modal" id="incidentManagerModal">
         <div class="app-modal-content" style="max-width: 700px;">
             <div class="app-modal-header">
@@ -188,6 +1427,9 @@
         </div>
     </div>
 
+    <!-- ========================================
+         ✉️ EMAIL EDITOR MODAL
+         ======================================== -->
     <div class="email-modal" id="emailModal">
         <div class="email-modal-content">
             <div class="email-modal-header">
@@ -240,6 +1482,9 @@
         </div>
     </div>
 
+    <!-- ========================================
+         🎴 GENERAL MODAL (Apps, Status, etc.)
+         ======================================== -->
     <div class="app-modal" id="appModal">
         <div class="app-modal-content">
             <div class="app-modal-header">
@@ -254,10 +1499,16 @@
         </div>
     </div>
 
+    <!-- ========================================
+         📋 MAIN FORM CONTAINER
+         ======================================== -->
     <div class="container">
         <h1>Incident Management Checklist (IMC)</h1>
         
         <form id="imcForm">
+            <!-- ========================================
+                 📊 DETAILS OF THE ISSUE
+                 ======================================== -->
             <table class="table table-bordered">
                 <tr><th colspan="6" class="table-success text-center">DETAILS OF THE ISSUE</th></tr>
                 <tr>
@@ -383,6 +1634,9 @@
                     <td colspan="2"><textarea name="mitigationDesc" rows="2" class="form-control"></textarea></td>
                 </tr>
 
+                <!-- ========================================
+                     📝 ACTIVITY LOGS
+                     ======================================== -->
                 <tr><th colspan="6" class="table-success text-center">ACTIVITY LOGS</th></tr>
                 <tr>
                     <td>Update #:</td>
@@ -409,6 +1663,9 @@
                     <td colspan="5"><textarea name="detailsTxtbox" rows="5" class="form-control"></textarea></td>
                 </tr>
 
+                <!-- ========================================
+                     🔧 CHANGE/DEFECTS INFORMATION
+                     ======================================== -->
                 <tr><th colspan="6" class="table-success text-center">CHANGE/DEFECTS INFORMATION</th></tr>
                 <tr>
                     <td>Is the issue related to a recent change?:</td>
@@ -475,6 +1732,9 @@
                     <td colspan="2"><textarea name="defectNewDetails" rows="2" class="form-control"></textarea></td>
                 </tr>
 
+                <!-- ========================================
+                     🎯 ROOT CAUSE AND RESOLUTION
+                     ======================================== -->
                 <tr><th colspan="6" class="table-success text-center">ROOT CAUSE AND RESOLUTION</th></tr>
                 <tr>
                     <td>Who and from which team resolved the issue?:</td>
@@ -502,6 +1762,9 @@
                 </tr>
             </table>
 
+            <!-- ========================================
+                 📊 IMPACT ASSESSMENT
+                 ======================================== -->
             <table class="table table-bordered">
                 <tr><th colspan="6" class="table-success text-center">IMPACT ASSESSMENT</th></tr>
                 <tr>
@@ -529,6 +1792,9 @@
         </form>
     </div>
 	    <script>
+        // ========================================
+        // 📋 CONFIGURATION & CONSTANTS
+        // ========================================
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/a/macros/telusinternational.com/s/AKfycbxTM9uNbovGMbbuO1c-7GDRq-WzS8GxVxSORxYvjBCZYCFQlMxpccHxVfDGVU--gjpjZg/exec';
         const HARDCODED_SUBJECT = 'AppSupport - Incident Management Checklist';
         
@@ -576,7 +1842,57 @@
         let currentIncidentId = null;
 
         // ========================================
-        // ✅ EMAIL RECIPIENT HELPER - SIMPLE AND CLEAR
+        // 🌓 DARK MODE FUNCTIONALITY
+        // ========================================
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            const icon = document.getElementById('themeIcon');
+            const text = document.getElementById('themeText');
+            
+            if (newTheme === 'dark') {
+                icon.textContent = '☀️';
+                text.textContent = 'Light Mode';
+            } else {
+                icon.textContent = '🌙';
+                text.textContent = 'Dark Mode';
+            }
+        }
+
+        // Load saved theme on page load
+        function loadSavedTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            
+            const icon = document.getElementById('themeIcon');
+            const text = document.getElementById('themeText');
+            
+            if (savedTheme === 'dark') {
+                icon.textContent = '☀️';
+                text.textContent = 'Light Mode';
+            }
+        }
+
+        // ========================================
+        // 🔔 POPUP NOTIFICATION
+        // ========================================
+        function showPopupNotification() {
+            const popup = document.getElementById('popupNotification');
+            popup.classList.add('show');
+        }
+
+        function closePopupNotification() {
+            const popup = document.getElementById('popupNotification');
+            popup.classList.remove('show');
+        }
+
+        // ========================================
+        // ✅ EMAIL RECIPIENT HELPER
         // ========================================
         function getEmailRecipient(status, teamMember) {
             console.log('🔍 Getting email recipient...');
@@ -601,9 +1917,8 @@
         }
 
         // ========================================
-        // INCIDENT MANAGEMENT
+        // 📂 INCIDENT MANAGEMENT
         // ========================================
-
         function showStartupModal() {
             document.getElementById('startupModal').style.display = 'block';
         }
@@ -886,9 +2201,8 @@
         }
 
         // ========================================
-        // ✅ EMAIL EDITOR - FIXED TO USE TEAM MEMBER FOR TEST
+        // ✉️ EMAIL EDITOR - FIXED VERSION
         // ========================================
-
         function openEmailEditor(isActivity) {
             const data = getAllFormData();
             
@@ -902,9 +2216,9 @@
                 return;
             }
             
-            // ✅ Check TS steps only for Resolved
+            // ✅ FIX: Check TS steps and show popup if Resolved + empty
             if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
-                alert('Troubleshooting steps are required for Resolved status!');
+                showPopupNotification();
                 return;
             }
             
@@ -1055,7 +2369,7 @@
             
             setTimeout(() => {
                 btn.textContent = originalText;
-                btn.style.background = '#e8f5e9';
+                btn.style.background = 'rgba(102, 204, 102, 0.1)';
                 btn.style.color = '#4B286D';
             }, 1500);
         }
@@ -1084,20 +2398,20 @@
             const previewContent = document.getElementById('emailPreviewContent');
             
             let formattedHTML = emailBody
-                .replace(/═══════════════════════════════════════════════════/g, '<div class="email-section-divider"></div>')
-                .replace(/📋 DETAILS OF THE ISSUE/g, '<div class="email-field-label">📋 DETAILS OF THE ISSUE</div>')
-                .replace(/📝 ACTIVITY LOGS/g, '<div class="email-field-label">📝 ACTIVITY LOGS</div>')
-                .replace(/🔧 CHANGE\/DEFECTS INFORMATION/g, '<div class="email-field-label">🔧 CHANGE/DEFECTS INFORMATION</div>')
-                .replace(/🎯 ROOT CAUSE AND RESOLUTION/g, '<div class="email-field-label">🎯 ROOT CAUSE AND RESOLUTION</div>')
-                .replace(/📊 IMPACT ASSESSMENT/g, '<div class="email-field-label">📊 IMPACT ASSESSMENT</div>')
-                .replace(/Application Support Team/g, '<div class="email-field-label">Application Support Team</div>');
+                .replace(/═══════════════════════════════════════════════════/g, '<div style="border-top:2px solid #66CC66;margin:15px 0;"></div>')
+                .replace(/📋 DETAILS OF THE ISSUE/g, '<strong style="color:#4B286D!important;font-size:16px;">📋 DETAILS OF THE ISSUE</strong>')
+                .replace(/📝 ACTIVITY LOGS/g, '<strong style="color:#4B286D!important;font-size:16px;">📝 ACTIVITY LOGS</strong>')
+                .replace(/🔧 CHANGE\/DEFECTS INFORMATION/g, '<strong style="color:#4B286D!important;font-size:16px;">🔧 CHANGE/DEFECTS INFORMATION</strong>')
+                .replace(/🎯 ROOT CAUSE AND RESOLUTION/g, '<strong style="color:#4B286D!important;font-size:16px;">🎯 ROOT CAUSE AND RESOLUTION</strong>')
+                .replace(/📊 IMPACT ASSESSMENT/g, '<strong style="color:#4B286D!important;font-size:16px;">📊 IMPACT ASSESSMENT</strong>')
+                .replace(/Application Support Team/g, '<strong style="color:#4B286D!important;font-size:16px;">Application Support Team</strong>');
             
             formattedHTML = formattedHTML.replace(/(Ticket #:|Priority:|Status:|Update #:|Created By:|Timestamp:|Resolved By:|Root Cause Category:|Root Cause:|Impacted Component:|Troubleshooting Steps:)/g, 
                 '<strong style="color:#4B286D!important;">$1</strong>');
             
             formattedHTML = formattedHTML.replace(/  - /g, '&nbsp;&nbsp;- ');
             
-            previewContent.innerHTML = '<pre style="margin:0;font-family:\'Courier New\',monospace;white-space:pre-wrap;word-wrap:break-word;">' + formattedHTML + '</pre>';
+            previewContent.innerHTML = '<pre style="margin:0;font-family:\'Courier New\',monospace;white-space:pre-wrap;word-wrap:break-word;line-height:1.6;">' + formattedHTML + '</pre>';
         }
 
         function generateEmailBody(data) {
@@ -1296,9 +2610,8 @@
         }
 
         // ========================================
-        // HELPER FUNCTIONS
+        // 🔧 HELPER FUNCTIONS
         // ========================================
-
         function getRadioValue(name) {
             const radios = document.querySelectorAll('input[name="' + name + '"]');
             for (let radio of radios) {
@@ -1306,7 +2619,13 @@
             }
             return '';
         }
-		        function openTimeSelector(field) {
+
+        // Continue in Part 4...
+    </script>
+	        // ========================================
+        // ⏰ TIME & DATE SELECTORS
+        // ========================================
+        function openTimeSelector(field) {
             currentTimeField = field;
             document.getElementById('modalTitle').textContent = 'Select Time';
             document.getElementById('appSearch').style.display = 'none';
@@ -1704,7 +3023,9 @@
             };
         }
 
-        // ✅ SUBMIT ACTIVITY LOG
+        // ========================================
+        // ✅ SUBMIT ACTIVITY LOG - FIXED
+        // ========================================
         function submitActivityLog() {
             const data = getAllFormData();
             
@@ -1713,8 +3034,9 @@
                 return;
             }
             
+            // ✅ FIX: Check TS steps and show popup if Resolved + empty
             if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
-                alert('Troubleshooting steps are required for Resolved status!');
+                showPopupNotification();
                 return;
             }
             
@@ -1737,7 +3059,9 @@
             submitToServer(data, true);
         }
 
-        // ✅ MAIN FORM SUBMIT
+        // ========================================
+        // ✅ MAIN FORM SUBMIT - FIXED
+        // ========================================
         document.getElementById('imcForm').addEventListener('submit', (e) => {
             e.preventDefault();
             
@@ -1752,8 +3076,9 @@
                 return;
             }
             
+            // ✅ FIX: Check TS steps and show popup if Resolved + empty
             if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
-                alert('Troubleshooting steps are required for Resolved status!');
+                showPopupNotification();
                 return;
             }
             
@@ -1843,7 +3168,9 @@
             }, 2000);
         }
 
-        // ✅ VALIDATION - RESOLVED STATUS REQUIRES TS STEPS
+        // ========================================
+        // ✅ VALIDATION - FIXED TO INCLUDE EMAIL BUTTONS
+        // ========================================
         function initializeTroubleshootingValidation() {
             const tsSteps = document.getElementById('tsSteps');
             const ticketStatus = document.getElementById('ticketStatus');
@@ -1904,6 +3231,9 @@
             }
         });
 
+        // ========================================
+        // 🚀 INITIALIZATION
+        // ========================================
         window.addEventListener('DOMContentLoaded', () => {
             const today = new Date();
             const todayStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
@@ -1922,7 +3252,8 @@
             syncToImpactAssessment();
             document.getElementById('ticketStatus').value = 'In Progress';
             
-            console.log('🎯 Initializing...');
+            console.log('🎯 Initializing Modern IMC...');
+            loadSavedTheme();
             initializeTroubleshootingValidation();
             setupAutoSave();
             
