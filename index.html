@@ -576,21 +576,25 @@
         let currentIncidentId = null;
 
         // ========================================
-        // ✅ EMAIL RECIPIENT HELPER FUNCTION
-        // ========================================
-        function getEmailRecipient(status, teamMember) {
-            // ✅ TEST status always goes to Hugo
-            if (status === 'TEST') {
-                console.log('📧 Email Recipient: Hugo (TEST status)');
-                return 'john_hugo.dado@telus.com';
-            }
-            
-            // ✅ All other statuses: send to team member's email
-            const teamEmail = EMAIL_MAP[teamMember];
-            if (teamEmail) {
-                console.log('📧 Email Recipient: ' + teamMember + ' (' + teamEmail + ')');
-                return teamEmail;
-            }
+// ✅ EMAIL RECIPIENT HELPER FUNCTION (UPDATED)
+// ========================================
+function getEmailRecipient(status, teamMember) {
+    // ✅ UPDATED: TEST status sends to the team member who created it
+    if (status === 'TEST') {
+        const teamEmail = EMAIL_MAP[teamMember];
+        if (teamEmail) {
+            console.log('📧 Email Recipient: ' + teamMember + ' (' + teamEmail + ') - TEST STATUS');
+            return teamEmail;
+        } else {
+            console.log('⚠️ Email Recipient: Hugo (team member not found for TEST)');
+            return 'john_hugo.dado@telus.com'; // Fallback for TEST
+        }
+    }
+    
+    // ✅ All other statuses: default to DL
+    console.log('📧 Email Recipient: dlApplicationSupport@telus.com (Status: ' + status + ')');
+    return 'dlApplicationSupport@telus.com';
+}
             
             // ✅ Fallback to DL if team member not found
             console.log('⚠️ Email Recipient: DL (team member not found)');
