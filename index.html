@@ -864,50 +864,52 @@
         // ========================================
 
         function openEmailEditor(isActivity) {
-            const data = getAllFormData();
-            
-            if (!data.updateNumber || !data.teamMember) {
-                alert('Please fill required fields: Update # and Team Member');
-                return;
+    const data = getAllFormData();
+    
+    if (!data.updateNumber || !data.teamMember) {
+        alert('Please fill required fields: Update # and Team Member');
+        return;
+    }
+    if (!data.tsSteps.trim()) {
+        alert('Troubleshooting steps are required!');
+        return;
+    }
+    
+    // ✅ UPDATED: Send to team member's email (or Hugo for TEST)
+    const emailTo = data.ticketStatus === 'TEST' 
+        ? 'john_hugo.dado@telus.com' 
+        : (EMAIL_MAP[data.teamMember] || 'dlApplicationSupport@telus.com');
+    
+    document.getElementById('emailTo').value = emailTo;
+    document.getElementById('emailCC').value = 'dlApplicationSupport@telus.com'; // DL in CC
+    document.getElementById('emailSubject').value = HARDCODED_SUBJECT;
+    document.getElementById('emailStatusBadge').textContent = data.ticketStatus.toUpperCase();
+    
+    const emailBody = generateEmailBody(data);
+    document.getElementById('emailBody').value = emailBody;
+    
+    document.getElementById('emailEditMode').style.display = 'block';
+    document.getElementById('emailPreviewMode').style.display = 'none';
+    document.getElementById('previewToggleBtn').textContent = '📧 Switch to Preview Mode';
+    document.getElementById('previewToggleBtn').classList.remove('active');
+    
+    const draftKey = 'imc_draft_' + data.ticketNumber.replace(/[^a-zA-Z0-9]/g, '_');
+    const existingDraft = localStorage.getItem(draftKey);
+    if (existingDraft) {
+        try {
+            const draft = JSON.parse(existingDraft);
+            if (confirm('Found saved draft from ' + new Date(draft.savedAt).toLocaleString() + '\n\nLoad draft?')) {
+                document.getElementById('emailCC').value = draft.emailCC || 'dlApplicationSupport@telus.com';
+                document.getElementById('emailBody').value = draft.emailBody || emailBody;
             }
-            if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
-                alert('Troubleshooting steps required for Resolved status!');
-                return;
-            }
-            
-            // ✅ UPDATED: Use Hugo's email for TEST status
-            const emailTo = data.ticketStatus === 'TEST' ? 'john_hugo.dado@telus.com' : 'dlApplicationSupport@telus.com';
-            document.getElementById('emailTo').value = emailTo;
-            document.getElementById('emailCC').value = '';
-            document.getElementById('emailSubject').value = HARDCODED_SUBJECT;
-            document.getElementById('emailStatusBadge').textContent = data.ticketStatus.toUpperCase();
-            
-            const emailBody = generateEmailBody(data);
-            document.getElementById('emailBody').value = emailBody;
-            
-            document.getElementById('emailEditMode').style.display = 'block';
-            document.getElementById('emailPreviewMode').style.display = 'none';
-            document.getElementById('previewToggleBtn').textContent = '📧 Switch to Preview Mode';
-            document.getElementById('previewToggleBtn').classList.remove('active');
-            
-            const draftKey = 'imc_draft_' + data.ticketNumber.replace(/[^a-zA-Z0-9]/g, '_');
-            const existingDraft = localStorage.getItem(draftKey);
-            if (existingDraft) {
-                try {
-                    const draft = JSON.parse(existingDraft);
-                    if (confirm('Found saved draft from ' + new Date(draft.savedAt).toLocaleString() + '\n\nLoad draft?')) {
-                        document.getElementById('emailCC').value = draft.emailCC || '';
-                        document.getElementById('emailBody').value = draft.emailBody || emailBody;
-                    }
-                } catch (e) {
-                    console.log('Error loading draft:', e);
-                }
-            }
-            
-            document.getElementById('emailModal').setAttribute('data-is-activity', isActivity);
-            document.getElementById('emailModal').style.display = 'block';
+        } catch (e) {
+            console.log('Error loading draft:', e);
         }
-
+    }
+    
+    document.getElementById('emailModal').setAttribute('data-is-activity', isActivity);
+    document.getElementById('emailModal').style.display = 'block';
+}
         function closeEmailModal() {
             document.getElementById('emailModal').style.display = 'none';
         }
@@ -1668,8 +1670,8 @@ function submitActivityLog() {
         alert('Fill required fields: Update # and Team Member');
         return;
     }
-    if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
-        alert('Troubleshooting steps required for Resolved status!');
+    if (!data.tsSteps.trim()) {
+        alert('Troubleshooting steps are required!');
         return;
     }
     if (data.sendEmail === 'false') {
@@ -1677,12 +1679,16 @@ function submitActivityLog() {
         return;
     }
     
-    const emailRecipient = data.ticketStatus === 'TEST' ? 'john_hugo.dado@telus.com' : 'dlApplicationSupport@telus.com';
+    // ✅ UPDATED: Send to team member's email (or Hugo for TEST)
+    const emailRecipient = data.ticketStatus === 'TEST' 
+        ? 'john_hugo.dado@telus.com' 
+        : (EMAIL_MAP[data.teamMember] || 'dlApplicationSupport@telus.com');
+    
     const emailBody = generateEmailBody(data);
     
     data.customEmailBody = emailBody;
     data.customRecipient = emailRecipient;
-    data.customCC = '';
+    data.customCC = 'dlApplicationSupport@telus.com'; // DL goes to CC
     data.customSubject = HARDCODED_SUBJECT;
     data.isCustomEmail = 'true';
     
@@ -1705,17 +1711,21 @@ document.getElementById('imcForm').addEventListener('submit', (e) => {
         alert('Please select a Priority');
         return;
     }
-    if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
-        alert('Troubleshooting steps required for Resolved status!');
+    if (!data.tsSteps.trim()) {
+        alert('Troubleshooting steps are required!');
         return;
     }
     
-    const emailRecipient = data.ticketStatus === 'TEST' ? 'john_hugo.dado@telus.com' : 'dlApplicationSupport@telus.com';
+    // ✅ UPDATED: Send to team member's email (or Hugo for TEST)
+    const emailRecipient = data.ticketStatus === 'TEST' 
+        ? 'john_hugo.dado@telus.com' 
+        : (EMAIL_MAP[data.teamMember] || 'dlApplicationSupport@telus.com');
+    
     const emailBody = generateEmailBody(data);
     
     data.customEmailBody = emailBody;
     data.customRecipient = emailRecipient;
-    data.customCC = '';
+    data.customCC = 'dlApplicationSupport@telus.com'; // DL goes to CC
     data.customSubject = HARDCODED_SUBJECT;
     data.isCustomEmail = 'true';
     
@@ -1796,26 +1806,27 @@ document.getElementById('imcForm').addEventListener('submit', (e) => {
         }
 
         function initializeTroubleshootingValidation() {
-            const tsSteps = document.getElementById('tsSteps');
-            const ticketStatus = document.getElementById('ticketStatus');
-            const btns = [document.getElementById('submitActivityBtn'), document.getElementById('mainSubmitBtn')];
-            
-            function validate() {
-                const errorMsg = document.getElementById('tsStepsError');
-                if (ticketStatus.value === 'Resolved' && !tsSteps.value.trim()) {
-                    tsSteps.classList.add('error-highlight');
-                    errorMsg.style.display = 'block';
-                    btns.forEach(btn => { if(btn) { btn.disabled = true; btn.classList.add('btn-disabled'); }});
-                } else {
-                    tsSteps.classList.remove('error-highlight');
-                    errorMsg.style.display = 'none';
-                    btns.forEach(btn => { if(btn) { btn.disabled = false; btn.classList.remove('btn-disabled'); }});
-                }
-            }
-            ticketStatus.addEventListener('change', validate);
-            tsSteps.addEventListener('input', validate);
-            validate();
+    const tsSteps = document.getElementById('tsSteps');
+    const btns = [document.getElementById('submitActivityBtn'), document.getElementById('mainSubmitBtn')];
+    
+    function validate() {
+        const errorMsg = document.getElementById('tsStepsError');
+        // ✅ UPDATED: Always require troubleshooting steps
+        if (!tsSteps.value.trim()) {
+            tsSteps.classList.add('error-highlight');
+            errorMsg.textContent = 'This field is required';
+            errorMsg.style.display = 'block';
+            btns.forEach(btn => { if(btn) { btn.disabled = true; btn.classList.add('btn-disabled'); }});
+        } else {
+            tsSteps.classList.remove('error-highlight');
+            errorMsg.style.display = 'none';
+            btns.forEach(btn => { if(btn) { btn.disabled = false; btn.classList.remove('btn-disabled'); }});
         }
+    }
+    
+    tsSteps.addEventListener('input', validate);
+    validate(); // Run on page load
+}
 
         document.getElementById('ticketStatus').addEventListener('change', function() {
             const fields = ['rootcause', 'resolverTeam', 'impactedComponent', 'tsSteps'];
