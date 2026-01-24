@@ -395,6 +395,7 @@
                             <input type="checkbox" name="sendEmail" id="sendEmail" checked> Send Email
                         </label>
                         <div class="button-group" style="display:inline-flex;margin-left:15px;">
+                            <button type="button" class="btn btn-outline-primary btn-small" onclick="openEmailEditor(true)" id="editEmailActivityBtn" style="margin-right:8px">✉️ Edit Email</button>
                             <button type="button" class="btn btn-outline-success btn-small" id="submitActivityBtn" onclick="submitActivityLog()">Submit</button>
                         </div>
                     </td>
@@ -519,6 +520,7 @@
                 </tr>
                 <tr>
                     <td colspan="6" style="text-align:center;padding:15px;">
+                        <button type="button" class="btn btn-outline-primary" onclick="openEmailEditor(false)" id="editEmailMainBtn" style="margin-right:10px">✉️ Edit Email</button>
                         <button type="submit" id="mainSubmitBtn" class="btn btn-outline-success">Submit</button>
                         <button type="reset" class="btn btn-outline-danger" onclick="resetForm()">Clear</button>
                     </td>
@@ -574,28 +576,32 @@
         let currentIncidentId = null;
 
         // ========================================
-        // ✅ EMAIL RECIPIENT HELPER FUNCTION (UPDATED)
+        // ✅ EMAIL RECIPIENT HELPER - SIMPLE AND CLEAR
         // ========================================
         function getEmailRecipient(status, teamMember) {
-            // ✅ TEST status: send to team member who created it
+            console.log('🔍 Getting email recipient...');
+            console.log('   Status: ' + status);
+            console.log('   Team Member: ' + teamMember);
+            
+            // ✅ IF STATUS IS TEST → SEND TO TEAM MEMBER
             if (status === 'TEST') {
                 const teamEmail = EMAIL_MAP[teamMember];
                 if (teamEmail) {
-                    console.log('📧 Email Recipient: ' + teamMember + ' (' + teamEmail + ') - TEST STATUS');
+                    console.log('✅ TEST STATUS → Sending to: ' + teamEmail);
                     return teamEmail;
                 } else {
-                    console.log('⚠️ Email Recipient: DL (team member not found for TEST)');
+                    console.log('⚠️ Team member not found, using DL');
                     return 'dlApplicationSupport@telus.com';
                 }
             }
             
-            // ✅ All other statuses: default to DL (but editable)
-            console.log('📧 Email Recipient: dlApplicationSupport@telus.com (Status: ' + status + ')');
+            // ✅ ALL OTHER STATUSES → SEND TO DL
+            console.log('✅ NON-TEST STATUS → Sending to: dlApplicationSupport@telus.com');
             return 'dlApplicationSupport@telus.com';
         }
 
         // ========================================
-        // INCIDENT MANAGEMENT FUNCTIONS
+        // INCIDENT MANAGEMENT
         // ========================================
 
         function showStartupModal() {
@@ -880,8 +886,64 @@
         }
 
         // ========================================
-        // ✅ EMAIL EDITOR FUNCTIONS (REMOVED - NO EDIT EMAIL BUTTON)
+        // ✅ EMAIL EDITOR - FIXED TO USE TEAM MEMBER FOR TEST
         // ========================================
+
+        function openEmailEditor(isActivity) {
+            const data = getAllFormData();
+            
+            console.log('📧 Opening Email Editor...');
+            console.log('   Update #: ' + data.updateNumber);
+            console.log('   Team Member: ' + data.teamMember);
+            console.log('   Status: ' + data.ticketStatus);
+            
+            if (!data.updateNumber || !data.teamMember) {
+                alert('Please fill required fields: Update # and Team Member');
+                return;
+            }
+            
+            // ✅ Check TS steps only for Resolved
+            if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
+                alert('Troubleshooting steps are required for Resolved status!');
+                return;
+            }
+            
+            // ✅ GET CORRECT EMAIL RECIPIENT
+            const emailTo = getEmailRecipient(data.ticketStatus, data.teamMember);
+            
+            console.log('✅ Email TO will be set to: ' + emailTo);
+            
+            document.getElementById('emailTo').value = emailTo;
+            document.getElementById('emailCC').value = '';
+            document.getElementById('emailSubject').value = HARDCODED_SUBJECT;
+            document.getElementById('emailStatusBadge').textContent = data.ticketStatus.toUpperCase();
+            
+            const emailBody = generateEmailBody(data);
+            document.getElementById('emailBody').value = emailBody;
+            
+            document.getElementById('emailEditMode').style.display = 'block';
+            document.getElementById('emailPreviewMode').style.display = 'none';
+            document.getElementById('previewToggleBtn').textContent = '📧 Switch to Preview Mode';
+            document.getElementById('previewToggleBtn').classList.remove('active');
+            
+            const draftKey = 'imc_draft_' + data.ticketNumber.replace(/[^a-zA-Z0-9]/g, '_');
+            const existingDraft = localStorage.getItem(draftKey);
+            if (existingDraft) {
+                try {
+                    const draft = JSON.parse(existingDraft);
+                    if (confirm('Found saved draft. Load it?')) {
+                        document.getElementById('emailTo').value = draft.emailTo || emailTo;
+                        document.getElementById('emailCC').value = draft.emailCC || '';
+                        document.getElementById('emailBody').value = draft.emailBody || emailBody;
+                    }
+                } catch (e) {
+                    console.log('Draft load error:', e);
+                }
+            }
+            
+            document.getElementById('emailModal').setAttribute('data-is-activity', isActivity);
+            document.getElementById('emailModal').style.display = 'block';
+        }
 
         function closeEmailModal() {
             document.getElementById('emailModal').style.display = 'none';
@@ -1221,6 +1283,8 @@
             const editedBody = document.getElementById('emailBody').value;
             const emailRecipient = document.getElementById('emailTo').value;
             
+            console.log('📧 Sending edited email to: ' + emailRecipient);
+            
             data.customEmailBody = editedBody;
             data.customRecipient = emailRecipient;
             data.customCC = editedCC;
@@ -1232,7 +1296,7 @@
         }
 
         // ========================================
-        // CORE FUNCTIONS
+        // HELPER FUNCTIONS
         // ========================================
 
         function getRadioValue(name) {
@@ -1370,10 +1434,8 @@
             document.getElementById('statusBtn').classList.add('selected');
             closeAppModal();
             
-            // ✅ TRIGGER VALIDATION when status changes
             console.log('🔄 Status changed to: ' + status);
             
-            // Manually trigger validation
             const tsSteps = document.getElementById('tsSteps');
             const event = new Event('input');
             tsSteps.dispatchEvent(event);
@@ -1642,7 +1704,7 @@
             };
         }
 
-        // ✅ FIXED: submitActivityLog - Send to correct recipient
+        // ✅ SUBMIT ACTIVITY LOG
         function submitActivityLog() {
             const data = getAllFormData();
             
@@ -1651,7 +1713,6 @@
                 return;
             }
             
-            // ✅ FIXED: Only check troubleshooting steps if status is "Resolved"
             if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
                 alert('Troubleshooting steps are required for Resolved status!');
                 return;
@@ -1662,25 +1723,21 @@
                 return;
             }
             
-            // ✅ FIXED: Use helper function to get correct recipient
             const emailRecipient = getEmailRecipient(data.ticketStatus, data.teamMember);
             const emailBody = generateEmailBody(data);
             
             data.customEmailBody = emailBody;
             data.customRecipient = emailRecipient;
-            data.customCC = '';  // ✅ CC is optional (empty by default)
+            data.customCC = '';
             data.customSubject = HARDCODED_SUBJECT;
             data.isCustomEmail = 'true';
             
-            console.log('📧 Activity Log Submit');
-            console.log('   Recipient:', emailRecipient);
-            console.log('   Status:', data.ticketStatus);
-            console.log('   Team Member:', data.teamMember);
+            console.log('📧 Submitting to: ' + emailRecipient);
             
             submitToServer(data, true);
         }
 
-        // ✅ FIXED: Main form submit handler
+        // ✅ MAIN FORM SUBMIT
         document.getElementById('imcForm').addEventListener('submit', (e) => {
             e.preventDefault();
             
@@ -1695,26 +1752,21 @@
                 return;
             }
             
-            // ✅ FIXED: Only check troubleshooting steps if status is "Resolved"
             if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
                 alert('Troubleshooting steps are required for Resolved status!');
                 return;
             }
             
-            // ✅ FIXED: Use helper function to get correct recipient
             const emailRecipient = getEmailRecipient(data.ticketStatus, data.teamMember);
             const emailBody = generateEmailBody(data);
             
             data.customEmailBody = emailBody;
             data.customRecipient = emailRecipient;
-            data.customCC = '';  // ✅ CC is optional (empty by default)
+            data.customCC = '';
             data.customSubject = HARDCODED_SUBJECT;
             data.isCustomEmail = 'true';
             
-            console.log('📧 Main Submit');
-            console.log('   Recipient:', emailRecipient);
-            console.log('   Status:', data.ticketStatus);
-            console.log('   Team Member:', data.teamMember);
+            console.log('📧 Submitting to: ' + emailRecipient);
             
             submitToServer(data, false);
         });
@@ -1724,12 +1776,11 @@
             btn.disabled = true;
             btn.textContent = 'Sending...';
             
-            console.log('=== SUBMIT TO SERVER ===');
-            console.log('Recipient:', data.customRecipient);
-            console.log('CC:', data.customCC || 'None (optional)');
-            console.log('Status:', data.ticketStatus);
-            console.log('Team Member:', data.teamMember);
-            console.log('Send Email:', data.sendEmail);
+            console.log('=== SUBMITTING TO SERVER ===');
+            console.log('TO: ' + data.customRecipient);
+            console.log('CC: ' + (data.customCC || 'None'));
+            console.log('Status: ' + data.ticketStatus);
+            console.log('Team: ' + data.teamMember);
             
             const iframeName = 'submit_iframe_' + Date.now();
             const iframe = document.createElement('iframe');
@@ -1760,7 +1811,7 @@
                 btn.disabled = false;
                 btn.textContent = 'Submit';
                 
-                const ccInfo = data.customCC ? '\nCC: ' + data.customCC : '\nCC: None';
+                const ccInfo = data.customCC ? '\nCC: ' + data.customCC : '';
                 alert('✓ Email Sent!\n\nTo: ' + data.customRecipient + ccInfo + '\nFrom: Application Support\nCreated By: ' + data.teamMember);
                 
                 if (isActivity) {
@@ -1792,26 +1843,25 @@
             }, 2000);
         }
 
-        // ✅ FIXED: Troubleshooting validation - Only required for Resolved status
+        // ✅ VALIDATION - RESOLVED STATUS REQUIRES TS STEPS
         function initializeTroubleshootingValidation() {
             const tsSteps = document.getElementById('tsSteps');
             const ticketStatus = document.getElementById('ticketStatus');
             const btns = [
                 document.getElementById('submitActivityBtn'), 
-                document.getElementById('mainSubmitBtn')
+                document.getElementById('mainSubmitBtn'),
+                document.getElementById('editEmailActivityBtn'),
+                document.getElementById('editEmailMainBtn')
             ];
             
             function validate() {
                 const errorMsg = document.getElementById('tsStepsError');
                 const currentStatus = ticketStatus.value;
                 
-                // ✅ FIXED: Only require troubleshooting steps when status is "Resolved"
                 if (currentStatus === 'Resolved' && !tsSteps.value.trim()) {
                     tsSteps.classList.add('error-highlight');
-                    errorMsg.textContent = 'This field is required when status is "Resolved"';
                     errorMsg.style.display = 'block';
                     
-                    // Disable all buttons
                     btns.forEach(btn => { 
                         if(btn) { 
                             btn.disabled = true; 
@@ -1819,14 +1869,11 @@
                         }
                     });
                     
-                    console.log('❌ VALIDATION FAILED - Buttons DISABLED');
-                    console.log('   Status: Resolved');
-                    console.log('   TS Steps: EMPTY');
+                    console.log('❌ DISABLED - Resolved without TS steps');
                 } else {
                     tsSteps.classList.remove('error-highlight');
                     errorMsg.style.display = 'none';
                     
-                    // Enable all buttons
                     btns.forEach(btn => { 
                         if(btn) { 
                             btn.disabled = false; 
@@ -1834,41 +1881,22 @@
                         }
                     });
                     
-                    console.log('✅ VALIDATION PASSED - Buttons ENABLED');
-                    console.log('   Status: ' + currentStatus);
-                    console.log('   TS Steps: ' + (tsSteps.value.trim() ? 'FILLED' : 'EMPTY (OK for non-Resolved)'));
+                    console.log('✅ ENABLED - Status: ' + currentStatus);
                 }
             }
             
-            // Listen to status changes
-            ticketStatus.addEventListener('change', function() {
-                console.log('🔄 Status changed to: ' + this.value);
-                validate();
-            });
-            
-            // Listen to troubleshooting steps input
-            tsSteps.addEventListener('input', function() {
-                console.log('✏️ TS Steps updated (' + this.value.length + ' chars)');
-                validate();
-            });
-            
-            // Run validation on page load
-            console.log('🚀 Initializing validation system...');
+            ticketStatus.addEventListener('change', validate);
+            tsSteps.addEventListener('input', validate);
             validate();
         }
 
         document.getElementById('ticketStatus').addEventListener('change', function() {
-            console.log('✅ Status field changed: ' + this.value);
-            
             const fields = ['rootcause', 'resolverTeam', 'impactedComponent', 'tsSteps'];
             fields.forEach(id => { 
                 const field = document.getElementById(id);
-                if (field) {
-                    field.required = this.value === 'Resolved';
-                }
+                if (field) field.required = this.value === 'Resolved';
             });
             
-            // Force validation recheck
             const tsSteps = document.getElementById('tsSteps');
             if (tsSteps) {
                 const event = new Event('input');
@@ -1894,8 +1922,7 @@
             syncToImpactAssessment();
             document.getElementById('ticketStatus').value = 'In Progress';
             
-            // ✅ Initialize validation AFTER everything is loaded
-            console.log('🎯 Page loaded - initializing validation system...');
+            console.log('🎯 Initializing...');
             initializeTroubleshootingValidation();
             setupAutoSave();
             
