@@ -7,161 +7,1150 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; color: #4B286D !important; }
-        body { font-family: 'Inter', sans-serif; font-weight: 400; font-size: 12px; background: linear-gradient(135deg, #F5F5F5 0%, #E8F5E9 100%); padding: 15px; min-height: 100vh; padding-bottom: 60px; }
-        .container { background: rgba(255, 255, 255, 0.95); padding: 25px; border-radius: 12px; border: 3px solid #66CC66; max-width: 1400px; margin: auto; box-shadow: 0 8px 30px rgba(75, 40, 109, 0.15); }
-        h1 { text-align: center; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 25px; font-size: 28px; letter-spacing: 1px; }
-        .table { margin-bottom: 20px; border: 2px solid #66CC66; border-radius: 8px; overflow: hidden; }
-        th { padding: 10px; font-family: 'Poppins', sans-serif; background: #66CC66 !important; font-size: 16px; font-weight: 700; border: 2px solid #4B286D !important; }
-        td { padding: 8px; vertical-align: middle; background: #FFFFFF; font-weight: 600; font-size: 12px; font-family: 'Inter', sans-serif; border: 1px solid #66CC66; transition: background 0.2s ease; }
-        tr:hover td { background: #F9FFF9; }
-        input:required, select:required, textarea:required { border-color: #E91E63 !important; border-width: 2px !important; }
-        .form-control { border: 2px solid #66CC66; border-radius: 6px; background: #FFFFFF; font-size: 12px; font-family: 'Inter', sans-serif; font-weight: 600; padding: 8px 10px; transition: all 0.3s ease; }
-        .form-control:focus { border-color: #509E2F; outline: none; box-shadow: 0 0 8px rgba(102, 204, 102, 0.4); }
-        .form-control:hover { border-color: #4B286D; }
-        textarea { resize: vertical; }
-        .btn-outline-success { background: #66CC66; border: 2px solid #66CC66; padding: 10px 24px; font-weight: 700; font-size: 14px; font-family: 'Poppins', sans-serif; border-radius: 6px; color: #4B286D !important; transition: all 0.2s ease; cursor: pointer; }
-        .btn-outline-success:hover { background: #509E2F; border-color: #509E2F; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(80, 158, 47, 0.3); }
-        .btn-outline-danger { background: #E91E63; border: 2px solid #E91E63; padding: 10px 24px; font-weight: 700; font-size: 14px; font-family: 'Poppins', sans-serif; border-radius: 6px; color: #FFFFFF !important; transition: all 0.2s ease; cursor: pointer; }
-        .btn-outline-danger:hover { background: #C2185B; border-color: #C2185B; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(194, 24, 91, 0.3); }
-        .btn-outline-primary { background: #4B286D; border: 2px solid #4B286D; padding: 10px 24px; font-weight: 700; font-size: 14px; font-family: 'Poppins', sans-serif; border-radius: 6px; color: #FFFFFF !important; transition: all 0.2s ease; cursor: pointer; }
-        .btn-outline-primary:hover { background: #331C4A; border-color: #331C4A; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(51, 28, 74, 0.3); }
-        .btn-small { padding: 8px 16px; font-size: 12px; }
-        .table-success { background: #66CC66 !important; border: 2px solid #4B286D !important; }
-        .save-indicator { position: fixed; top: 15px; right: 15px; background: #66CC66; padding: 8px 16px; border-radius: 6px; border: 2px solid #4B286D; font-weight: 600; opacity: 0; transition: opacity 0.3s ease; z-index: 10000; font-size: 11px; }
-        .save-indicator.show { opacity: 1; }
-        .draft-saved-indicator { position: fixed; top: 80px; right: 15px; background: #4B286D; color: #FFFFFF !important; padding: 8px 16px; border-radius: 6px; border: 2px solid #66CC66; font-weight: 600; opacity: 0; transition: opacity 0.3s ease; z-index: 10003; font-size: 11px; }
-        .draft-saved-indicator.show { opacity: 1; }
-        .draft-saved-indicator span { color: #FFFFFF !important; }
-        .signature { position: fixed; bottom: 15px; left: 15px; background: linear-gradient(135deg, #4B286D 0%, #66CC66 100%); color: #FFFFFF !important; padding: 8px 16px; border-radius: 6px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 11px; z-index: 9998; }
-        .signature span { color: #FFFFFF !important; }
-        input[type="checkbox"], input[type="radio"] { width: 16px; height: 16px; cursor: pointer; accent-color: #66CC66; }
-        .error-highlight { border-color: #FF0000 !important; border-width: 3px !important; background-color: #FFE6E6 !important; animation: shake 0.3s ease; }
-        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
-        .btn-disabled { opacity: 0.5 !important; cursor: not-allowed !important; pointer-events: none !important; }
-        .error-message { color: #FF0000 !important; font-size: 11px; font-weight: 700; margin-top: 5px; display: none; padding: 6px; background-color: #FFE6E6; border-left: 3px solid #FF0000; border-radius: 4px; }
-        .button-group { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
-        
-        .popup-notification { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); background: #FFFFFF; border: 4px solid #E91E63; border-radius: 12px; padding: 30px 40px; box-shadow: 0 10px 40px rgba(233, 30, 99, 0.4); z-index: 99999; max-width: 500px; text-align: center; opacity: 0; transition: all 0.3s ease; }
-        .popup-notification.show { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-        .popup-notification-icon { font-size: 48px; margin-bottom: 15px; }
-        .popup-notification-title { font-size: 20px; font-weight: 700; color: #E91E63 !important; margin-bottom: 10px; font-family: 'Poppins', sans-serif; }
-        .popup-notification-message { font-size: 14px; color: #4B286D !important; margin-bottom: 20px; line-height: 1.6; }
-        .popup-notification-btn { background: #E91E63; color: #FFFFFF !important; border: none; padding: 10px 30px; border-radius: 6px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; }
-        .popup-notification-btn:hover { background: #C2185B; transform: translateY(-2px); }
-        
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 9999; overflow-y: auto; padding: 15px; }
-        .modal-content { background: #FFFFFF; margin: 20px auto; padding: 0; border: 4px solid #66CC66; border-radius: 12px; max-width: 900px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); }
-        .modal-header { background: linear-gradient(135deg, #4B286D 0%, #66CC66 100%); color: #FFFFFF !important; padding: 18px 25px; border-radius: 8px 8px 0 0; display: flex; justify-content: space-between; align-items: center; }
-        .modal-header h2 { color: #FFFFFF !important; margin: 0; font-size: 20px; font-family: 'Poppins', sans-serif; }
-        .close-btn { background: rgba(255,255,255,0.2); border: 2px solid #FFFFFF; color: #FFFFFF !important; font-size: 24px; cursor: pointer; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
-        .close-btn:hover { background: rgba(255,255,255,0.3); transform: rotate(90deg); }
-        .modal-body { padding: 25px; max-height: 70vh; overflow-y: auto; }
-        .modal-footer { padding: 18px 25px; border-top: 3px solid #66CC66; text-align: right; background: #F9F9F9; }
-        
-        .app-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 10001; padding: 15px; overflow-y: auto; }
-        .app-modal-content { background: #FFFFFF; max-width: 550px; margin: 40px auto; border-radius: 12px; border: 4px solid #66CC66; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
-        .app-modal-header { background: linear-gradient(135deg, #4B286D, #66CC66); color: #FFFFFF !important; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .app-modal-header h3 { color: #FFFFFF !important; margin: 0; font-size: 18px; font-family: 'Poppins', sans-serif; }
-        .app-modal-body { padding: 15px; max-height: 450px; overflow-y: auto; }
-        .app-search { width: 100%; padding: 10px; border: 2px solid #66CC66; border-radius: 6px; margin-bottom: 12px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 12px; }
-        .app-list { list-style: none; padding: 0; margin: 0; }
-        .app-list-item { padding: 10px; border: 2px solid #66CC66; border-radius: 6px; margin-bottom: 6px; cursor: pointer; transition: all 0.3s ease; background: #FFFFFF; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 12px; }
-        .app-list-item:hover { background: #E8F5E9; border-color: #4B286D; transform: translateX(5px); }
-        
-        .selected-apps { display: flex; flex-wrap: wrap; gap: 6px; min-height: 45px; padding: 10px; border: 2px solid #66CC66; border-radius: 6px; background: #F9F9F9; margin-bottom: 8px; }
-        .app-tag { background: #4B286D; color: #FFFFFF !important; padding: 6px 12px; border-radius: 18px; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; }
-        .app-tag span { color: #FFFFFF !important; }
-        .app-tag-remove { background: #E91E63; color: #FFFFFF !important; border: none; border-radius: 50%; width: 18px; height: 18px; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 700; }
-        .app-tag-remove:hover { background: #C2185B; transform: scale(1.1); }
-        .add-app-btn { background: #66CC66; border: 2px solid #66CC66; color: #4B286D !important; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 12px; transition: all 0.3s ease; font-family: 'Poppins', sans-serif; }
-        .add-app-btn:hover { background: #509E2F; border-color: #509E2F; color: #FFFFFF !important; transform: translateY(-1px); }
-        .select-btn { background: #FFFFFF; border: 2px solid #66CC66; color: #4B286D !important; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 12px; transition: all 0.3s ease; font-family: 'Inter', sans-serif; min-width: 150px; text-align: left; display: inline-block; }
-        .select-btn:hover { background: #E8F5E9; border-color: #4B286D; }
-        .select-btn.selected { background: #66CC66; color: #4B286D !important; border-color: #66CC66; font-weight: 700; }
-        
-        .impact-app-row { background: #F9F9F9; padding: 12px; margin-bottom: 10px; border-radius: 6px; border-left: 4px solid #4B286D; display: flex; align-items: center; gap: 12px; transition: all 0.2s ease; }
-        .impact-app-row:hover { background: #E8F5E9; transform: translateX(3px); }
-        .impact-app-name { flex: 0 0 180px; font-weight: 700; color: #4B286D !important; font-size: 12px; }
-        .impact-input-group { display: flex; align-items: center; gap: 8px; flex: 1; }
-        .impact-input-group label { font-weight: 700; font-size: 11px; margin: 0; white-space: nowrap; }
-        
-        .time-selector { display: flex; gap: 15px; align-items: center; justify-content: center; }
-        .time-input-group { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-        .time-input-group label { font-weight: 700; font-size: 14px; }
-        .time-input-group select { padding: 10px; border: 2px solid #66CC66; border-radius: 6px; font-size: 14px; font-weight: 700; min-width: 80px; }
-        
-        .date-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
-        .date-header { text-align: center; font-weight: 700; padding: 8px; background: #66CC66; color: #4B286D !important; border-radius: 6px; font-size: 11px; }
-        .date-btn { padding: 10px; border: 2px solid #66CC66; border-radius: 6px; background: #FFFFFF; cursor: pointer; text-align: center; font-weight: 600; transition: all 0.3s ease; font-size: 12px; }
-        .date-btn:hover { background: #E8F5E9; border-color: #4B286D; transform: scale(1.05); }
-        .date-btn.selected { background: #4B286D; color: #FFFFFF !important; border-color: #4B286D; }
-        .date-btn.disabled { opacity: 0.3; cursor: not-allowed; }
-        .month-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .month-nav button { background: #66CC66; border: 2px solid #66CC66; color: #4B286D !important; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; }
-        .month-nav button:hover { background: #509E2F; color: #FFFFFF !important; transform: translateY(-1px); }
-        .month-nav span { font-weight: 700; font-size: 16px; }
-        
-        .startup-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 99999; }
-        .startup-content { background: #FFFFFF; max-width: 500px; margin: 10% auto; border-radius: 16px; border: 5px solid #66CC66; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,0.5); }
-        .startup-header { background: linear-gradient(135deg, #4B286D, #66CC66); color: #FFFFFF !important; padding: 25px; text-align: center; }
-        .startup-header h2 { color: #FFFFFF !important; margin: 0; font-size: 24px; font-family: 'Poppins', sans-serif; }
-        .startup-body { padding: 30px; text-align: center; }
-        .startup-body p { font-size: 16px; margin-bottom: 25px; color: #4B286D !important; font-weight: 600; }
-        .startup-btn { background: #66CC66; border: 3px solid #66CC66; color: #4B286D !important; padding: 15px 40px; font-size: 16px; font-weight: 700; border-radius: 8px; margin: 10px; cursor: pointer; transition: all 0.3s ease; font-family: 'Poppins', sans-serif; }
-        .startup-btn:hover { background: #509E2F; border-color: #509E2F; color: #FFFFFF !important; transform: scale(1.05); }
-        .startup-btn.secondary { background: #4B286D; border-color: #4B286D; color: #FFFFFF !important; }
-        .startup-btn.secondary:hover { background: #331C4A; border-color: #331C4A; }
-        
-        .incident-card { background: #F9F9F9; border: 2px solid #66CC66; border-radius: 8px; padding: 15px; margin-bottom: 12px; transition: all 0.3s ease; }
-        .incident-card:hover { background: #E8F5E9; border-color: #4B286D; transform: translateX(5px); box-shadow: 0 4px 15px rgba(75, 40, 109, 0.1); }
-        .incident-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .incident-ticket { font-size: 16px; font-weight: 700; color: #4B286D !important; }
-        .incident-status { padding: 4px 12px; border-radius: 12px; font-size: 10px; font-weight: 700; }
-        .status-progress { background: #FFF3CD; color: #856404 !important; }
-        .status-resolved { background: #D4EDDA; color: #155724 !important; }
-        .status-pending { background: #D1ECF1; color: #0C5460 !important; }
-        .incident-info { font-size: 11px; color: #666 !important; margin-top: 5px; }
-        .incident-actions { margin-top: 10px; display: flex; gap: 8px; }
-        .incident-btn { padding: 6px 14px; font-size: 11px; border-radius: 6px; border: 2px solid; cursor: pointer; font-weight: 700; transition: all 0.3s ease; }
-        .incident-btn.load { background: #66CC66; border-color: #66CC66; color: #4B286D !important; }
-        .incident-btn.load:hover { background: #509E2F; border-color: #509E2F; color: #FFFFFF !important; }
-        .incident-btn.delete { background: #E91E63; border-color: #E91E63; color: #FFFFFF !important; }
-        .incident-btn.delete:hover { background: #C2185B; border-color: #C2185B; }
-        
-        .current-incident-bar { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #4B286D, #66CC66); color: #FFFFFF !important; padding: 10px 20px; border-radius: 8px; z-index: 9999; box-shadow: 0 4px 12px rgba(0,0,0,0.3); font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 13px; display: none; }
-        .current-incident-bar span { color: #FFFFFF !important; }
-        .current-incident-bar button { background: rgba(255,255,255,0.2); border: 2px solid #FFFFFF; color: #FFFFFF !important; padding: 4px 12px; border-radius: 6px; margin-left: 15px; cursor: pointer; font-size: 11px; font-weight: 700; }
-        .current-incident-bar button:hover { background: rgba(255,255,255,0.4); }
-        
-        .email-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 10002; padding: 15px; overflow-y: auto; }
-        .email-modal-content { background: #FFFFFF; max-width: 900px; margin: 20px auto; border-radius: 12px; border: 4px solid #66CC66; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
-        .email-modal-header { background: linear-gradient(135deg, #4B286D, #66CC66); color: #FFFFFF !important; padding: 18px 25px; display: flex; justify-content: space-between; align-items: center; }
-        .email-modal-header h3 { color: #FFFFFF !important; margin: 0; font-size: 20px; font-family: 'Poppins', sans-serif; }
-        .email-modal-body { padding: 25px; }
-        .email-field { margin-bottom: 15px; }
-        .email-field label { display: block; font-weight: 700; margin-bottom: 5px; font-size: 13px; }
-        .email-field input, .email-field textarea { width: 100%; padding: 10px; border: 2px solid #66CC66; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 12px; }
-        .email-field textarea { min-height: 400px; font-family: 'Courier New', monospace; resize: vertical; }
-        .email-modal-footer { padding: 18px 25px; border-top: 3px solid #66CC66; text-align: right; background: #F9F9F9; display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
-        .email-preview-badge { display: inline-block; background: #4B286D; color: #FFFFFF !important; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 700; margin-left: 10px; }
-        
-        .email-preview-container { background: #f8f9fa; border: 3px solid #66CC66; border-radius: 8px; padding: 20px; margin-top: 20px; max-height: 500px; overflow-y: auto; }
-        .email-preview-header { background: linear-gradient(135deg, #4B286D, #66CC66); color: #FFFFFF !important; padding: 15px 20px; border-radius: 6px; margin-bottom: 20px; text-align: center; }
-        .email-preview-header h4 { color: #FFFFFF !important; margin: 0; font-size: 18px; font-family: 'Poppins', sans-serif; }
-        .email-preview-body { background: #FFFFFF; border: 2px solid #dee2e6; border-radius: 6px; padding: 25px; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.8; white-space: pre-wrap; word-wrap: break-word; }
-        
-        .cc-suggestions { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
-        .cc-suggestion-btn { background: #e8f5e9; border: 2px solid #66CC66; color: #4B286D !important; padding: 4px 12px; border-radius: 15px; font-size: 11px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; }
-        .cc-suggestion-btn:hover { background: #66CC66; color: #FFFFFF !important; transform: scale(1.05); }
-        
-        .preview-toggle-btn { background: #4B286D; border: 2px solid #4B286D; color: #FFFFFF !important; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 12px; transition: all 0.3s ease; margin-bottom: 15px; width: 100%; }
-        .preview-toggle-btn:hover { background: #331C4A; border-color: #331C4A; }
-        .preview-toggle-btn.active { background: #66CC66; border-color: #66CC66; color: #4B286D !important; }
-        
-        label { font-size: 12px; }
+        /* ========================================
+           🎨 TELUS BRAND COLORS
+           ======================================== */
+        :root {
+            --telus-purple: #4B286D;
+            --telus-green: #66CC66;
+            --telus-light-purple: #7F4F9D;
+            --telus-dark-purple: #2F1A47;
+            --telus-light-green: #7FD98F;
+            --telus-dark-green: #4FA84F;
+            --telus-white: #FFFFFF;
+            --telus-light-gray: #F7F7F7;
+            --telus-medium-gray: #E5E5E5;
+            --telus-text-dark: #2C2C2C;
+            --telus-accent-pink: #E91E63;
+            --telus-accent-blue: #00A3E0;
+        }
+
+        /* ========================================
+           🌐 BASE STYLES
+           ======================================== */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box;
+        }
+
+        body { 
+            font-family: 'Inter', 'Roboto', -apple-system, sans-serif;
+            font-weight: 400;
+            font-size: 13px; 
+            background: linear-gradient(135deg, #F7F7F7 0%, #E8F5E9 100%);
+            color: var(--telus-text-dark) !important;
+            padding: 20px; 
+            min-height: 100vh; 
+            padding-bottom: 80px;
+        }
+
+        /* ========================================
+           🎴 MODERN CONTAINER
+           ======================================== */
+        .container { 
+            background: var(--telus-white);
+            padding: 35px; 
+            border-radius: 16px;
+            border: 2px solid var(--telus-medium-gray);
+            max-width: 1400px; 
+            margin: auto;
+            box-shadow: 0 10px 40px rgba(75, 40, 109, 0.08);
+        }
+
+        /* ========================================
+           📝 TYPOGRAPHY
+           ======================================== */
+        h1 { 
+            text-align: center; 
+            font-family: 'Inter', sans-serif; 
+            font-weight: 700; 
+            margin-bottom: 35px; 
+            font-size: 32px; 
+            letter-spacing: -0.5px;
+            color: var(--telus-purple) !important;
+        }
+
+        label { 
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--telus-text-dark) !important;
+        }
+
+        /* ========================================
+           🎴 CLEAN TABLES
+           ======================================== */
+        .table { 
+            margin-bottom: 25px; 
+            border: 1px solid var(--telus-medium-gray);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            background: var(--telus-white);
+        }
+
+        th { 
+            padding: 16px; 
+            font-family: 'Inter', sans-serif; 
+            background: linear-gradient(135deg, var(--telus-purple), var(--telus-light-purple)) !important;
+            font-size: 15px; 
+            font-weight: 600; 
+            border: none !important;
+            color: var(--telus-white) !important;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td { 
+            padding: 14px; 
+            vertical-align: middle; 
+            background: var(--telus-white);
+            font-weight: 400;
+            font-size: 13px; 
+            font-family: 'Inter', sans-serif; 
+            border: 1px solid var(--telus-medium-gray);
+            color: var(--telus-text-dark) !important;
+            transition: background 0.2s ease;
+        }
+
+        tr:hover td {
+            background: var(--telus-light-gray);
+        }
+
+        .table-success { 
+            background: linear-gradient(135deg, var(--telus-purple), var(--telus-light-purple)) !important;
+            border: none !important;
+        }
+
+        /* ========================================
+           📥 MODERN FORM CONTROLS
+           ======================================== */
+        input:required, select:required, textarea:required { 
+            border-color: var(--telus-accent-pink) !important; 
+            border-width: 2px !important; 
+        }
+
+        .form-control { 
+            border: 1px solid var(--telus-medium-gray);
+            border-radius: 8px;
+            background: var(--telus-white);
+            color: var(--telus-text-dark) !important;
+            font-size: 13px; 
+            font-family: 'Inter', sans-serif; 
+            font-weight: 400;
+            padding: 10px 14px;
+            transition: all 0.2s ease;
+        }
+
+        .form-control:focus { 
+            border-color: var(--telus-purple);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(75, 40, 109, 0.1);
+        }
+
+        .form-control:hover {
+            border-color: var(--telus-light-purple);
+        }
+
+        textarea { 
+            resize: vertical; 
+        }
+
+        input[type="checkbox"], input[type="radio"] { 
+            width: 18px; 
+            height: 18px; 
+            cursor: pointer; 
+            accent-color: var(--telus-purple);
+        }
+
+        /* ========================================
+           🔘 TELUS BUTTONS
+           ======================================== */
+        .btn-outline-success { 
+            background: var(--telus-green);
+            border: 2px solid var(--telus-green);
+            padding: 12px 28px; 
+            font-weight: 600; 
+            font-size: 14px; 
+            font-family: 'Inter', sans-serif; 
+            border-radius: 8px;
+            color: var(--telus-white) !important;
+            box-shadow: 0 2px 8px rgba(102, 204, 102, 0.2);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .btn-outline-success:hover { 
+            background: var(--telus-dark-green);
+            border-color: var(--telus-dark-green);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 204, 102, 0.3);
+        }
+
+        .btn-outline-danger { 
+            background: var(--telus-accent-pink);
+            border: 2px solid var(--telus-accent-pink);
+            padding: 12px 28px; 
+            font-weight: 600; 
+            font-size: 14px; 
+            font-family: 'Inter', sans-serif; 
+            border-radius: 8px;
+            color: var(--telus-white) !important;
+            box-shadow: 0 2px 8px rgba(233, 30, 99, 0.2);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .btn-outline-danger:hover { 
+            background: #C2185B;
+            border-color: #C2185B;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3);
+        }
+
+        .btn-outline-primary { 
+            background: var(--telus-purple);
+            border: 2px solid var(--telus-purple);
+            padding: 12px 28px; 
+            font-weight: 600; 
+            font-size: 14px; 
+            font-family: 'Inter', sans-serif; 
+            border-radius: 8px;
+            color: var(--telus-white) !important;
+            box-shadow: 0 2px 8px rgba(75, 40, 109, 0.2);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .btn-outline-primary:hover { 
+            background: var(--telus-dark-purple);
+            border-color: var(--telus-dark-purple);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(75, 40, 109, 0.3);
+        }
+
+        .btn-small { 
+            padding: 9px 20px; 
+            font-size: 13px; 
+        }
+
+        .btn-disabled { 
+            opacity: 0.4 !important; 
+            cursor: not-allowed !important; 
+            pointer-events: none !important;
+            filter: grayscale(50%);
+        }
+
+        .button-group { 
+            display: flex; 
+            align-items: center; 
+            justify-content: flex-end; 
+            gap: 10px; 
+        }
+
+        /* ========================================
+           💾 CLEAN INDICATORS
+           ======================================== */
+        .save-indicator { 
+            position: fixed; 
+            top: 20px; 
+            right: 20px;
+            background: var(--telus-green);
+            color: var(--telus-white) !important;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            opacity: 0; 
+            transition: all 0.3s ease;
+            z-index: 10000; 
+            font-size: 12px;
+            box-shadow: 0 4px 12px rgba(102, 204, 102, 0.3);
+        }
+
+        .save-indicator.show { 
+            opacity: 1; 
+        }
+
+        .draft-saved-indicator { 
+            position: fixed; 
+            top: 75px; 
+            right: 20px;
+            background: var(--telus-purple);
+            color: var(--telus-white) !important; 
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            opacity: 0; 
+            transition: all 0.3s ease;
+            z-index: 10003; 
+            font-size: 12px;
+            box-shadow: 0 4px 12px rgba(75, 40, 109, 0.3);
+        }
+
+        .draft-saved-indicator.show { 
+            opacity: 1; 
+        }
+
+        .draft-saved-indicator span { 
+            color: var(--telus-white) !important; 
+        }
+
+        /* ========================================
+           📌 TELUS SIGNATURE
+           ======================================== */
+        .signature { 
+            position: fixed; 
+            bottom: 20px; 
+            left: 20px;
+            background: linear-gradient(135deg, var(--telus-purple), var(--telus-green));
+            color: var(--telus-white) !important; 
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif; 
+            font-weight: 600;
+            font-size: 12px; 
+            z-index: 9998;
+            box-shadow: 0 4px 12px rgba(75, 40, 109, 0.2);
+        }
+
+        .signature span { 
+            color: var(--telus-white) !important; 
+        }
+
+        /* ========================================
+           ⚠️ ERROR STATES
+           ======================================== */
+        .error-highlight { 
+            border-color: var(--telus-accent-pink) !important; 
+            border-width: 2px !important; 
+            background-color: #FFF0F5 !important;
+            animation: shake 0.3s ease;
+        }
+
+        @keyframes shake { 
+            0%, 100% { transform: translateX(0); } 
+            25% { transform: translateX(-5px); } 
+            75% { transform: translateX(5px); } 
+        }
+
+        .error-message { 
+            color: var(--telus-accent-pink) !important; 
+            font-size: 12px; 
+            font-weight: 600; 
+            margin-top: 8px;
+            display: none; 
+            padding: 8px 12px;
+            background: #FFF0F5;
+            border-left: 3px solid var(--telus-accent-pink);
+            border-radius: 4px;
+        }
+
+        /* ========================================
+           🔔 TELUS POPUP NOTIFICATION
+           ======================================== */
+        .popup-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: var(--telus-white);
+            border: 3px solid var(--telus-accent-pink);
+            border-radius: 16px;
+            padding: 35px 45px;
+            box-shadow: 0 12px 48px rgba(233, 30, 99, 0.25);
+            z-index: 99999;
+            max-width: 520px;
+            text-align: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .popup-notification.show {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .popup-notification-icon {
+            font-size: 56px;
+            margin-bottom: 18px;
+        }
+
+        .popup-notification-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--telus-accent-pink) !important;
+            margin-bottom: 12px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .popup-notification-message {
+            font-size: 15px;
+            color: var(--telus-text-dark) !important;
+            margin-bottom: 24px;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .popup-notification-btn {
+            background: var(--telus-accent-pink);
+            color: var(--telus-white) !important;
+            border: none;
+            padding: 12px 35px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+        }
+
+        .popup-notification-btn:hover {
+            background: #C2185B;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3);
+        }
+
+        /* ========================================
+           🎴 TELUS MODALS
+           ======================================== */
+        .modal-overlay, .app-modal, .email-modal, .startup-modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 9999; 
+            overflow-y: auto; 
+            padding: 20px;
+        }
+
+        .modal-content, .app-modal-content, .email-modal-content, .startup-content { 
+            background: var(--telus-white);
+            margin: 50px auto;
+            padding: 0;
+            border: 2px solid var(--telus-medium-gray);
+            border-radius: 16px;
+            max-width: 920px; 
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+        }
+
+        .app-modal-content {
+            max-width: 600px;
+        }
+
+        .startup-content {
+            max-width: 540px;
+            margin: 12% auto;
+        }
+
+        .modal-header, .app-modal-header, .email-modal-header, .startup-header { 
+            background: linear-gradient(135deg, var(--telus-purple), var(--telus-light-purple));
+            color: var(--telus-white) !important; 
+            padding: 22px 30px;
+            border-radius: 14px 14px 0 0;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+        }
+
+        .startup-header {
+            display: block;
+            text-align: center;
+        }
+
+        .modal-header h2, .modal-header h3, 
+        .app-modal-header h3, .email-modal-header h3, 
+        .startup-header h2 { 
+            color: var(--telus-white) !important; 
+            margin: 0; 
+            font-size: 20px; 
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+        }
+
+        .startup-header h2 {
+            font-size: 24px;
+        }
+
+        .close-btn { 
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            color: var(--telus-white) !important; 
+            font-size: 24px; 
+            cursor: pointer; 
+            width: 38px; 
+            height: 38px;
+            border-radius: 50%;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-weight: 400;
+        }
+
+        .close-btn:hover { 
+            background: rgba(255, 255, 255, 0.25);
+            transform: rotate(90deg);
+        }
+
+        .modal-body, .app-modal-body, .email-modal-body, .startup-body { 
+            padding: 30px;
+            max-height: 70vh; 
+            overflow-y: auto;
+            background: var(--telus-white);
+        }
+
+        .app-modal-body {
+            padding: 20px;
+            max-height: 480px;
+        }
+
+        .startup-body {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .startup-body p {
+            font-size: 16px;
+            margin-bottom: 28px;
+            color: var(--telus-text-dark) !important;
+            font-weight: 400;
+        }
+
+        .modal-footer, .email-modal-footer { 
+            padding: 20px 30px;
+            border-top: 1px solid var(--telus-medium-gray);
+            text-align: right; 
+            background: var(--telus-light-gray);
+            border-radius: 0 0 14px 14px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+
+        /* ========================================
+           🔍 SEARCH & LISTS
+           ======================================== */
+        .app-search { 
+            width: 100%; 
+            padding: 12px 16px; 
+            border: 1px solid var(--telus-medium-gray);
+            border-radius: 8px;
+            margin-bottom: 15px; 
+            font-family: 'Inter', sans-serif; 
+            font-weight: 400;
+            font-size: 13px;
+            background: var(--telus-white);
+            color: var(--telus-text-dark) !important;
+            transition: all 0.2s ease;
+        }
+
+        .app-search:focus {
+            border-color: var(--telus-purple);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(75, 40, 109, 0.1);
+        }
+
+        .app-list { 
+            list-style: none; 
+            padding: 0; 
+            margin: 0; 
+        }
+
+        .app-list-item { 
+            padding: 14px 18px; 
+            border: 1px solid var(--telus-medium-gray);
+            border-radius: 8px;
+            margin-bottom: 8px; 
+            cursor: pointer; 
+            transition: all 0.2s ease;
+            background: var(--telus-white);
+            font-family: 'Inter', sans-serif; 
+            font-weight: 500;
+            font-size: 13px;
+            color: var(--telus-text-dark) !important;
+        }
+
+        .app-list-item:hover { 
+            background: var(--telus-light-gray);
+            border-color: var(--telus-purple);
+            transform: translateX(5px);
+        }
+
+        /* ========================================
+           🏷️ TELUS APP TAGS
+           ======================================== */
+        .selected-apps { 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 8px; 
+            min-height: 50px; 
+            padding: 12px;
+            border: 1px solid var(--telus-medium-gray);
+            border-radius: 8px;
+            background: var(--telus-light-gray);
+            margin-bottom: 10px;
+        }
+
+        .app-tag { 
+            background: var(--telus-purple);
+            color: var(--telus-white) !important; 
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 12px; 
+            font-weight: 600;
+            display: inline-flex; 
+            align-items: center; 
+            gap: 8px; 
+            font-family: 'Inter', sans-serif;
+        }
+
+        .app-tag span { 
+            color: var(--telus-white) !important; 
+        }
+
+        .app-tag-remove { 
+            background: var(--telus-accent-pink);
+            color: var(--telus-white) !important; 
+            border: none; 
+            border-radius: 50%;
+            width: 19px; 
+            height: 19px; 
+            font-size: 13px; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+
+        .app-tag-remove:hover { 
+            background: #C2185B;
+            transform: scale(1.15);
+        }
+
+        .add-app-btn { 
+            background: var(--telus-green);
+            border: 2px solid var(--telus-green);
+            color: var(--telus-white) !important; 
+            padding: 9px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer; 
+            font-size: 13px; 
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .add-app-btn:hover { 
+            background: var(--telus-dark-green);
+            border-color: var(--telus-dark-green);
+            transform: translateY(-1px);
+        }
+
+        .select-btn { 
+            background: var(--telus-white);
+            border: 1px solid var(--telus-medium-gray);
+            color: var(--telus-text-dark) !important; 
+            padding: 9px 18px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer; 
+            font-size: 13px; 
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif; 
+            min-width: 160px; 
+            text-align: left; 
+            display: inline-block;
+        }
+
+        .select-btn:hover { 
+            background: var(--telus-light-gray);
+            border-color: var(--telus-purple);
+        }
+
+        .select-btn.selected { 
+            background: var(--telus-purple);
+            color: var(--telus-white) !important; 
+            border-color: var(--telus-purple);
+            font-weight: 600;
+        }
+
+        /* ========================================
+           📊 IMPACT ASSESSMENT
+           ======================================== */
+        .impact-app-row { 
+            background: var(--telus-light-gray);
+            padding: 16px;
+            margin-bottom: 12px; 
+            border-radius: 8px;
+            border-left: 4px solid var(--telus-purple);
+            display: flex; 
+            align-items: center; 
+            gap: 15px;
+            transition: all 0.2s ease;
+        }
+
+        .impact-app-row:hover {
+            background: #EFEFEF;
+            transform: translateX(3px);
+        }
+
+        .impact-app-name { 
+            flex: 0 0 190px; 
+            font-weight: 600;
+            color: var(--telus-purple) !important; 
+            font-size: 13px;
+        }
+
+        .impact-input-group { 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            flex: 1; 
+        }
+
+        .impact-input-group label { 
+            font-weight: 600;
+            font-size: 12px; 
+            margin: 0; 
+            white-space: nowrap;
+        }
+
+        /* ========================================
+           ⏰ TIME & DATE SELECTORS
+           ======================================== */
+        .time-selector { 
+            display: flex; 
+            gap: 18px; 
+            align-items: center; 
+            justify-content: center; 
+        }
+
+        .time-input-group { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 10px; 
+        }
+
+        .time-input-group label { 
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--telus-purple) !important;
+        }
+
+        .time-input-group select { 
+            padding: 11px 14px; 
+            border: 1px solid var(--telus-medium-gray);
+            border-radius: 8px;
+            font-size: 14px; 
+            font-weight: 500;
+            min-width: 85px;
+            background: var(--telus-white);
+            color: var(--telus-text-dark) !important;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .time-input-group select:focus {
+            border-color: var(--telus-purple);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(75, 40, 109, 0.1);
+        }
+
+        .date-grid { 
+            display: grid; 
+            grid-template-columns: repeat(7, 1fr); 
+            gap: 8px; 
+        }
+
+        .date-header { 
+            text-align: center; 
+            font-weight: 600;
+            padding: 10px; 
+            background: var(--telus-purple);
+            color: var(--telus-white) !important; 
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        .date-btn { 
+            padding: 12px; 
+            border: 1px solid var(--telus-medium-gray);
+            border-radius: 6px;
+            background: var(--telus-white);
+            cursor: pointer; 
+            text-align: center; 
+            font-weight: 500;
+            transition: all 0.2s ease;
+            font-size: 13px;
+            color: var(--telus-text-dark) !important;
+        }
+
+        .date-btn:hover { 
+            background: var(--telus-light-gray);
+            border-color: var(--telus-purple);
+            transform: scale(1.05);
+        }
+
+        .date-btn.selected { 
+            background: var(--telus-purple);
+            color: var(--telus-white) !important; 
+            border-color: var(--telus-purple);
+        }
+
+        .date-btn.disabled { 
+            opacity: 0.25;
+            cursor: not-allowed; 
+        }
+
+        .month-nav { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 18px; 
+        }
+
+        .month-nav button { 
+            background: var(--telus-green);
+            border: none;
+            color: var(--telus-white) !important; 
+            padding: 9px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .month-nav button:hover { 
+            background: var(--telus-dark-green);
+            transform: translateY(-1px);
+        }
+
+        .month-nav span { 
+            font-weight: 700;
+            font-size: 17px;
+            color: var(--telus-purple) !important;
+        }
+
+        /* ========================================
+           🎫 INCIDENT CARDS
+           ======================================== */
+        .incident-card { 
+            background: var(--telus-white);
+            border: 1px solid var(--telus-medium-gray);
+            border-radius: 10px;
+            padding: 18px; 
+            margin-bottom: 14px; 
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .incident-card:hover { 
+            background: var(--telus-light-gray);
+            border-color: var(--telus-purple);
+            transform: translateX(5px);
+            box-shadow: 0 4px 16px rgba(75, 40, 109, 0.1);
+        }
+
+        .incident-card-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 10px; 
+        }
+
+        .incident-ticket { 
+            font-size: 17px; 
+            font-weight: 700;
+            color: var(--telus-purple) !important;
+        }
+
+        .incident-status { 
+            padding: 5px 14px; 
+            border-radius: 14px;
+            font-size: 11px; 
+            font-weight: 600;
+        }
+
+        .status-progress { 
+            background: #FFF3CD;
+            color: #856404 !important;
+        }
+
+        .status-resolved { 
+            background: #D4EDDA;
+            color: #155724 !important;
+        }
+
+        .status-pending { 
+            background: #D1ECF1;
+            color: #0C5460 !important;
+        }
+
+        .incident-info { 
+            font-size: 12px; 
+            color: #666 !important; 
+            margin-top: 8px;
+        }
+
+        .incident-actions { 
+            margin-top: 12px; 
+            display: flex; 
+            gap: 10px; 
+        }
+
+        .incident-btn { 
+            padding: 7px 16px; 
+            font-size: 12px; 
+            border-radius: 6px;
+            border: 2px solid; 
+            cursor: pointer; 
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .incident-btn.load { 
+            background: var(--telus-green);
+            border-color: var(--telus-green);
+            color: var(--telus-white) !important;
+        }
+
+        .incident-btn.load:hover { 
+            background: var(--telus-dark-green);
+            transform: translateY(-2px);
+        }
+
+        .incident-btn.delete { 
+            background: var(--telus-accent-pink);
+            border-color: var(--telus-accent-pink);
+            color: var(--telus-white) !important;
+        }
+
+        .incident-btn.delete:hover { 
+            background: #C2185B;
+            transform: translateY(-2px);
+        }
+
+        /* ========================================
+           📍 CURRENT INCIDENT BAR
+           ======================================== */
+        .current-incident-bar { 
+            position: fixed; 
+            top: 20px; 
+            left: 50%; 
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--telus-purple), var(--telus-green));
+            color: var(--telus-white) !important; 
+            padding: 12px 24px;
+            border-radius: 10px;
+            z-index: 9999; 
+            box-shadow: 0 4px 16px rgba(75, 40, 109, 0.2);
+            font-family: 'Inter', sans-serif; 
+            font-weight: 600;
+            font-size: 13px; 
+            display: none;
+        }
+
+        .current-incident-bar span { 
+            color: var(--telus-white) !important; 
+        }
+
+        .current-incident-bar button { 
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: var(--telus-white) !important; 
+            padding: 5px 14px;
+            border-radius: 6px;
+            margin-left: 12px; 
+            cursor: pointer; 
+            font-size: 12px; 
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .current-incident-bar button:hover { 
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* ========================================
+           ✉️ EMAIL MODAL
+           ======================================== */
+        .email-modal {
+            z-index: 10002;
+        }
+
+        .email-field { 
+            margin-bottom: 18px; 
+        }
+
+        .email-field label { 
+            display: block; 
+            font-weight: 600;
+            margin-bottom: 6px; 
+            font-size: 13px;
+            color: var(--telus-purple) !important;
+        }
+
+        .email-field input, .email-field textarea { 
+            width: 100%; 
+            padding: 11px 14px; 
+            border: 1px solid var(--telus-medium-gray);
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif; 
+            font-size: 13px;
+            background: var(--telus-white);
+            color: var(--telus-text-dark) !important;
+            transition: all 0.2s ease;
+        }
+
+        .email-field input:focus, .email-field textarea:focus {
+            border-color: var(--telus-purple);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(75, 40, 109, 0.1);
+        }
+
+        .email-field textarea { 
+            min-height: 420px; 
+            font-family: 'Courier New', monospace; 
+            resize: vertical; 
+        }
+
+        .email-preview-badge { 
+            display: inline-block; 
+            background: var(--telus-purple);
+            color: var(--telus-white) !important; 
+            padding: 5px 13px;
+            border-radius: 12px;
+            font-size: 11px; 
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .email-preview-container { 
+            background: var(--telus-light-gray);
+            border: 2px solid var(--telus-green);
+            border-radius: 10px;
+            padding: 22px; 
+            margin-top: 22px; 
+            max-height: 520px; 
+            overflow-y: auto;
+        }
+
+        .email-preview-header { 
+            background: linear-gradient(135deg, var(--telus-purple), var(--telus-green));
+            color: var(--telus-white) !important; 
+            padding: 16px 22px;
+            border-radius: 8px;
+            margin-bottom: 22px; 
+            text-align: center;
+        }
+
+        .email-preview-header h4 { 
+            color: var(--telus-white) !important; 
+            margin: 0; 
+            font-size: 18px; 
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+        }
+
+        .email-preview-body { 
+            background: var(--telus-white);
+            border: 1px solid var(--telus-medium-gray);
+            border-radius: 8px;
+            padding: 28px; 
+            font-family: 'Courier New', monospace; 
+            font-size: 13px; 
+            line-height: 1.8; 
+            white-space: pre-wrap; 
+            word-wrap: break-word;
+            color: var(--telus-text-dark) !important;
+        }
+
+        .cc-suggestions { 
+            display: flex; 
+            gap: 8px; 
+            margin-top: 10px; 
+            flex-wrap: wrap; 
+        }
+
+        .cc-suggestion-btn { 
+            background: var(--telus-light-gray);
+            border: 1px solid var(--telus-green);
+            color: var(--telus-purple) !important; 
+            padding: 5px 13px;
+            border-radius: 16px;
+            font-size: 11px; 
+            cursor: pointer; 
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .cc-suggestion-btn:hover { 
+            background: var(--telus-green);
+            color: var(--telus-white) !important; 
+            transform: scale(1.05);
+        }
+
+        .preview-toggle-btn { 
+            background: var(--telus-purple);
+            border: 2px solid var(--telus-purple);
+            color: var(--telus-white) !important; 
+            padding: 11px 22px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer; 
+            font-size: 13px; 
+            transition: all 0.2s ease;
+            margin-bottom: 18px; 
+            width: 100%;
+        }
+
+        .preview-toggle-btn:hover { 
+            background: var(--telus-dark-purple);
+            transform: translateY(-1px);
+        }
+
+        .preview-toggle-btn.active { 
+            background: var(--telus-green);
+            border-color: var(--telus-green);
+        }
+
+        .startup-btn { 
+            background: var(--telus-green);
+            border: 2px solid var(--telus-green);
+            color: var(--telus-white) !important; 
+            padding: 16px 42px;
+            font-size: 16px; 
+            font-weight: 600;
+            border-radius: 10px;
+            margin: 12px; 
+            cursor: pointer; 
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .startup-btn:hover { 
+            background: var(--telus-dark-green);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 204, 102, 0.25);
+        }
+
+        .startup-btn.secondary { 
+            background: var(--telus-purple);
+            border-color: var(--telus-purple);
+        }
+
+        .startup-btn.secondary:hover {
+            background: var(--telus-dark-purple);
+            box-shadow: 0 6px 20px rgba(75, 40, 109, 0.25);
+        }
     </style>
 </head>
 <body>
@@ -1071,7 +2060,7 @@
             
             setTimeout(() => {
                 btn.textContent = originalText;
-                btn.style.background = '#e8f5e9';
+                btn.style.background = '#F7F7F7';
                 btn.style.color = '#4B286D';
             }, 1500);
         }
@@ -1931,7 +2920,7 @@
             syncToImpactAssessment();
             document.getElementById('ticketStatus').value = 'In Progress';
             
-            console.log('🎯 Initializing IMC...');
+            console.log('🎯 Initializing TELUS IMC...');
             initializeTroubleshootingValidation();
             setupAutoSave();
             
