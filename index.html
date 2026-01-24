@@ -3,1719 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Incident Management Checklist - Hi-Tech Edition</title>
+    <title>Incident Management Checklist (IMC)</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ========================================
-           🎨 HI-TECH FUTURISTIC VARIABLES
-           ======================================== */
-        :root {
-            --neon-purple: #9D4EDD;
-            --neon-cyan: #00F5FF;
-            --neon-pink: #FF006E;
-            --neon-green: #39FF14;
-            --deep-space: #0A0E27;
-            --space-blue: #1A1F3A;
-            --cosmic-purple: #240046;
-            --tech-gray: #2D3142;
-            --glass-white: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(157, 78, 221, 0.3);
-            --glow-purple: rgba(157, 78, 221, 0.5);
-            --glow-cyan: rgba(0, 245, 255, 0.5);
-            --text-light: #E0E0E0;
-            --text-bright: #FFFFFF;
-        }
-
-        /* Dark Mode Variables */
-        [data-theme="dark"] {
-            --deep-space: #000000;
-            --space-blue: #0D1117;
-            --cosmic-purple: #1A0033;
-        }
-
-        [data-theme="light"] {
-            --deep-space: #F0F0F5;
-            --space-blue: #FFFFFF;
-            --cosmic-purple: #F5F0FF;
-            --glass-white: rgba(0, 0, 0, 0.03);
-            --glass-border: rgba(157, 78, 221, 0.2);
-            --text-light: #2D3142;
-            --text-bright: #0A0E27;
-        }
-
-        /* ========================================
-           🌌 ANIMATED BACKGROUND
-           ======================================== */
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box;
-        }
-
-        body { 
-            font-family: 'Rajdhani', 'Inter', sans-serif;
-            font-weight: 500;
-            font-size: 13px; 
-            background: var(--deep-space);
-            color: var(--text-light) !important;
-            padding: 20px; 
-            min-height: 100vh; 
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        /* Animated Grid Background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(var(--glass-border) 1px, transparent 1px),
-                linear-gradient(90deg, var(--glass-border) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: gridMove 20s linear infinite;
-            opacity: 0.3;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        @keyframes gridMove {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
-        }
-
-        /* Floating Particles */
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(2px 2px at 20% 30%, var(--neon-cyan), transparent),
-                radial-gradient(2px 2px at 60% 70%, var(--neon-purple), transparent),
-                radial-gradient(1px 1px at 50% 50%, var(--neon-pink), transparent),
-                radial-gradient(1px 1px at 80% 10%, var(--neon-green), transparent),
-                radial-gradient(2px 2px at 90% 60%, var(--neon-cyan), transparent);
-            background-size: 200% 200%;
-            animation: particleFloat 15s ease-in-out infinite;
-            opacity: 0.4;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        @keyframes particleFloat {
-            0%, 100% { background-position: 0% 0%; }
-            50% { background-position: 100% 100%; }
-        }
-
-        /* ========================================
-           🎴 FUTURISTIC GLASSMORPHISM CONTAINER
-           ======================================== */
-        .container { 
-            background: var(--glass-white);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            padding: 40px; 
-            border-radius: 20px;
-            border: 2px solid var(--glass-border);
-            max-width: 1400px; 
-            margin: auto;
-            box-shadow: 
-                0 8px 32px 0 rgba(157, 78, 221, 0.2),
-                inset 0 0 20px rgba(157, 78, 221, 0.05);
-            position: relative;
-            z-index: 1;
-            animation: containerGlow 3s ease-in-out infinite alternate;
-        }
-
-        @keyframes containerGlow {
-            0% { box-shadow: 0 8px 32px 0 rgba(157, 78, 221, 0.2), inset 0 0 20px rgba(157, 78, 221, 0.05); }
-            100% { box-shadow: 0 8px 32px 0 rgba(0, 245, 255, 0.3), inset 0 0 20px rgba(0, 245, 255, 0.08); }
-        }
-
-        /* Corner Accents */
-        .container::before,
-        .container::after {
-            content: '';
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            border: 3px solid var(--neon-purple);
-            z-index: 2;
-        }
-
-        .container::before {
-            top: -2px;
-            left: -2px;
-            border-right: none;
-            border-bottom: none;
-            box-shadow: -5px -5px 15px var(--glow-purple);
-        }
-
-        .container::after {
-            bottom: -2px;
-            right: -2px;
-            border-left: none;
-            border-top: none;
-            box-shadow: 5px 5px 15px var(--glow-purple);
-        }
-
-        /* ========================================
-           📝 FUTURISTIC TYPOGRAPHY
-           ======================================== */
-        h1 { 
-            text-align: center; 
-            font-family: 'Orbitron', sans-serif; 
-            font-weight: 900; 
-            margin-bottom: 40px; 
-            font-size: 36px; 
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan), var(--neon-pink));
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientShift 5s ease infinite;
-            filter: drop-shadow(0 0 20px var(--glow-purple));
-            position: relative;
-        }
-
-        h1::before {
-            content: '◢';
-            position: absolute;
-            left: -40px;
-            color: var(--neon-cyan);
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        h1::after {
-            content: '◣';
-            position: absolute;
-            right: -40px;
-            color: var(--neon-cyan);
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.2); }
-        }
-
-        label { 
-            font-size: 13px; 
-            font-weight: 600;
-            color: var(--text-light) !important;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* ========================================
-           🎴 NEON TABLES
-           ======================================== */
-        .table { 
-            margin-bottom: 30px; 
-            border: none;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 
-                0 0 20px rgba(157, 78, 221, 0.3),
-                inset 0 0 10px rgba(157, 78, 221, 0.1);
-            background: var(--glass-white);
-            backdrop-filter: blur(10px);
-        }
-
-        th { 
-            padding: 18px; 
-            font-family: 'Orbitron', sans-serif; 
-            background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan)) !important;
-            font-size: 14px; 
-            font-weight: 700; 
-            border: none !important;
-            color: var(--text-bright) !important;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        th::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: shimmer 3s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
-
-        td { 
-            padding: 15px; 
-            vertical-align: middle; 
-            background: var(--glass-white);
-            backdrop-filter: blur(5px);
-            font-weight: 500;
-            font-size: 13px; 
-            font-family: 'Rajdhani', sans-serif; 
-            border: 1px solid var(--glass-border);
-            color: var(--text-light) !important;
-            transition: all 0.3s ease;
-        }
-
-        tr:hover td {
-            background: rgba(157, 78, 221, 0.1);
-            box-shadow: inset 0 0 10px rgba(157, 78, 221, 0.2);
-        }
-
-        .table-success { 
-            background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan)) !important;
-            border: none !important;
-        }
-
-        /* ========================================
-           📥 CYBER FORM CONTROLS
-           ======================================== */
-        input:required, select:required, textarea:required { 
-            border-color: var(--neon-pink) !important; 
-            border-width: 2px !important; 
-            box-shadow: 0 0 10px rgba(255, 0, 110, 0.3);
-        }
-
-        .form-control { 
-            border: 2px solid var(--glass-border);
-            border-radius: 8px;
-            background: rgba(26, 31, 58, 0.6);
-            color: var(--text-light) !important;
-            font-size: 13px; 
-            font-family: 'Rajdhani', sans-serif; 
-            font-weight: 500;
-            padding: 12px 15px;
-            transition: all 0.3s ease;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
-        }
-
-        [data-theme="light"] .form-control {
-            background: rgba(255, 255, 255, 0.8);
-            color: var(--text-bright) !important;
-        }
-
-        .form-control:focus { 
-            border-color: var(--neon-cyan);
-            outline: none;
-            box-shadow: 
-                0 0 20px var(--glow-cyan),
-                inset 0 0 10px rgba(0, 245, 255, 0.2);
-            transform: translateY(-2px);
-            background: rgba(26, 31, 58, 0.8);
-        }
-
-        .form-control:hover {
-            border-color: var(--neon-purple);
-            box-shadow: 0 0 15px var(--glow-purple);
-        }
-
-        textarea { 
-            resize: vertical; 
-        }
-
-        input[type="checkbox"], input[type="radio"] { 
-            width: 20px; 
-            height: 20px; 
-            cursor: pointer; 
-            accent-color: var(--neon-cyan);
-            filter: drop-shadow(0 0 5px var(--glow-cyan));
-        }
-
-        /* ========================================
-           🔘 NEON BUTTONS
-           ======================================== */
-        .btn-outline-success { 
-            background: linear-gradient(135deg, var(--neon-green), #2ECC71);
-            border: 2px solid var(--neon-green);
-            padding: 14px 32px; 
-            font-weight: 700; 
-            font-size: 14px; 
-            font-family: 'Orbitron', sans-serif; 
-            border-radius: 10px;
-            color: var(--deep-space) !important;
-            box-shadow: 
-                0 0 20px rgba(57, 255, 20, 0.5),
-                inset 0 0 10px rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .btn-outline-success::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .btn-outline-success:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .btn-outline-success:hover { 
-            transform: translateY(-3px);
-            box-shadow: 
-                0 0 30px rgba(57, 255, 20, 0.8),
-                0 10px 30px rgba(57, 255, 20, 0.4);
-        }
-
-        .btn-outline-success:active {
-            transform: translateY(0);
-        }
-
-        .btn-outline-danger { 
-            background: linear-gradient(135deg, var(--neon-pink), #C2185B);
-            border: 2px solid var(--neon-pink);
-            padding: 14px 32px; 
-            font-weight: 700; 
-            font-size: 14px; 
-            font-family: 'Orbitron', sans-serif; 
-            border-radius: 10px;
-            color: var(--text-bright) !important;
-            box-shadow: 
-                0 0 20px rgba(255, 0, 110, 0.5),
-                inset 0 0 10px rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .btn-outline-danger:hover { 
-            transform: translateY(-3px);
-            box-shadow: 
-                0 0 30px rgba(255, 0, 110, 0.8),
-                0 10px 30px rgba(255, 0, 110, 0.4);
-        }
-
-        .btn-outline-primary { 
-            background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
-            border: 2px solid var(--neon-purple);
-            padding: 14px 32px; 
-            font-weight: 700; 
-            font-size: 14px; 
-            font-family: 'Orbitron', sans-serif; 
-            border-radius: 10px;
-            color: var(--text-bright) !important;
-            box-shadow: 
-                0 0 20px var(--glow-purple),
-                inset 0 0 10px rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .btn-outline-primary:hover { 
-            transform: translateY(-3px);
-            box-shadow: 
-                0 0 30px var(--glow-cyan),
-                0 10px 30px var(--glow-purple);
-        }
-
-        .btn-small { 
-            padding: 10px 20px; 
-            font-size: 12px; 
-        }
-
-        .btn-disabled { 
-            opacity: 0.3 !important; 
-            cursor: not-allowed !important; 
-            pointer-events: none !important;
-            filter: grayscale(100%);
-        }
-
-        .button-group { 
-            display: flex; 
-            align-items: center; 
-            justify-content: flex-end; 
-            gap: 10px; 
-        }
-
-        /* ========================================
-           🌓 FUTURISTIC DARK MODE TOGGLE
-           ======================================== */
-        .theme-toggle {
-            position: fixed;
-            top: 25px;
-            right: 25px;
-            z-index: 10001;
-            background: var(--glass-white);
-            backdrop-filter: blur(15px);
-            border: 2px solid var(--neon-cyan);
-            border-radius: 50px;
-            padding: 12px 20px;
-            cursor: pointer;
-            box-shadow: 
-                0 0 20px var(--glow-cyan),
-                inset 0 0 10px rgba(0, 245, 255, 0.1);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 700;
-            font-size: 13px;
-            font-family: 'Orbitron', sans-serif;
-            color: var(--neon-cyan) !important;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .theme-toggle:hover {
-            transform: scale(1.05);
-            box-shadow: 
-                0 0 30px var(--glow-cyan),
-                0 5px 20px rgba(0, 245, 255, 0.4);
-        }
-
-        .theme-icon {
-            font-size: 20px;
-            transition: transform 0.5s ease;
-            filter: drop-shadow(0 0 5px var(--glow-cyan));
-        }
-
-        .theme-toggle:hover .theme-icon {
-            transform: rotate(180deg);
-        }
-
-        /* ========================================
-           💾 CYBER SAVE INDICATORS
-           ======================================== */
-        .save-indicator { 
-            position: fixed; 
-            top: 90px; 
-            right: 25px;
-            background: linear-gradient(135deg, var(--neon-green), #2ECC71);
-            padding: 12px 22px;
-            border-radius: 50px;
-            border: 2px solid var(--neon-green);
-            font-weight: 700;
-            opacity: 0; 
-            transition: all 0.3s ease;
-            z-index: 10000; 
-            font-size: 12px;
-            color: var(--deep-space) !important;
-            box-shadow: 
-                0 0 20px rgba(57, 255, 20, 0.6),
-                inset 0 0 10px rgba(255, 255, 255, 0.3);
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .save-indicator.show { 
-            opacity: 1; 
-            animation: slideInGlow 0.5s ease-out;
-        }
-
-        @keyframes slideInGlow {
-            from {
-                transform: translateX(100px);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        .draft-saved-indicator { 
-            position: fixed; 
-            top: 155px; 
-            right: 25px;
-            background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
-            color: var(--text-bright) !important; 
-            padding: 12px 22px;
-            border-radius: 50px;
-            border: 2px solid var(--neon-purple);
-            font-weight: 700;
-            opacity: 0; 
-            transition: all 0.3s ease;
-            z-index: 10003; 
-            font-size: 12px;
-            box-shadow: 
-                0 0 20px var(--glow-purple),
-                inset 0 0 10px rgba(255, 255, 255, 0.2);
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .draft-saved-indicator.show { 
-            opacity: 1; 
-            animation: slideInGlow 0.5s ease-out;
-        }
-
-        .draft-saved-indicator span { 
-            color: var(--text-bright) !important; 
-        }
-
-        /* ========================================
-           📌 NEON SIGNATURE
-           ======================================== */
-        .signature { 
-            position: fixed; 
-            bottom: 25px; 
-            left: 25px;
-            background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
-            color: var(--text-bright) !important; 
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-family: 'Orbitron', sans-serif; 
-            font-weight: 700;
-            font-size: 12px; 
-            z-index: 9998;
-            box-shadow: 
-                0 0 20px var(--glow-purple),
-                inset 0 0 10px rgba(255, 255, 255, 0.2);
-            border: 2px solid var(--neon-cyan);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            animation: signaturePulse 3s ease-in-out infinite;
-        }
-
-        @keyframes signaturePulse {
-            0%, 100% { box-shadow: 0 0 20px var(--glow-purple), inset 0 0 10px rgba(255, 255, 255, 0.2); }
-            50% { box-shadow: 0 0 30px var(--glow-cyan), inset 0 0 15px rgba(255, 255, 255, 0.3); }
-        }
-
-        .signature span { 
-            color: var(--text-bright) !important; 
-        }
-
-        /* ========================================
-           ⚠️ CYBER ERROR STATES
-           ======================================== */
-        .error-highlight { 
-            border-color: var(--neon-pink) !important; 
-            border-width: 3px !important; 
-            background: rgba(255, 0, 110, 0.1) !important;
-            box-shadow: 0 0 20px rgba(255, 0, 110, 0.5);
-            animation: errorShake 0.5s ease;
-        }
-
-        @keyframes errorShake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
-        }
-
-        .error-message { 
-            color: var(--neon-pink) !important; 
-            font-size: 12px; 
-            font-weight: 700; 
-            margin-top: 10px;
-            display: none; 
-            padding: 10px 15px;
-            background: rgba(255, 0, 110, 0.1);
-            border-left: 4px solid var(--neon-pink);
-            border-radius: 8px;
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 0 15px rgba(255, 0, 110, 0.3);
-        }
-
-        /* Continue in Part 2... */
-    </style>
-</head>
-    <style>
-        /* Continuing from Part 1... */
-
-        /* ========================================
-           🔔 FUTURISTIC POPUP NOTIFICATION
-           ======================================== */
-        .popup-notification {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            background: var(--glass-white);
-            backdrop-filter: blur(25px) saturate(180%);
-            border: 3px solid var(--neon-pink);
-            border-radius: 20px;
-            padding: 40px 50px;
-            box-shadow: 
-                0 0 40px rgba(255, 0, 110, 0.6),
-                inset 0 0 20px rgba(255, 0, 110, 0.1);
-            z-index: 99999;
-            max-width: 550px;
-            text-align: center;
-            opacity: 0;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-
-        .popup-notification.show {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 1;
-        }
-
-        .popup-notification-icon {
-            font-size: 60px;
-            margin-bottom: 20px;
-            animation: iconBounce 1s infinite;
-            filter: drop-shadow(0 0 20px var(--neon-pink));
-        }
-
-        @keyframes iconBounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-
-        .popup-notification-title {
-            font-size: 24px;
-            font-weight: 900;
-            color: var(--neon-pink) !important;
-            margin-bottom: 15px;
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 20px var(--glow-purple);
-        }
-
-        .popup-notification-message {
-            font-size: 15px;
-            color: var(--text-light) !important;
-            margin-bottom: 25px;
-            line-height: 1.8;
-            font-family: 'Rajdhani', sans-serif;
-        }
-
-        .popup-notification-btn {
-            background: linear-gradient(135deg, var(--neon-pink), #C2185B);
-            color: var(--text-bright) !important;
-            border: 2px solid var(--neon-pink);
-            padding: 12px 35px;
-            border-radius: 10px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 0 20px rgba(255, 0, 110, 0.5);
-        }
-
-        .popup-notification-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 30px rgba(255, 0, 110, 0.8);
-        }
-
-        /* ========================================
-           🎴 CYBER MODALS
-           ======================================== */
-        .modal-overlay, .app-modal, .email-modal, .startup-modal { 
-            display: none; 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%;
-            background: rgba(10, 14, 39, 0.85);
-            backdrop-filter: blur(10px);
-            z-index: 9999; 
-            overflow-y: auto; 
-            padding: 20px;
-        }
-
-        .modal-content, .app-modal-content, .email-modal-content, .startup-content { 
-            background: var(--glass-white);
-            backdrop-filter: blur(25px) saturate(180%);
-            margin: 50px auto;
-            padding: 0;
-            border: 3px solid var(--neon-purple);
-            border-radius: 20px;
-            max-width: 950px; 
-            box-shadow: 
-                0 0 40px var(--glow-purple),
-                inset 0 0 20px rgba(157, 78, 221, 0.1);
-            animation: modalSlideIn 0.4s ease-out;
-            position: relative;
-        }
-
-        @keyframes modalSlideIn {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .app-modal-content {
-            max-width: 600px;
-        }
-
-        .startup-content {
-            max-width: 550px;
-            margin: 12% auto;
-        }
-
-        .modal-header, .app-modal-header, .email-modal-header, .startup-header { 
-            background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
-            color: var(--text-bright) !important; 
-            padding: 25px 35px;
-            border-radius: 17px 17px 0 0;
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .modal-header::before, .app-modal-header::before, 
-        .email-modal-header::before, .startup-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: shimmer 3s infinite;
-        }
-
-        .startup-header {
-            display: block;
-            text-align: center;
-        }
-
-        .modal-header h2, .modal-header h3, 
-        .app-modal-header h3, .email-modal-header h3, 
-        .startup-header h2 { 
-            color: var(--text-bright) !important; 
-            margin: 0; 
-            font-size: 22px; 
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-            position: relative;
-            z-index: 1;
-        }
-
-        .startup-header h2 {
-            font-size: 26px;
-        }
-
-        .close-btn { 
-            background: rgba(255, 0, 110, 0.2);
-            border: 2px solid var(--neon-pink);
-            color: var(--text-bright) !important; 
-            font-size: 26px; 
-            cursor: pointer; 
-            width: 45px; 
-            height: 45px;
-            border-radius: 50%;
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            transition: all 0.3s ease;
-            font-weight: 900;
-            box-shadow: 0 0 15px rgba(255, 0, 110, 0.4);
-            position: relative;
-            z-index: 1;
-        }
-
-        .close-btn:hover { 
-            background: rgba(255, 0, 110, 0.4);
-            transform: rotate(90deg) scale(1.15);
-            box-shadow: 0 0 25px rgba(255, 0, 110, 0.8);
-        }
-
-        .modal-body, .app-modal-body, .email-modal-body, .startup-body { 
-            padding: 35px;
-            max-height: 70vh; 
-            overflow-y: auto;
-            background: var(--space-blue);
-        }
-
-        .app-modal-body {
-            padding: 20px;
-            max-height: 500px;
-        }
-
-        .startup-body {
-            text-align: center;
-            padding: 40px;
-        }
-
-        .startup-body p {
-            font-size: 17px;
-            margin-bottom: 30px;
-            color: var(--text-light) !important;
-            font-weight: 600;
-            font-family: 'Rajdhani', sans-serif;
-        }
-
-        .modal-footer, .email-modal-footer { 
-            padding: 25px 35px;
-            border-top: 2px solid var(--glass-border);
-            text-align: right; 
-            background: var(--glass-white);
-            backdrop-filter: blur(10px);
-            border-radius: 0 0 17px 17px;
-            display: flex;
-            gap: 12px;
-            justify-content: flex-end;
-            flex-wrap: wrap;
-        }
-
-        /* Modal Search & Lists */
-        .app-search { 
-            width: 100%; 
-            padding: 12px 18px; 
-            border: 2px solid var(--neon-cyan);
-            border-radius: 10px;
-            margin-bottom: 15px; 
-            font-family: 'Rajdhani', sans-serif; 
-            font-weight: 600;
-            font-size: 14px;
-            background: rgba(26, 31, 58, 0.6);
-            color: var(--text-light) !important;
-            transition: all 0.3s ease;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .app-search:focus {
-            border-color: var(--neon-cyan);
-            outline: none;
-            box-shadow: 0 0 20px var(--glow-cyan);
-        }
-
-        .app-list { 
-            list-style: none; 
-            padding: 0; 
-            margin: 0; 
-        }
-
-        .app-list-item { 
-            padding: 15px 20px; 
-            border: 2px solid var(--glass-border);
-            border-radius: 10px;
-            margin-bottom: 10px; 
-            cursor: pointer; 
-            transition: all 0.3s ease;
-            background: var(--glass-white);
-            backdrop-filter: blur(10px);
-            font-family: 'Rajdhani', sans-serif; 
-            font-weight: 600;
-            font-size: 14px;
-            color: var(--text-light) !important;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .app-list-item::before {
-            content: '▶';
-            position: absolute;
-            left: -30px;
-            color: var(--neon-cyan);
-            transition: left 0.3s ease;
-        }
-
-        .app-list-item:hover { 
-            background: rgba(157, 78, 221, 0.2);
-            border-color: var(--neon-purple);
-            transform: translateX(10px);
-            box-shadow: 0 0 20px var(--glow-purple);
-        }
-
-        .app-list-item:hover::before {
-            left: 10px;
-        }
-
-        /* ========================================
-           🏷️ NEON APP TAGS
-           ======================================== */
-        .selected-apps { 
-            display: flex; 
-            flex-wrap: wrap; 
-            gap: 10px; 
-            min-height: 50px; 
-            padding: 15px;
-            border: 2px solid var(--neon-cyan);
-            border-radius: 10px;
-            background: rgba(26, 31, 58, 0.4);
-            margin-bottom: 12px;
-            box-shadow: inset 0 0 15px rgba(0, 245, 255, 0.1);
-        }
-
-        .app-tag { 
-            background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
-            color: var(--text-bright) !important; 
-            padding: 8px 15px;
-            border-radius: 25px;
-            font-size: 12px; 
-            font-weight: 700;
-            display: inline-flex; 
-            align-items: center; 
-            gap: 8px; 
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            box-shadow: 0 0 15px var(--glow-purple);
-            animation: tagPopIn 0.3s ease-out;
-            border: 1px solid var(--neon-purple);
-        }
-
-        @keyframes tagPopIn {
-            from {
-                transform: scale(0) rotate(-180deg);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1) rotate(0);
-                opacity: 1;
-            }
-        }
-
-        .app-tag span { 
-            color: var(--text-bright) !important; 
-        }
-
-        .app-tag-remove { 
-            background: var(--neon-pink);
-            color: var(--text-bright) !important; 
-            border: none; 
-            border-radius: 50%;
-            width: 20px; 
-            height: 20px; 
-            font-size: 14px; 
-            cursor: pointer; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-weight: 900;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 10px rgba(255, 0, 110, 0.5);
-        }
-
-        .app-tag-remove:hover { 
-            background: #FF006E;
-            transform: scale(1.3) rotate(90deg);
-            box-shadow: 0 0 20px rgba(255, 0, 110, 0.8);
-        }
-
-        .add-app-btn { 
-            background: linear-gradient(135deg, var(--neon-cyan), #00D4FF);
-            border: 2px solid var(--neon-cyan);
-            color: var(--deep-space) !important; 
-            padding: 10px 20px;
-            border-radius: 10px;
-            font-weight: 700;
-            cursor: pointer; 
-            font-size: 13px; 
-            transition: all 0.3s ease;
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 0 15px var(--glow-cyan);
-        }
-
-        .add-app-btn:hover { 
-            transform: translateY(-3px);
-            box-shadow: 0 0 25px var(--glow-cyan);
-        }
-
-        .select-btn { 
-            background: var(--glass-white);
-            backdrop-filter: blur(10px);
-            border: 2px solid var(--neon-purple);
-            color: var(--text-light) !important; 
-            padding: 10px 20px;
-            border-radius: 10px;
-            font-weight: 700;
-            cursor: pointer; 
-            font-size: 13px; 
-            transition: all 0.3s ease;
-            font-family: 'Rajdhani', sans-serif; 
-            min-width: 160px; 
-            text-align: left; 
-            display: inline-block;
-            box-shadow: 0 0 10px var(--glow-purple);
-        }
-
-        .select-btn:hover { 
-            background: rgba(157, 78, 221, 0.2);
-            border-color: var(--neon-cyan);
-            transform: translateY(-2px);
-            box-shadow: 0 0 20px var(--glow-cyan);
-        }
-
-        .select-btn.selected { 
-            background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
-            color: var(--text-bright) !important; 
-            border-color: var(--neon-cyan);
-            font-weight: 700;
-            box-shadow: 0 0 20px var(--glow-purple);
-        }
-
-        /* ========================================
-           📊 CYBER IMPACT ASSESSMENT
-           ======================================== */
-        .impact-app-row { 
-            background: var(--glass-white);
-            backdrop-filter: blur(10px);
-            padding: 18px;
-            margin-bottom: 15px; 
-            border-radius: 10px;
-            border-left: 4px solid var(--neon-cyan);
-            display: flex; 
-            align-items: center; 
-            gap: 15px;
-            box-shadow: 0 0 15px rgba(0, 245, 255, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .impact-app-row:hover {
-            transform: translateX(10px);
-            box-shadow: 0 0 25px var(--glow-cyan);
-            border-left-color: var(--neon-purple);
-        }
-
-        .impact-app-name { 
-            flex: 0 0 200px; 
-            font-weight: 700;
-            color: var(--neon-cyan) !important; 
-            font-size: 14px;
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .impact-input-group { 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-            flex: 1; 
-        }
-
-        .impact-input-group label { 
-            font-weight: 700;
-            font-size: 12px; 
-            margin: 0; 
-            white-space: nowrap;
-            color: var(--text-light) !important;
-        }
-
-        /* ========================================
-           ⏰ FUTURISTIC TIME SELECTORS
-           ======================================== */
-        .time-selector { 
-            display: flex; 
-            gap: 20px; 
-            align-items: center; 
-            justify-content: center; 
-        }
-
-        .time-input-group { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            gap: 10px; 
-        }
-
-        .time-input-group label { 
-            font-weight: 700;
-            font-size: 15px;
-            font-family: 'Orbitron', sans-serif;
-            color: var(--neon-cyan) !important;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .time-input-group select { 
-            padding: 12px 15px; 
-            border: 2px solid var(--neon-purple);
-            border-radius: 10px;
-            font-size: 15px; 
-            font-weight: 700;
-            min-width: 90px;
-            background: rgba(26, 31, 58, 0.6);
-            color: var(--text-light) !important;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Rajdhani', sans-serif;
-            box-shadow: 0 0 10px var(--glow-purple);
-        }
-
-        .time-input-group select:focus {
-            border-color: var(--neon-cyan);
-            outline: none;
-            box-shadow: 0 0 20px var(--glow-cyan);
-        }
-
-        .date-grid { 
-            display: grid; 
-            grid-template-columns: repeat(7, 1fr); 
-            gap: 8px; 
-        }
-
-        .date-header { 
-            text-align: center; 
-            font-weight: 700;
-            padding: 10px; 
-            background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
-            color: var(--text-bright) !important; 
-            border-radius: 8px;
-            font-size: 12px;
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 0 10px var(--glow-purple);
-        }
-
-        .date-btn { 
-            padding: 12px; 
-            border: 2px solid var(--glass-border);
-            border-radius: 8px;
-            background: var(--glass-white);
-            backdrop-filter: blur(10px);
-            cursor: pointer; 
-            text-align: center; 
-            font-weight: 700;
-            transition: all 0.3s ease;
-            font-size: 13px;
-            color: var(--text-light) !important;
-            font-family: 'Rajdhani', sans-serif;
-        }
-
-        .date-btn:hover { 
-            background: rgba(157, 78, 221, 0.2);
-            border-color: var(--neon-purple);
-            transform: scale(1.1);
-            box-shadow: 0 0 15px var(--glow-purple);
-        }
-
-        .date-btn.selected { 
-            background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
-            color: var(--text-bright) !important; 
-            border-color: var(--neon-cyan);
-            box-shadow: 0 0 20px var(--glow-cyan);
-        }
-
-        .date-btn.disabled { 
-            opacity: 0.2;
-            cursor: not-allowed; 
-        }
-
-        .month-nav { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            margin-bottom: 20px; 
-        }
-
-        .month-nav button { 
-            background: linear-gradient(135deg, var(--neon-cyan), #00D4FF);
-            border: 2px solid var(--neon-cyan);
-            color: var(--deep-space) !important; 
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 0 15px var(--glow-cyan);
-        }
-
-        .month-nav button:hover { 
-            transform: translateY(-3px);
-            box-shadow: 0 0 25px var(--glow-cyan);
-        }
-
-        .month-nav span { 
-            font-weight: 900;
-            font-size: 18px;
-            font-family: 'Orbitron', sans-serif;
-            color: var(--neon-purple) !important;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* ========================================
-           🎫 NEON INCIDENT CARDS
-           ======================================== */
-        .incident-card { 
-            background: var(--glass-white);
-            backdrop-filter: blur(15px);
-            border: 2px solid var(--neon-purple);
-            border-radius: 15px;
-            padding: 20px; 
-            margin-bottom: 15px; 
-            transition: all 0.3s ease;
-            box-shadow: 0 0 15px var(--glow-purple);
-        }
-
-        .incident-card:hover { 
-            background: rgba(157, 78, 221, 0.1);
-            border-color: var(--neon-cyan);
-            transform: translateX(10px);
-            box-shadow: 0 0 30px var(--glow-cyan);
-        }
-
-        .incident-card-header { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            margin-bottom: 12px; 
-        }
-
-        .incident-ticket { 
-            font-size: 18px; 
-            font-weight: 900;
-            color: var(--neon-cyan) !important;
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .incident-status { 
-            padding: 6px 15px; 
-            border-radius: 15px;
-            font-size: 11px; 
-            font-weight: 700;
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .status-progress { 
-            background: linear-gradient(135deg, #FFA500, #FF8C00);
-            color: var(--text-bright) !important;
-            box-shadow: 0 0 15px rgba(255, 165, 0, 0.5);
-        }
-
-        .status-resolved { 
-            background: linear-gradient(135deg, var(--neon-green), #2ECC71);
-            color: var(--deep-space) !important;
-            box-shadow: 0 0 15px rgba(57, 255, 20, 0.5);
-        }
-
-        .status-pending { 
-            background: linear-gradient(135deg, var(--neon-cyan), #00D4FF);
-            color: var(--deep-space) !important;
-            box-shadow: 0 0 15px var(--glow-cyan);
-        }
-
-        .incident-info { 
-            font-size: 12px; 
-            color: var(--text-light) !important; 
-            margin-top: 8px;
-            font-family: 'Rajdhani', sans-serif;
-        }
-
-        .incident-actions { 
-            margin-top: 15px; 
-            display: flex; 
-            gap: 10px; 
-        }
-
-        .incident-btn { 
-            padding: 8px 18px; 
-            font-size: 12px; 
-            border-radius: 8px;
-            border: 2px solid; 
-            cursor: pointer; 
-            font-weight: 700;
-            transition: all 0.3s ease;
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .incident-btn.load { 
-            background: linear-gradient(135deg, var(--neon-cyan), #00D4FF);
-            border-color: var(--neon-cyan);
-            color: var(--deep-space) !important;
-            box-shadow: 0 0 15px var(--glow-cyan);
-        }
-
-        .incident-btn.load:hover { 
-            transform: translateY(-3px);
-            box-shadow: 0 0 25px var(--glow-cyan);
-        }
-
-        .incident-btn.delete { 
-            background: linear-gradient(135deg, var(--neon-pink), #C2185B);
-            border-color: var(--neon-pink);
-            color: var(--text-bright) !important;
-            box-shadow: 0 0 15px rgba(255, 0, 110, 0.5);
-        }
-
-        .incident-btn.delete:hover { 
-            transform: translateY(-3px);
-            box-shadow: 0 0 25px rgba(255, 0, 110, 0.8);
-        }
-
-        /* ========================================
-           📍 NEON INCIDENT BAR
-           ======================================== */
-        .current-incident-bar { 
-            position: fixed; 
-            top: 25px; 
-            left: 50%; 
-            transform: translateX(-50%);
-            background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
-            color: var(--text-bright) !important; 
-            padding: 15px 30px;
-            border-radius: 50px;
-            z-index: 9999; 
-            box-shadow: 0 0 30px var(--glow-purple);
-            font-family: 'Orbitron', sans-serif; 
-            font-weight: 700;
-            font-size: 14px; 
-            display: none;
-            border: 2px solid var(--neon-cyan);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .current-incident-bar span { 
-            color: var(--text-bright) !important; 
-        }
-
-        .current-incident-bar button { 
-            background: rgba(255, 255, 255, 0.2);
-            border: 2px solid rgba(255, 255, 255, 0.5);
-            color: var(--text-bright) !important; 
-            padding: 6px 15px;
-            border-radius: 25px;
-            margin-left: 15px; 
-            cursor: pointer; 
-            font-size: 12px; 
-            font-weight: 700;
-            transition: all 0.3s ease;
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-        }
-
-        .current-incident-bar button:hover { 
-            background: rgba(255, 255, 255, 0.4);
-            transform: scale(1.1);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-        }
-
-        /* Continue with Email Modal & Startup styles... */
-        .email-modal {
-            z-index: 10002;
-        }
-
-        .email-field { 
-            margin-bottom: 18px; 
-        }
-
-        .email-field label { 
-            display: block; 
-            font-weight: 700;
-            margin-bottom: 8px; 
-            font-size: 14px;
-            font-family: 'Orbitron', sans-serif;
-            color: var(--neon-cyan) !important;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .email-field input, .email-field textarea { 
-            width: 100%; 
-            padding: 12px 15px; 
-            border: 2px solid var(--neon-purple);
-            border-radius: 10px;
-            font-family: 'Rajdhani', sans-serif; 
-            font-size: 13px;
-            background: rgba(26, 31, 58, 0.6);
-            color: var(--text-light) !important;
-            transition: all 0.3s ease;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .email-field input:focus, .email-field textarea:focus {
-            border-color: var(--neon-cyan);
-            outline: none;
-            box-shadow: 0 0 20px var(--glow-cyan);
-        }
-
-        .email-field textarea { 
-            min-height: 420px; 
-            font-family: 'Courier New', monospace; 
-            resize: vertical; 
-        }
-
-        .email-preview-badge { 
-            display: inline-block; 
-            background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
-            color: var(--text-bright) !important; 
-            padding: 6px 15px;
-            border-radius: 15px;
-            font-size: 11px; 
-            font-weight: 700;
-            margin-left: 12px;
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 0 15px var(--glow-purple);
-        }
-
-        .email-preview-container { 
-            background: var(--space-blue);
-            border: 3px solid var(--neon-cyan);
-            border-radius: 12px;
-            padding: 25px; 
-            margin-top: 25px; 
-            max-height: 550px; 
-            overflow-y: auto;
-            box-shadow: 0 0 25px var(--glow-cyan);
-        }
-
-        .email-preview-header { 
-            background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
-            color: var(--text-bright) !important; 
-            padding: 18px 25px;
-            border-radius: 8px;
-            margin-bottom: 25px; 
-            text-align: center;
-            box-shadow: 0 0 20px var(--glow-purple);
-        }
-
-        .email-preview-header h4 { 
-            color: var(--text-bright) !important; 
-            margin: 0; 
-            font-size: 20px; 
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .email-preview-body { 
-            background: rgba(26, 31, 58, 0.4);
-            border: 2px solid var(--glass-border);
-            border-radius: 8px;
-            padding: 30px; 
-            font-family: 'Courier New', monospace; 
-            font-size: 13px; 
-            line-height: 1.9; 
-            white-space: pre-wrap; 
-            word-wrap: break-word;
-            color: var(--text-light) !important;
-        }
-
-        .cc-suggestions { 
-            display: flex; 
-            gap: 10px; 
-            margin-top: 10px; 
-            flex-wrap: wrap; 
-        }
-
-        .cc-suggestion-btn { 
-            background: rgba(0, 245, 255, 0.1);
-            border: 2px solid var(--neon-cyan);
-            color: var(--neon-cyan) !important; 
-            padding: 6px 15px;
-            border-radius: 20px;
-            font-size: 11px; 
-            cursor: pointer; 
-            font-weight: 700;
-            transition: all 0.3s ease;
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .cc-suggestion-btn:hover { 
-            background: var(--neon-cyan);
-            color: var(--deep-space) !important; 
-            transform: scale(1.05);
-            box-shadow: 0 0 15px var(--glow-cyan);
-        }
-
-        .preview-toggle-btn { 
-            background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
-            border: 2px solid var(--neon-purple);
-            color: var(--text-bright) !important; 
-            padding: 12px 25px;
-            border-radius: 10px;
-            font-weight: 700;
-            cursor: pointer; 
-            font-size: 13px; 
-            transition: all 0.3s ease;
-            margin-bottom: 18px; 
-            width: 100%;
-            box-shadow: 0 0 20px var(--glow-purple);
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .preview-toggle-btn:hover { 
-            transform: translateY(-3px);
-            box-shadow: 0 0 30px var(--glow-purple);
-        }
-
-        .preview-toggle-btn.active { 
-            background: linear-gradient(135deg, var(--neon-cyan), #00D4FF));
-            border-color: var(--neon-cyan);
-            box-shadow: 0 0 20px var(--glow-cyan);
-        }
-
-        .startup-btn { 
-            background: linear-gradient(135deg, var(--neon-cyan), #00D4FF);
-            border: 2px solid var(--neon-cyan);
-            color: var(--deep-space) !important; 
-            padding: 18px 45px;
-            font-size: 17px; 
-            font-weight: 900;
-            border-radius: 12px;
-            margin: 12px; 
-            cursor: pointer; 
-            transition: all 0.3s ease;
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            box-shadow: 0 0 25px var(--glow-cyan);
-        }
-
-        .startup-btn:hover { 
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 0 40px var(--glow-cyan);
-        }
-
-        .startup-btn.secondary { 
-            background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
-            border-color: var(--neon-purple);
-            color: var(--text-bright) !important;
-            box-shadow: 0 0 25px var(--glow-purple);
-        }
-
-        .startup-btn.secondary:hover {
-            box-shadow: 0 0 40px var(--glow-purple);
-        }
-
-        /* ========================================
-           📱 CYBER SCROLLBAR
-           ======================================== */
-        ::-webkit-scrollbar {
-            width: 12px;
-            height: 12px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--deep-space);
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
-            border-radius: 10px;
-            box-shadow: 0 0 10px var(--glow-purple);
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink));
-            box-shadow: 0 0 15px var(--glow-cyan);
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; color: #4B286D !important; }
+        body { font-family: 'Inter', sans-serif; font-weight: 400; font-size: 12px; background: linear-gradient(135deg, #F5F5F5 0%, #E8F5E9 100%); padding: 15px; min-height: 100vh; padding-bottom: 60px; }
+        .container { background: rgba(255, 255, 255, 0.95); padding: 25px; border-radius: 12px; border: 3px solid #66CC66; max-width: 1400px; margin: auto; box-shadow: 0 8px 30px rgba(75, 40, 109, 0.15); }
+        h1 { text-align: center; font-family: 'Poppins', sans-serif; font-weight: 700; margin-bottom: 25px; font-size: 28px; letter-spacing: 1px; }
+        .table { margin-bottom: 20px; border: 2px solid #66CC66; border-radius: 8px; overflow: hidden; }
+        th { padding: 10px; font-family: 'Poppins', sans-serif; background: #66CC66 !important; font-size: 16px; font-weight: 700; border: 2px solid #4B286D !important; }
+        td { padding: 8px; vertical-align: middle; background: #FFFFFF; font-weight: 600; font-size: 12px; font-family: 'Inter', sans-serif; border: 1px solid #66CC66; transition: background 0.2s ease; }
+        tr:hover td { background: #F9FFF9; }
+        input:required, select:required, textarea:required { border-color: #E91E63 !important; border-width: 2px !important; }
+        .form-control { border: 2px solid #66CC66; border-radius: 6px; background: #FFFFFF; font-size: 12px; font-family: 'Inter', sans-serif; font-weight: 600; padding: 8px 10px; transition: all 0.3s ease; }
+        .form-control:focus { border-color: #509E2F; outline: none; box-shadow: 0 0 8px rgba(102, 204, 102, 0.4); }
+        .form-control:hover { border-color: #4B286D; }
+        textarea { resize: vertical; }
+        .btn-outline-success { background: #66CC66; border: 2px solid #66CC66; padding: 10px 24px; font-weight: 700; font-size: 14px; font-family: 'Poppins', sans-serif; border-radius: 6px; color: #4B286D !important; transition: all 0.2s ease; cursor: pointer; }
+        .btn-outline-success:hover { background: #509E2F; border-color: #509E2F; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(80, 158, 47, 0.3); }
+        .btn-outline-danger { background: #E91E63; border: 2px solid #E91E63; padding: 10px 24px; font-weight: 700; font-size: 14px; font-family: 'Poppins', sans-serif; border-radius: 6px; color: #FFFFFF !important; transition: all 0.2s ease; cursor: pointer; }
+        .btn-outline-danger:hover { background: #C2185B; border-color: #C2185B; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(194, 24, 91, 0.3); }
+        .btn-outline-primary { background: #4B286D; border: 2px solid #4B286D; padding: 10px 24px; font-weight: 700; font-size: 14px; font-family: 'Poppins', sans-serif; border-radius: 6px; color: #FFFFFF !important; transition: all 0.2s ease; cursor: pointer; }
+        .btn-outline-primary:hover { background: #331C4A; border-color: #331C4A; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(51, 28, 74, 0.3); }
+        .btn-small { padding: 8px 16px; font-size: 12px; }
+        .table-success { background: #66CC66 !important; border: 2px solid #4B286D !important; }
+        .save-indicator { position: fixed; top: 15px; right: 15px; background: #66CC66; padding: 8px 16px; border-radius: 6px; border: 2px solid #4B286D; font-weight: 600; opacity: 0; transition: opacity 0.3s ease; z-index: 10000; font-size: 11px; }
+        .save-indicator.show { opacity: 1; }
+        .draft-saved-indicator { position: fixed; top: 80px; right: 15px; background: #4B286D; color: #FFFFFF !important; padding: 8px 16px; border-radius: 6px; border: 2px solid #66CC66; font-weight: 600; opacity: 0; transition: opacity 0.3s ease; z-index: 10003; font-size: 11px; }
+        .draft-saved-indicator.show { opacity: 1; }
+        .draft-saved-indicator span { color: #FFFFFF !important; }
+        .signature { position: fixed; bottom: 15px; left: 15px; background: linear-gradient(135deg, #4B286D 0%, #66CC66 100%); color: #FFFFFF !important; padding: 8px 16px; border-radius: 6px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 11px; z-index: 9998; }
+        .signature span { color: #FFFFFF !important; }
+        input[type="checkbox"], input[type="radio"] { width: 16px; height: 16px; cursor: pointer; accent-color: #66CC66; }
+        .error-highlight { border-color: #FF0000 !important; border-width: 3px !important; background-color: #FFE6E6 !important; animation: shake 0.3s ease; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+        .btn-disabled { opacity: 0.5 !important; cursor: not-allowed !important; pointer-events: none !important; }
+        .error-message { color: #FF0000 !important; font-size: 11px; font-weight: 700; margin-top: 5px; display: none; padding: 6px; background-color: #FFE6E6; border-left: 3px solid #FF0000; border-radius: 4px; }
+        .button-group { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
+        
+        .popup-notification { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); background: #FFFFFF; border: 4px solid #E91E63; border-radius: 12px; padding: 30px 40px; box-shadow: 0 10px 40px rgba(233, 30, 99, 0.4); z-index: 99999; max-width: 500px; text-align: center; opacity: 0; transition: all 0.3s ease; }
+        .popup-notification.show { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        .popup-notification-icon { font-size: 48px; margin-bottom: 15px; }
+        .popup-notification-title { font-size: 20px; font-weight: 700; color: #E91E63 !important; margin-bottom: 10px; font-family: 'Poppins', sans-serif; }
+        .popup-notification-message { font-size: 14px; color: #4B286D !important; margin-bottom: 20px; line-height: 1.6; }
+        .popup-notification-btn { background: #E91E63; color: #FFFFFF !important; border: none; padding: 10px 30px; border-radius: 6px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; }
+        .popup-notification-btn:hover { background: #C2185B; transform: translateY(-2px); }
+        
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 9999; overflow-y: auto; padding: 15px; }
+        .modal-content { background: #FFFFFF; margin: 20px auto; padding: 0; border: 4px solid #66CC66; border-radius: 12px; max-width: 900px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); }
+        .modal-header { background: linear-gradient(135deg, #4B286D 0%, #66CC66 100%); color: #FFFFFF !important; padding: 18px 25px; border-radius: 8px 8px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h2 { color: #FFFFFF !important; margin: 0; font-size: 20px; font-family: 'Poppins', sans-serif; }
+        .close-btn { background: rgba(255,255,255,0.2); border: 2px solid #FFFFFF; color: #FFFFFF !important; font-size: 24px; cursor: pointer; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
+        .close-btn:hover { background: rgba(255,255,255,0.3); transform: rotate(90deg); }
+        .modal-body { padding: 25px; max-height: 70vh; overflow-y: auto; }
+        .modal-footer { padding: 18px 25px; border-top: 3px solid #66CC66; text-align: right; background: #F9F9F9; }
+        
+        .app-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 10001; padding: 15px; overflow-y: auto; }
+        .app-modal-content { background: #FFFFFF; max-width: 550px; margin: 40px auto; border-radius: 12px; border: 4px solid #66CC66; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+        .app-modal-header { background: linear-gradient(135deg, #4B286D, #66CC66); color: #FFFFFF !important; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .app-modal-header h3 { color: #FFFFFF !important; margin: 0; font-size: 18px; font-family: 'Poppins', sans-serif; }
+        .app-modal-body { padding: 15px; max-height: 450px; overflow-y: auto; }
+        .app-search { width: 100%; padding: 10px; border: 2px solid #66CC66; border-radius: 6px; margin-bottom: 12px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 12px; }
+        .app-list { list-style: none; padding: 0; margin: 0; }
+        .app-list-item { padding: 10px; border: 2px solid #66CC66; border-radius: 6px; margin-bottom: 6px; cursor: pointer; transition: all 0.3s ease; background: #FFFFFF; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 12px; }
+        .app-list-item:hover { background: #E8F5E9; border-color: #4B286D; transform: translateX(5px); }
+        
+        .selected-apps { display: flex; flex-wrap: wrap; gap: 6px; min-height: 45px; padding: 10px; border: 2px solid #66CC66; border-radius: 6px; background: #F9F9F9; margin-bottom: 8px; }
+        .app-tag { background: #4B286D; color: #FFFFFF !important; padding: 6px 12px; border-radius: 18px; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; }
+        .app-tag span { color: #FFFFFF !important; }
+        .app-tag-remove { background: #E91E63; color: #FFFFFF !important; border: none; border-radius: 50%; width: 18px; height: 18px; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+        .app-tag-remove:hover { background: #C2185B; transform: scale(1.1); }
+        .add-app-btn { background: #66CC66; border: 2px solid #66CC66; color: #4B286D !important; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 12px; transition: all 0.3s ease; font-family: 'Poppins', sans-serif; }
+        .add-app-btn:hover { background: #509E2F; border-color: #509E2F; color: #FFFFFF !important; transform: translateY(-1px); }
+        .select-btn { background: #FFFFFF; border: 2px solid #66CC66; color: #4B286D !important; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 12px; transition: all 0.3s ease; font-family: 'Inter', sans-serif; min-width: 150px; text-align: left; display: inline-block; }
+        .select-btn:hover { background: #E8F5E9; border-color: #4B286D; }
+        .select-btn.selected { background: #66CC66; color: #4B286D !important; border-color: #66CC66; font-weight: 700; }
+        
+        .impact-app-row { background: #F9F9F9; padding: 12px; margin-bottom: 10px; border-radius: 6px; border-left: 4px solid #4B286D; display: flex; align-items: center; gap: 12px; transition: all 0.2s ease; }
+        .impact-app-row:hover { background: #E8F5E9; transform: translateX(3px); }
+        .impact-app-name { flex: 0 0 180px; font-weight: 700; color: #4B286D !important; font-size: 12px; }
+        .impact-input-group { display: flex; align-items: center; gap: 8px; flex: 1; }
+        .impact-input-group label { font-weight: 700; font-size: 11px; margin: 0; white-space: nowrap; }
+        
+        .time-selector { display: flex; gap: 15px; align-items: center; justify-content: center; }
+        .time-input-group { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .time-input-group label { font-weight: 700; font-size: 14px; }
+        .time-input-group select { padding: 10px; border: 2px solid #66CC66; border-radius: 6px; font-size: 14px; font-weight: 700; min-width: 80px; }
+        
+        .date-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+        .date-header { text-align: center; font-weight: 700; padding: 8px; background: #66CC66; color: #4B286D !important; border-radius: 6px; font-size: 11px; }
+        .date-btn { padding: 10px; border: 2px solid #66CC66; border-radius: 6px; background: #FFFFFF; cursor: pointer; text-align: center; font-weight: 600; transition: all 0.3s ease; font-size: 12px; }
+        .date-btn:hover { background: #E8F5E9; border-color: #4B286D; transform: scale(1.05); }
+        .date-btn.selected { background: #4B286D; color: #FFFFFF !important; border-color: #4B286D; }
+        .date-btn.disabled { opacity: 0.3; cursor: not-allowed; }
+        .month-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .month-nav button { background: #66CC66; border: 2px solid #66CC66; color: #4B286D !important; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; }
+        .month-nav button:hover { background: #509E2F; color: #FFFFFF !important; transform: translateY(-1px); }
+        .month-nav span { font-weight: 700; font-size: 16px; }
+        
+        .startup-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 99999; }
+        .startup-content { background: #FFFFFF; max-width: 500px; margin: 10% auto; border-radius: 16px; border: 5px solid #66CC66; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,0.5); }
+        .startup-header { background: linear-gradient(135deg, #4B286D, #66CC66); color: #FFFFFF !important; padding: 25px; text-align: center; }
+        .startup-header h2 { color: #FFFFFF !important; margin: 0; font-size: 24px; font-family: 'Poppins', sans-serif; }
+        .startup-body { padding: 30px; text-align: center; }
+        .startup-body p { font-size: 16px; margin-bottom: 25px; color: #4B286D !important; font-weight: 600; }
+        .startup-btn { background: #66CC66; border: 3px solid #66CC66; color: #4B286D !important; padding: 15px 40px; font-size: 16px; font-weight: 700; border-radius: 8px; margin: 10px; cursor: pointer; transition: all 0.3s ease; font-family: 'Poppins', sans-serif; }
+        .startup-btn:hover { background: #509E2F; border-color: #509E2F; color: #FFFFFF !important; transform: scale(1.05); }
+        .startup-btn.secondary { background: #4B286D; border-color: #4B286D; color: #FFFFFF !important; }
+        .startup-btn.secondary:hover { background: #331C4A; border-color: #331C4A; }
+        
+        .incident-card { background: #F9F9F9; border: 2px solid #66CC66; border-radius: 8px; padding: 15px; margin-bottom: 12px; transition: all 0.3s ease; }
+        .incident-card:hover { background: #E8F5E9; border-color: #4B286D; transform: translateX(5px); box-shadow: 0 4px 15px rgba(75, 40, 109, 0.1); }
+        .incident-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .incident-ticket { font-size: 16px; font-weight: 700; color: #4B286D !important; }
+        .incident-status { padding: 4px 12px; border-radius: 12px; font-size: 10px; font-weight: 700; }
+        .status-progress { background: #FFF3CD; color: #856404 !important; }
+        .status-resolved { background: #D4EDDA; color: #155724 !important; }
+        .status-pending { background: #D1ECF1; color: #0C5460 !important; }
+        .incident-info { font-size: 11px; color: #666 !important; margin-top: 5px; }
+        .incident-actions { margin-top: 10px; display: flex; gap: 8px; }
+        .incident-btn { padding: 6px 14px; font-size: 11px; border-radius: 6px; border: 2px solid; cursor: pointer; font-weight: 700; transition: all 0.3s ease; }
+        .incident-btn.load { background: #66CC66; border-color: #66CC66; color: #4B286D !important; }
+        .incident-btn.load:hover { background: #509E2F; border-color: #509E2F; color: #FFFFFF !important; }
+        .incident-btn.delete { background: #E91E63; border-color: #E91E63; color: #FFFFFF !important; }
+        .incident-btn.delete:hover { background: #C2185B; border-color: #C2185B; }
+        
+        .current-incident-bar { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #4B286D, #66CC66); color: #FFFFFF !important; padding: 10px 20px; border-radius: 8px; z-index: 9999; box-shadow: 0 4px 12px rgba(0,0,0,0.3); font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 13px; display: none; }
+        .current-incident-bar span { color: #FFFFFF !important; }
+        .current-incident-bar button { background: rgba(255,255,255,0.2); border: 2px solid #FFFFFF; color: #FFFFFF !important; padding: 4px 12px; border-radius: 6px; margin-left: 15px; cursor: pointer; font-size: 11px; font-weight: 700; }
+        .current-incident-bar button:hover { background: rgba(255,255,255,0.4); }
+        
+        .email-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 10002; padding: 15px; overflow-y: auto; }
+        .email-modal-content { background: #FFFFFF; max-width: 900px; margin: 20px auto; border-radius: 12px; border: 4px solid #66CC66; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+        .email-modal-header { background: linear-gradient(135deg, #4B286D, #66CC66); color: #FFFFFF !important; padding: 18px 25px; display: flex; justify-content: space-between; align-items: center; }
+        .email-modal-header h3 { color: #FFFFFF !important; margin: 0; font-size: 20px; font-family: 'Poppins', sans-serif; }
+        .email-modal-body { padding: 25px; }
+        .email-field { margin-bottom: 15px; }
+        .email-field label { display: block; font-weight: 700; margin-bottom: 5px; font-size: 13px; }
+        .email-field input, .email-field textarea { width: 100%; padding: 10px; border: 2px solid #66CC66; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 12px; }
+        .email-field textarea { min-height: 400px; font-family: 'Courier New', monospace; resize: vertical; }
+        .email-modal-footer { padding: 18px 25px; border-top: 3px solid #66CC66; text-align: right; background: #F9F9F9; display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+        .email-preview-badge { display: inline-block; background: #4B286D; color: #FFFFFF !important; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 700; margin-left: 10px; }
+        
+        .email-preview-container { background: #f8f9fa; border: 3px solid #66CC66; border-radius: 8px; padding: 20px; margin-top: 20px; max-height: 500px; overflow-y: auto; }
+        .email-preview-header { background: linear-gradient(135deg, #4B286D, #66CC66); color: #FFFFFF !important; padding: 15px 20px; border-radius: 6px; margin-bottom: 20px; text-align: center; }
+        .email-preview-header h4 { color: #FFFFFF !important; margin: 0; font-size: 18px; font-family: 'Poppins', sans-serif; }
+        .email-preview-body { background: #FFFFFF; border: 2px solid #dee2e6; border-radius: 6px; padding: 25px; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.8; white-space: pre-wrap; word-wrap: break-word; }
+        
+        .cc-suggestions { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+        .cc-suggestion-btn { background: #e8f5e9; border: 2px solid #66CC66; color: #4B286D !important; padding: 4px 12px; border-radius: 15px; font-size: 11px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; }
+        .cc-suggestion-btn:hover { background: #66CC66; color: #FFFFFF !important; transform: scale(1.05); }
+        
+        .preview-toggle-btn { background: #4B286D; border: 2px solid #4B286D; color: #FFFFFF !important; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 12px; transition: all 0.3s ease; margin-bottom: 15px; width: 100%; }
+        .preview-toggle-btn:hover { background: #331C4A; border-color: #331C4A; }
+        .preview-toggle-btn.active { background: #66CC66; border-color: #66CC66; color: #4B286D !important; }
+        
+        label { font-size: 12px; }
     </style>
 </head>
 <body>
-    <!-- ========================================
-         🌓 FUTURISTIC DARK MODE TOGGLE
-         ======================================== -->
-    <div class="theme-toggle" onclick="toggleTheme()">
-        <span class="theme-icon" id="themeIcon">🌙</span>
-        <span id="themeText">Dark</span>
-    </div>
-
-    <!-- ========================================
-         🎯 CYBER STARTUP MODAL
-         ======================================== -->
     <div class="startup-modal" id="startupModal">
         <div class="startup-content">
             <div class="startup-header">
-                <h2>⚡ INCIDENT MANAGEMENT ⚡</h2>
+                <h2>🎯 Incident Management</h2>
             </div>
             <div class="startup-body">
-                <p>Initialize new incident protocol or load existing data?</p>
-                <button class="startup-btn" onclick="createNewIncident()">🆕 NEW INCIDENT</button>
-                <button class="startup-btn secondary" onclick="showIncidentManager()">📂 LOAD EXISTING</button>
+                <p>Would you like to create a new incident or continue with an existing one?</p>
+                <button class="startup-btn" onclick="createNewIncident()">📝 New Incident</button>
+                <button class="startup-btn secondary" onclick="showIncidentManager()">📂 Load Existing</button>
             </div>
         </div>
     </div>
 
-    <!-- ========================================
-         📍 NEON INCIDENT BAR
-         ======================================== -->
     <div class="current-incident-bar" id="currentIncidentBar">
-        <span id="currentIncidentDisplay">NO INCIDENT LOADED</span>
-        <button onclick="showIncidentManager()">SWITCH</button>
-        <button onclick="createNewIncident()">NEW</button>
+        <span id="currentIncidentDisplay">No incident loaded</span>
+        <button onclick="showIncidentManager()">Switch</button>
+        <button onclick="createNewIncident()">New</button>
     </div>
 
-    <!-- ========================================
-         💾 CYBER SAVE INDICATORS
-         ======================================== -->
-    <div class="save-indicator" id="saveIndicator">AUTO-SAVED</div>
-    <div class="draft-saved-indicator" id="draftSavedIndicator"><span>DRAFT SAVED</span></div>
-    <div class="signature"><span>APP SUPPORT 2026</span></div>
+    <div class="save-indicator" id="saveIndicator">Auto-saved</div>
+    <div class="draft-saved-indicator" id="draftSavedIndicator"><span>Draft Saved</span></div>
+    <div class="signature"><span>Application Support 2026</span></div>
 
-    <!-- ========================================
-         🔔 FUTURISTIC POPUP NOTIFICATION
-         ======================================== -->
     <div class="popup-notification" id="popupNotification">
         <div class="popup-notification-icon">⚠️</div>
-        <div class="popup-notification-title">TROUBLESHOOTING REQUIRED</div>
+        <div class="popup-notification-title">Troubleshooting Steps Required</div>
         <div class="popup-notification-message">
-            Status "RESOLVED" requires troubleshooting steps to be filled before email transmission.
+            When status is "Resolved", you must fill in the troubleshooting steps before sending the email.
         </div>
-        <button class="popup-notification-btn" onclick="closePopupNotification()">ACKNOWLEDGED</button>
+        <button class="popup-notification-btn" onclick="closePopupNotification()">Got It!</button>
     </div>
 
-    <!-- ========================================
-         📂 INCIDENT MANAGER MODAL
-         ======================================== -->
     <div class="app-modal" id="incidentManagerModal">
-        <div class="app-modal-content" style="max-width: 750px;">
+        <div class="app-modal-content" style="max-width: 700px;">
             <div class="app-modal-header">
-                <h3>📂 SAVED INCIDENTS</h3>
+                <h3>📂 Saved Incidents</h3>
                 <button class="close-btn" onclick="closeIncidentManager()">&times;</button>
             </div>
             <div class="app-modal-body">
@@ -1724,88 +209,76 @@
         </div>
     </div>
 
-    <!-- ========================================
-         ✉️ CYBER EMAIL EDITOR MODAL
-         ======================================== -->
     <div class="email-modal" id="emailModal">
         <div class="email-modal-content">
             <div class="email-modal-header">
-                <h3>✉️ EMAIL EDITOR <span class="email-preview-badge" id="emailStatusBadge">IN PROGRESS</span></h3>
+                <h3>✉️ Edit Email <span class="email-preview-badge" id="emailStatusBadge">IN PROGRESS</span></h3>
                 <button class="close-btn" onclick="closeEmailModal()">&times;</button>
             </div>
             <div class="email-modal-body">
                 <div class="email-field">
-                    <label>TO: <small style="color:#888!important;font-weight:400;text-transform:none;">(Editable)</small></label>
+                    <label>To: <small style="color:#999!important;font-weight:400">(Editable)</small></label>
                     <input type="text" id="emailTo">
                 </div>
                 <div class="email-field">
-                    <label>CC: <small style="color:#888!important;font-weight:400;text-transform:none;">(Optional - Comma Separated)</small></label>
+                    <label>CC: <small style="color:#999!important;font-weight:400">(Optional - Add multiple emails separated by comma)</small></label>
                     <input type="text" id="emailCC" placeholder="Optional - Enter CC emails separated by comma">
                     <div class="cc-suggestions">
-                        <small style="color:#888!important;font-weight:600;margin-right:8px;text-transform:uppercase;">QUICK ADD:</small>
-                        <button type="button" class="cc-suggestion-btn" onclick="addCCSuggestion('dlApplicationSupport@telus.com')">+ DL APP SUPPORT</button>
-                        <button type="button" class="cc-suggestion-btn" onclick="addCCSuggestion('dlTIP-TIDSApplicationSupport@telus.com')">+ DL TIP-TIDS</button>
+                        <small style="color:#666!important;font-weight:600;margin-right:5px;">Quick Add:</small>
+                        <button type="button" class="cc-suggestion-btn" onclick="addCCSuggestion('dlApplicationSupport@telus.com')">+ dlApplicationSupport@telus.com</button>
+                        <button type="button" class="cc-suggestion-btn" onclick="addCCSuggestion('dlTIP-TIDSApplicationSupport@telus.com')">+ dlTIP-TIDSApplicationSupport@telus.com</button>
                     </div>
                 </div>
                 <div class="email-field">
-                    <label>SUBJECT:</label>
+                    <label>Subject:</label>
                     <input type="text" id="emailSubject" readonly>
                 </div>
                 
                 <button type="button" class="preview-toggle-btn" id="previewToggleBtn" onclick="toggleEmailPreview()">
-                    📧 SWITCH TO PREVIEW MODE
+                    📧 Switch to Preview Mode
                 </button>
                 
                 <div class="email-field" id="emailEditMode">
-                    <label>EMAIL BODY: <small style="color:#888!important;font-weight:400;text-transform:none;">(Edit as needed)</small></label>
+                    <label>Email Body: <small style="color:#999!important;font-weight:400">(Edit as needed)</small></label>
                     <textarea id="emailBody"></textarea>
                 </div>
                 
                 <div class="email-preview-container" id="emailPreviewMode" style="display:none;">
                     <div class="email-preview-header">
-                        <h4>📧 EMAIL PREVIEW</h4>
+                        <h4>📧 Email Preview</h4>
                     </div>
                     <div class="email-preview-body" id="emailPreviewContent"></div>
                 </div>
             </div>
             <div class="email-modal-footer">
-                <button type="button" class="btn btn-outline-primary btn-small" onclick="saveDraft()">💾 SAVE DRAFT</button>
-                <button type="button" class="btn btn-outline-primary btn-small" onclick="loadDraft()">📂 LOAD DRAFT</button>
-                <button type="button" class="btn btn-outline-danger btn-small" onclick="deleteDraft()">🗑️ DELETE DRAFT</button>
-                <button type="button" class="btn btn-outline-primary btn-small" onclick="copyEmailToClipboard()">📋 COPY</button>
-                <button type="button" class="btn btn-outline-success btn-small" onclick="sendEditedEmail()">📧 SEND</button>
-                <button type="button" class="btn btn-outline-danger btn-small" onclick="closeEmailModal()">CANCEL</button>
+                <button type="button" class="btn btn-outline-primary btn-small" onclick="saveDraft()">💾 Save Draft</button>
+                <button type="button" class="btn btn-outline-primary btn-small" onclick="loadDraft()">📂 Load Draft</button>
+                <button type="button" class="btn btn-outline-danger btn-small" onclick="deleteDraft()">🗑️ Delete Draft</button>
+                <button type="button" class="btn btn-outline-primary btn-small" onclick="copyEmailToClipboard()">📋 Copy</button>
+                <button type="button" class="btn btn-outline-success btn-small" onclick="sendEditedEmail()">📧 Send</button>
+                <button type="button" class="btn btn-outline-danger btn-small" onclick="closeEmailModal()">Cancel</button>
             </div>
         </div>
     </div>
 
-    <!-- ========================================
-         🎴 GENERAL SELECTOR MODAL
-         ======================================== -->
     <div class="app-modal" id="appModal">
         <div class="app-modal-content">
             <div class="app-modal-header">
-                <h3 id="modalTitle">SELECT</h3>
+                <h3 id="modalTitle">Select</h3>
                 <button class="close-btn" onclick="closeAppModal()">&times;</button>
             </div>
             <div class="app-modal-body">
-                <input type="text" class="app-search" id="appSearch" placeholder="SEARCH..." onkeyup="filterModalItems()" style="display:none;">
+                <input type="text" class="app-search" id="appSearch" placeholder="Search..." onkeyup="filterModalItems()" style="display:none;">
                 <div id="modalContent"></div>
                 <ul class="app-list" id="modalList"></ul>
             </div>
         </div>
     </div>
 
-    <!-- ========================================
-         📋 MAIN CYBER FORM CONTAINER
-         ======================================== -->
     <div class="container">
-        <h1>INCIDENT MANAGEMENT CHECKLIST</h1>
+        <h1>Incident Management Checklist (IMC)</h1>
         
         <form id="imcForm">
-            <!-- ========================================
-                 📊 DETAILS OF THE ISSUE
-                 ======================================== -->
             <table class="table table-bordered">
                 <tr><th colspan="6" class="table-success text-center">DETAILS OF THE ISSUE</th></tr>
                 <tr>
@@ -1813,13 +286,13 @@
                     <td style="width:15%"><input type="text" name="ticketNumber" id="ticketNumber" class="form-control" required></td>
                     <td style="width:12%">Priority:</td>
                     <td colspan="3">
-                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:8px;">
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
                             <input type="radio" name="ticketPriority" value="PRIORITY 1" required> PRIORITY 1
                         </label>
-                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:8px;">
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
                             <input type="radio" name="ticketPriority" value="PRIORITY 2"> PRIORITY 2
                         </label>
-                        <label style="display:inline-flex;align-items:center;gap:8px;">
+                        <label style="display:inline-flex;align-items:center;gap:6px;">
                             <input type="radio" name="ticketPriority" value="PRIORITY 3"> PRIORITY 3
                         </label>
                     </td>
@@ -1835,30 +308,30 @@
                     <td>Impacted Apps:</td>
                     <td colspan="5">
                         <div class="selected-apps" id="selectedAppsDisplay"></div>
-                        <button type="button" class="add-app-btn" onclick="openAppSelector()">+ ADD APPLICATION</button>
+                        <button type="button" class="add-app-btn" onclick="openAppSelector()">+ Add Application</button>
                         <input type="hidden" id="impactedApps1" name="impactedApps1">
                         <input type="hidden" id="impactedApps2" name="impactedApps2">
                         <input type="hidden" id="impactedApps3" name="impactedApps3">
                     </td>
                 </tr>
                 <tr>
-                    <td>If not listed, enter additional apps:</td>
+                    <td>If it is not listed, please select 'Others' and enter the required information:</td>
                     <td colspan="5">
                         <textarea id="impactedAppOthers" name="impactedAppOthers" rows="2" class="form-control" placeholder="Enter additional applications"></textarea>
                     </td>
                 </tr>
                 <tr>
-                    <td>CUSTOMER/AGENT Impact:</td>
+                    <td>What is the CUSTOMER/AGENT Impact?:</td>
                     <td colspan="5"><textarea id="custAgentImpact" name="custAgentImpact" rows="2" class="form-control"></textarea></td>
                 </tr>
                 <tr>
-                    <td>TECHNICAL Impact:</td>
+                    <td>What is the TECHNICAL Impact?:</td>
                     <td colspan="5"><textarea id="technicalImpact" name="technicalImpact" rows="2" class="form-control"></textarea></td>
                 </tr>
                 <tr>
                     <td>Start Time (ET):</td>
                     <td>
-                        <button type="button" class="select-btn" onclick="openTimeSelector('start')" id="startTimeBtn">SELECT TIME</button>
+                        <button type="button" class="select-btn" onclick="openTimeSelector('start')" id="startTimeBtn">Select Time</button>
                         <input type="hidden" id="startTime" name="startTime">
                     </td>
                     <td>Date:</td>
@@ -1871,7 +344,7 @@
                 <tr>
                     <td>End Time (ET):</td>
                     <td>
-                        <button type="button" class="select-btn" onclick="openTimeSelector('end')" id="endTimeBtn">SELECT TIME</button>
+                        <button type="button" class="select-btn" onclick="openTimeSelector('end')" id="endTimeBtn">Select Time</button>
                         <input type="hidden" id="endTime" name="endTime">
                     </td>
                     <td>Date:</td>
@@ -1882,77 +355,74 @@
                     <td colspan="2"></td>
                 </tr>
                 <tr>
-                    <td>Time Explanation:</td>
+                    <td>Explanation for the Start & End Time:</td>
                     <td colspan="5"><textarea name="explainTime" rows="2" class="form-control"></textarea></td>
                 </tr>
                 <tr>
-                    <td>Can replicate incident?:</td>
+                    <td>Can we replicate the incident?:</td>
                     <td colspan="2">
-                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:8px;">
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
                             <input type="radio" name="ticketReplication" value="Yes"> Yes
                         </label>
-                        <label style="display:inline-flex;align-items:center;gap:8px;">
+                        <label style="display:inline-flex;align-items:center;gap:6px;">
                             <input type="radio" name="ticketReplication" value="No" checked> No
                         </label>
                     </td>
-                    <td>CSESM Samples:</td>
+                    <td>How many CSESM Samples?:</td>
                     <td colspan="2">
                         <input type="number" id="numSamples" name="numSamples" class="form-control" style="width:150px;display:inline-block;" min="0" max="999" placeholder="Enter number">
                     </td>
                 </tr>
                 <tr>
-                    <td>Line of Business:</td>
+                    <td>Line of Business Impacted:</td>
                     <td colspan="5">
-                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:8px;">
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
                             <input type="radio" name="lobImpact" value="Wireline"> Wireline
                         </label>
-                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:8px;">
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
                             <input type="radio" name="lobImpact" value="Wireless"> Wireless
                         </label>
-                        <label style="display:inline-flex;align-items:center;gap:8px;">
+                        <label style="display:inline-flex;align-items:center;gap:6px;">
                             <input type="radio" name="lobImpact" value="" checked> N/A
                         </label>
                     </td>
                 </tr>
                 <tr>
-                    <td>Workarounds identified?:</td>
+                    <td>Have you identified any possible workarounds or mitigation strategies?:</td>
                     <td colspan="2">
-                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:8px;">
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
                             <input type="radio" name="workaroundStrat" value="Yes"> Yes
                         </label>
-                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:8px;">
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
                             <input type="radio" name="workaroundStrat" value="No"> No
                         </label>
-                        <label style="display:inline-flex;align-items:center;gap:8px;">
+                        <label style="display:inline-flex;align-items:center;gap:6px;">
                             <input type="radio" name="workaroundStrat" value="NA" checked> N/A
                         </label>
                     </td>
-                    <td>Mitigation Strategies:</td>
+                    <td>Workaround/Mitigation Strategies:</td>
                     <td colspan="2"><textarea name="mitigationDesc" rows="2" class="form-control"></textarea></td>
                 </tr>
 
-                <!-- ========================================
-                     📝 ACTIVITY LOGS
-                     ======================================== -->
                 <tr><th colspan="6" class="table-success text-center">ACTIVITY LOGS</th></tr>
                 <tr>
                     <td>Update #:</td>
                     <td><input type="text" name="updateNumber" id="updateNumber" class="form-control" required></td>
                     <td>Created By:</td>
                     <td colspan="3">
-                        <button type="button" class="select-btn" onclick="openTeamMemberSelector()" id="teamMemberBtn">SELECT TEAM MEMBER</button>
+                        <button type="button" class="select-btn" onclick="openTeamMemberSelector()" id="teamMemberBtn">Select Team Member</button>
                         <input type="hidden" id="teamMember" name="teamMember" required>
-                        <label style="margin-left:15px;display:inline-flex;align-items:center;gap:8px;">
-                            <input type="checkbox" name="sendEmail" id="sendEmail" checked> SEND EMAIL
+                        <label style="margin-left:15px;display:inline-flex;align-items:center;gap:6px;">
+                            <input type="checkbox" name="sendEmail" id="sendEmail" checked> Send Email
                         </label>
                         <div class="button-group" style="display:inline-flex;margin-left:15px;">
-                            <button type="button" class="btn btn-outline-primary btn-small" onclick="openEmailEditor(true)" id="editEmailActivityBtn" style="margin-right:10px">✉️ EDIT EMAIL</button>
-                            <button type="button" class="btn btn-outline-success btn-small" id="submitActivityBtn" onclick="submitActivityLog()">SUBMIT</button>
+                            <button type="button" class="btn btn-outline-primary btn-small" onclick="openEmailEditor(true)" id="editEmailActivityBtn" style="margin-right:8px">✉️ Edit Email</button>
+                            <button type="button" class="btn btn-outline-success btn-small" id="submitActivityBtn" onclick="submitActivityLog()">Submit</button>
                         </div>
                     </td>
                 </tr>
                 <tr>
-                    <td>Teams/Individuals on Bridge:</td>
+                    <td>Record the names of teams/individuals on the bridge:</td>
                     <td colspan="5"><textarea name="teamsOnBridge" rows="3" class="form-control"></textarea></td>
                 </tr>
                 <tr>
@@ -1960,108 +430,99 @@
                     <td colspan="5"><textarea name="detailsTxtbox" rows="5" class="form-control"></textarea></td>
                 </tr>
 
-                <!-- ========================================
-                     🔧 CHANGE/DEFECTS INFORMATION
-                     ======================================== -->
                 <tr><th colspan="6" class="table-success text-center">CHANGE/DEFECTS INFORMATION</th></tr>
                 <tr>
-                    <td>Related to recent change?:</td>
+                    <td>Is the issue related to a recent change?:</td>
                     <td colspan="2">
-                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:8px;">
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
                             <input type="radio" name="detailsCRQ1" value="Yes"> Yes
                         </label>
-                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:8px;">
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
                             <input type="radio" name="detailsCRQ1" value="No"> No
                         </label>
-                        <label style="display:inline-flex;align-items:center;gap:8px;">
+                        <label style="display:inline-flex;align-items:center;gap:6px;">
                             <input type="radio" name="detailsCRQ1" value="" checked> Undetermined
                         </label>
                     </td>
-                    <td>Details:</td>
+                    <td>Details (Schedule and Implementer):</td>
                     <td colspan="2"><textarea name="detailsCRQ1Text" rows="2" class="form-control"></textarea></td>
                 </tr>
                 <tr>
-                    <td>NEW change required?:</td>
+                    <td>Is there a NEW change req'd for this incident?:</td>
                     <td colspan="2">
-                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:8px;">
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
                             <input type="radio" name="detailsCRQ2" value="Yes"> Yes
                         </label>
-                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:8px;">
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
                             <input type="radio" name="detailsCRQ2" value="No"> No
                         </label>
-                        <label style="display:inline-flex;align-items:center;gap:8px;">
+                        <label style="display:inline-flex;align-items:center;gap:6px;">
                             <input type="radio" name="detailsCRQ2" value="" checked> Undetermined
                         </label>
                     </td>
-                    <td>Details:</td>
+                    <td>Details (Schedule and Implementer):</td>
                     <td colspan="2"><textarea name="detailsCRQ2Text" rows="2" class="form-control"></textarea></td>
                 </tr>
                 <tr>
-                    <td>Defect related?:</td>
+                    <td>Is there a defect related to this incident?:</td>
                     <td colspan="2">
-                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:8px;">
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
                             <input type="radio" name="defectRelated" value="Yes"> Yes
                         </label>
-                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:8px;">
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
                             <input type="radio" name="defectRelated" value="No"> No
                         </label>
-                        <label style="display:inline-flex;align-items:center;gap:8px;">
+                        <label style="display:inline-flex;align-items:center;gap:6px;">
                             <input type="radio" name="defectRelated" value="" checked> Undetermined
                         </label>
                     </td>
-                    <td>Details:</td>
+                    <td>Details (Schedule & Team Assigned):</td>
                     <td colspan="2"><textarea name="defectDetails" rows="2" class="form-control"></textarea></td>
                 </tr>
                 <tr>
-                    <td>NEW defect created?:</td>
+                    <td>Is there a NEW defect created as a product of this incident?:</td>
                     <td colspan="2">
-                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:8px;">
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
                             <input type="radio" name="defectNew" value="Yes"> Yes
                         </label>
-                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:8px;">
+                        <label style="margin-right:15px;display:inline-flex;align-items:center;gap:6px;">
                             <input type="radio" name="defectNew" value="No"> No
                         </label>
-                        <label style="display:inline-flex;align-items:center;gap:8px;">
+                        <label style="display:inline-flex;align-items:center;gap:6px;">
                             <input type="radio" name="defectNew" value="" checked> Undetermined
                         </label>
                     </td>
-                    <td>Details:</td>
+                    <td>Details (Schedule & Team Assigned):</td>
                     <td colspan="2"><textarea name="defectNewDetails" rows="2" class="form-control"></textarea></td>
                 </tr>
 
-                <!-- ========================================
-                     🎯 ROOT CAUSE AND RESOLUTION
-                     ======================================== -->
                 <tr><th colspan="6" class="table-success text-center">ROOT CAUSE AND RESOLUTION</th></tr>
                 <tr>
-                    <td>Resolved By (Team):</td>
+                    <td>Who and from which team resolved the issue?:</td>
                     <td colspan="2"><textarea name="resolverTeam" id="resolverTeam" rows="2" class="form-control"></textarea></td>
-                    <td>RCA Category:</td>
+                    <td>Applicable Root Cause Category:</td>
                     <td colspan="2">
-                        <button type="button" class="select-btn" onclick="openRCASelector()" id="rcaBtn">SELECT RCA CATEGORY</button>
+                        <button type="button" class="select-btn" onclick="openRCASelector()" id="rcaBtn">Select RCA Category</button>
                         <input type="hidden" id="rcaCategory" name="rcaCategory" value="Undetermined">
                     </td>
                 </tr>
                 <tr>
-                    <td>Root Cause:</td>
+                    <td>What is the root cause of the issue?:</td>
                     <td colspan="5"><textarea name="rootcause" id="rootcause" rows="2" class="form-control"></textarea></td>
                 </tr>
                 <tr>
-                    <td>Impacted Component:</td>
+                    <td>What is the impacted/failing component (i.e. domain/service)?:</td>
                     <td colspan="5"><textarea name="impactedComponent" id="impactedComponent" rows="1" class="form-control"></textarea></td>
                 </tr>
                 <tr>
-                    <td>Troubleshooting Steps:</td>
+                    <td>What are the troubleshooting steps done to resolve the issue?:</td>
                     <td colspan="5">
                         <textarea name="tsSteps" id="tsSteps" rows="2" class="form-control"></textarea>
-                        <div class="error-message" id="tsStepsError">⚠️ REQUIRED WHEN STATUS IS "RESOLVED"</div>
+                        <div class="error-message" id="tsStepsError">This field is required when status is "Resolved"</div>
                     </td>
                 </tr>
             </table>
 
-            <!-- ========================================
-                 📊 IMPACT ASSESSMENT
-                 ======================================== -->
             <table class="table table-bordered">
                 <tr><th colspan="6" class="table-success text-center">IMPACT ASSESSMENT</th></tr>
                 <tr>
@@ -2073,25 +534,22 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="width:18%">Other Apps Impact %:</td>
+                    <td style="width:18%">If Others, Provide App then Impact Percentage (i.e. SD=10%,DT1=5%):</td>
                     <td colspan="2"><textarea id="impactPercentOthers" name="impactPercentOthers" rows="2" class="form-control" readonly></textarea></td>
-                    <td style="width:12%">Remarks:</td>
+                    <td style="width:12%">Remarks (If Any):</td>
                     <td colspan="2"><textarea name="impactedRemarks" rows="2" class="form-control"></textarea></td>
                 </tr>
                 <tr>
-                    <td colspan="6" style="text-align:center;padding:20px;">
-                        <button type="button" class="btn btn-outline-primary" onclick="openEmailEditor(false)" id="editEmailMainBtn" style="margin-right:12px">✉️ EDIT EMAIL</button>
-                        <button type="submit" id="mainSubmitBtn" class="btn btn-outline-success">SUBMIT</button>
-                        <button type="reset" class="btn btn-outline-danger" onclick="resetForm()">CLEAR</button>
+                    <td colspan="6" style="text-align:center;padding:15px;">
+                        <button type="button" class="btn btn-outline-primary" onclick="openEmailEditor(false)" id="editEmailMainBtn" style="margin-right:10px">✉️ Edit Email</button>
+                        <button type="submit" id="mainSubmitBtn" class="btn btn-outline-success">Submit</button>
+                        <button type="reset" class="btn btn-outline-danger" onclick="resetForm()">Clear</button>
                     </td>
                 </tr>
             </table>
         </form>
     </div>
 	    <script>
-        // ========================================
-        // 📋 CONFIGURATION & CONSTANTS
-        // ========================================
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/a/macros/telusinternational.com/s/AKfycbxTM9uNbovGMbbuO1c-7GDRq-WzS8GxVxSORxYvjBCZYCFQlMxpccHxVfDGVU--gjpjZg/exec';
         const HARDCODED_SUBJECT = 'AppSupport - Incident Management Checklist';
         
@@ -2138,48 +596,6 @@
         let currentYear = new Date().getFullYear();
         let currentIncidentId = null;
 
-        // ========================================
-        // 🌓 DARK MODE FUNCTIONALITY
-        // ========================================
-        function toggleTheme() {
-            const html = document.documentElement;
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            html.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            
-            const icon = document.getElementById('themeIcon');
-            const text = document.getElementById('themeText');
-            
-            if (newTheme === 'dark') {
-                icon.textContent = '☀️';
-                text.textContent = 'LIGHT';
-            } else {
-                icon.textContent = '🌙';
-                text.textContent = 'DARK';
-            }
-        }
-
-        function loadSavedTheme() {
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            
-            const icon = document.getElementById('themeIcon');
-            const text = document.getElementById('themeText');
-            
-            if (savedTheme === 'dark') {
-                icon.textContent = '☀️';
-                text.textContent = 'LIGHT';
-            } else {
-                icon.textContent = '🌙';
-                text.textContent = 'DARK';
-            }
-        }
-
-        // ========================================
-        // 🔔 POPUP NOTIFICATION - NEW FEATURE
-        // ========================================
         function showPopupNotification() {
             const popup = document.getElementById('popupNotification');
             popup.classList.add('show');
@@ -2190,15 +606,11 @@
             popup.classList.remove('show');
         }
 
-        // ========================================
-        // ✅ EMAIL RECIPIENT HELPER
-        // ========================================
         function getEmailRecipient(status, teamMember) {
             console.log('🔍 Getting email recipient...');
             console.log('   Status: ' + status);
             console.log('   Team Member: ' + teamMember);
             
-            // ✅ IF STATUS IS TEST → SEND TO TEAM MEMBER
             if (status === 'TEST') {
                 const teamEmail = EMAIL_MAP[teamMember];
                 if (teamEmail) {
@@ -2210,14 +622,10 @@
                 }
             }
             
-            // ✅ ALL OTHER STATUSES → SEND TO DL
             console.log('✅ NON-TEST STATUS → Sending to: dlApplicationSupport@telus.com');
             return 'dlApplicationSupport@telus.com';
         }
 
-        // ========================================
-        // 📂 INCIDENT MANAGEMENT
-        // ========================================
         function showStartupModal() {
             document.getElementById('startupModal').style.display = 'block';
         }
@@ -2236,7 +644,7 @@
             const list = document.getElementById('incidentList');
             
             if (incidents.length === 0) {
-                list.innerHTML = '<p style="text-align:center;padding:40px;color:#888!important;font-style:italic;font-size:15px;">No saved incidents found. Create a new one!</p>';
+                list.innerHTML = '<p style="text-align:center;padding:30px;color:#999!important;font-style:italic;">No saved incidents found. Create a new one!</p>';
             } else {
                 list.innerHTML = '';
                 incidents.forEach(incident => {
@@ -2263,16 +671,16 @@
             
             card.innerHTML = `
                 <div class="incident-card-header">
-                    <div class="incident-ticket">🎫 ${incident.ticketNumber || 'UNTITLED'}</div>
-                    <div class="incident-status ${statusClass}">${incident.ticketStatus || 'UNKNOWN'}</div>
+                    <div class="incident-ticket">🎫 ${incident.ticketNumber || 'Untitled'}</div>
+                    <div class="incident-status ${statusClass}">${incident.ticketStatus || 'Unknown'}</div>
                 </div>
                 <div class="incident-info">
                     📅 Last saved: ${lastSaved}<br>
                     👤 Team: ${incident.teamMember || 'N/A'} | 🔢 Update: ${incident.updateNumber || 'N/A'}
                 </div>
                 <div class="incident-actions">
-                    <button class="incident-btn load" onclick="loadIncident('${incident.id}')">LOAD</button>
-                    <button class="incident-btn delete" onclick="deleteIncident('${incident.id}')">DELETE</button>
+                    <button class="incident-btn load" onclick="loadIncident('${incident.id}')">Load</button>
+                    <button class="incident-btn delete" onclick="deleteIncident('${incident.id}')">Delete</button>
                 </div>
             `;
             
@@ -2309,10 +717,10 @@
                 restoreIncidentData(data);
                 closeIncidentManager();
                 
-                document.getElementById('currentIncidentDisplay').textContent = '📋 ' + (data.ticketNumber || 'UNTITLED');
+                document.getElementById('currentIncidentDisplay').textContent = '📋 ' + (data.ticketNumber || 'Untitled');
                 document.getElementById('currentIncidentBar').style.display = 'block';
                 
-                alert('✓ Incident loaded: ' + (data.ticketNumber || 'UNTITLED'));
+                alert('✓ Incident loaded: ' + (data.ticketNumber || 'Untitled'));
             } catch (e) {
                 alert('Error loading incident: ' + e.message);
             }
@@ -2386,11 +794,11 @@
             
             localStorage.setItem(currentIncidentId, JSON.stringify(data));
             
-            document.getElementById('currentIncidentDisplay').textContent = '📋 ' + ticketNumber.toUpperCase();
+            document.getElementById('currentIncidentDisplay').textContent = '📋 ' + ticketNumber;
             document.getElementById('currentIncidentBar').style.display = 'block';
             
             const indicator = document.getElementById('saveIndicator');
-            indicator.textContent = 'SAVED ' + new Date().toLocaleTimeString();
+            indicator.textContent = 'Saved ' + new Date().toLocaleTimeString();
             indicator.classList.add('show');
             setTimeout(() => indicator.classList.remove('show'), 2000);
         }
@@ -2499,9 +907,6 @@
             }
         }
 
-        // ========================================
-        // ✉️ EMAIL EDITOR - FIXED VERSION
-        // ========================================
         function openEmailEditor(isActivity) {
             const data = getAllFormData();
             
@@ -2515,14 +920,11 @@
                 return;
             }
             
-            // ✅ FIX: Check TS steps and show popup if Resolved + empty
             if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
-                console.log('❌ Showing popup - Resolved without TS steps');
                 showPopupNotification();
                 return;
             }
             
-            // ✅ GET CORRECT EMAIL RECIPIENT
             const emailTo = getEmailRecipient(data.ticketStatus, data.teamMember);
             
             console.log('✅ Email TO will be set to: ' + emailTo);
@@ -2537,7 +939,7 @@
             
             document.getElementById('emailEditMode').style.display = 'block';
             document.getElementById('emailPreviewMode').style.display = 'none';
-            document.getElementById('previewToggleBtn').textContent = '📧 SWITCH TO PREVIEW MODE';
+            document.getElementById('previewToggleBtn').textContent = '📧 Switch to Preview Mode';
             document.getElementById('previewToggleBtn').classList.remove('active');
             
             const draftKey = 'imc_draft_' + data.ticketNumber.replace(/[^a-zA-Z0-9]/g, '_');
@@ -2587,7 +989,7 @@
             localStorage.setItem(draftKey, JSON.stringify(draftData));
             
             const indicator = document.getElementById('draftSavedIndicator');
-            indicator.innerHTML = '<span>💾 DRAFT SAVED ' + new Date().toLocaleTimeString() + '</span>';
+            indicator.innerHTML = '<span>💾 Draft Saved ' + new Date().toLocaleTimeString() + '</span>';
             indicator.classList.add('show');
             setTimeout(() => indicator.classList.remove('show'), 2500);
             
@@ -2663,14 +1065,14 @@
             
             const btn = event.target;
             const originalText = btn.textContent;
-            btn.textContent = '✓ ADDED!';
-            btn.style.background = 'var(--neon-cyan)';
-            btn.style.color = 'var(--deep-space)';
+            btn.textContent = '✓ Added!';
+            btn.style.background = '#66CC66';
+            btn.style.color = '#FFFFFF';
             
             setTimeout(() => {
                 btn.textContent = originalText;
-                btn.style.background = 'rgba(0, 245, 255, 0.1)';
-                btn.style.color = 'var(--neon-cyan)';
+                btn.style.background = '#e8f5e9';
+                btn.style.color = '#4B286D';
             }, 1500);
         }
 
@@ -2683,12 +1085,12 @@
             if (editMode.style.display === 'none') {
                 editMode.style.display = 'block';
                 previewMode.style.display = 'none';
-                toggleBtn.textContent = '📧 SWITCH TO PREVIEW MODE';
+                toggleBtn.textContent = '📧 Switch to Preview Mode';
                 toggleBtn.classList.remove('active');
             } else {
                 editMode.style.display = 'none';
                 previewMode.style.display = 'block';
-                toggleBtn.textContent = '✏️ SWITCH TO EDIT MODE';
+                toggleBtn.textContent = '✏️ Switch to Edit Mode';
                 toggleBtn.classList.add('active');
                 generateEmailPreview(emailBody);
             }
@@ -2698,20 +1100,20 @@
             const previewContent = document.getElementById('emailPreviewContent');
             
             let formattedHTML = emailBody
-                .replace(/═══════════════════════════════════════════════════/g, '<div style="border-top:3px solid var(--neon-cyan);margin:15px 0;box-shadow:0 0 10px var(--glow-cyan);"></div>')
-                .replace(/📋 DETAILS OF THE ISSUE/g, '<strong style="color:var(--neon-cyan)!important;font-size:16px;text-shadow:0 0 10px var(--glow-cyan);">📋 DETAILS OF THE ISSUE</strong>')
-                .replace(/📝 ACTIVITY LOGS/g, '<strong style="color:var(--neon-cyan)!important;font-size:16px;text-shadow:0 0 10px var(--glow-cyan);">📝 ACTIVITY LOGS</strong>')
-                .replace(/🔧 CHANGE\/DEFECTS INFORMATION/g, '<strong style="color:var(--neon-cyan)!important;font-size:16px;text-shadow:0 0 10px var(--glow-cyan);">🔧 CHANGE/DEFECTS INFORMATION</strong>')
-                .replace(/🎯 ROOT CAUSE AND RESOLUTION/g, '<strong style="color:var(--neon-cyan)!important;font-size:16px;text-shadow:0 0 10px var(--glow-cyan);">🎯 ROOT CAUSE AND RESOLUTION</strong>')
-                .replace(/📊 IMPACT ASSESSMENT/g, '<strong style="color:var(--neon-cyan)!important;font-size:16px;text-shadow:0 0 10px var(--glow-cyan);">📊 IMPACT ASSESSMENT</strong>')
-                .replace(/Application Support Team/g, '<strong style="color:var(--neon-purple)!important;font-size:16px;text-shadow:0 0 10px var(--glow-purple);">Application Support Team</strong>');
+                .replace(/═══════════════════════════════════════════════════/g, '<div class="email-section-divider"></div>')
+                .replace(/📋 DETAILS OF THE ISSUE/g, '<div class="email-field-label">📋 DETAILS OF THE ISSUE</div>')
+                .replace(/📝 ACTIVITY LOGS/g, '<div class="email-field-label">📝 ACTIVITY LOGS</div>')
+                .replace(/🔧 CHANGE\/DEFECTS INFORMATION/g, '<div class="email-field-label">🔧 CHANGE/DEFECTS INFORMATION</div>')
+                .replace(/🎯 ROOT CAUSE AND RESOLUTION/g, '<div class="email-field-label">🎯 ROOT CAUSE AND RESOLUTION</div>')
+                .replace(/📊 IMPACT ASSESSMENT/g, '<div class="email-field-label">📊 IMPACT ASSESSMENT</div>')
+                .replace(/Application Support Team/g, '<div class="email-field-label">Application Support Team</div>');
             
             formattedHTML = formattedHTML.replace(/(Ticket #:|Priority:|Status:|Update #:|Created By:|Timestamp:|Resolved By:|Root Cause Category:|Root Cause:|Impacted Component:|Troubleshooting Steps:)/g, 
-                '<strong style="color:var(--neon-purple)!important;">$1</strong>');
+                '<strong style="color:#4B286D!important;">$1</strong>');
             
             formattedHTML = formattedHTML.replace(/  - /g, '&nbsp;&nbsp;- ');
             
-            previewContent.innerHTML = '<pre style="margin:0;font-family:\'Courier New\',monospace;white-space:pre-wrap;word-wrap:break-word;line-height:1.8;">' + formattedHTML + '</pre>';
+            previewContent.innerHTML = '<pre style="margin:0;font-family:\'Courier New\',monospace;white-space:pre-wrap;word-wrap:break-word;">' + formattedHTML + '</pre>';
         }
 
         function generateEmailBody(data) {
@@ -2909,9 +1311,6 @@
             submitToServer(data, isActivity);
         }
 
-        // ========================================
-        // 🔧 HELPER FUNCTIONS
-        // ========================================
         function getRadioValue(name) {
             const radios = document.querySelectorAll('input[name="' + name + '"]');
             for (let radio of radios) {
@@ -2919,20 +1318,19 @@
             }
             return '';
         }
-
-        function openTimeSelector(field) {
+		        function openTimeSelector(field) {
             currentTimeField = field;
-            document.getElementById('modalTitle').textContent = 'SELECT TIME';
+            document.getElementById('modalTitle').textContent = 'Select Time';
             document.getElementById('appSearch').style.display = 'none';
             document.getElementById('modalList').style.display = 'none';
             const content = document.getElementById('modalContent');
             content.style.display = 'block';
             
             let html = '<div class="time-selector">';
-            html += '<div class="time-input-group"><label>HOUR</label><select id="hourSelect">';
+            html += '<div class="time-input-group"><label>Hour</label><select id="hourSelect">';
             for (let h = 1; h <= 12; h++) html += '<option value="' + h + '">' + h + '</option>';
             html += '</select></div>';
-            html += '<div class="time-input-group"><label>MINUTE</label><select id="minuteSelect">';
+            html += '<div class="time-input-group"><label>Minute</label><select id="minuteSelect">';
             for (let m = 0; m <= 59; m++) {
                 const min = String(m).padStart(2, '0');
                 html += '<option value="' + min + '">' + min + '</option>';
@@ -2940,7 +1338,7 @@
             html += '</select></div>';
             html += '<div class="time-input-group"><label>AM/PM</label><select id="ampmSelect"><option value="AM">AM</option><option value="PM">PM</option></select></div>';
             html += '</div>';
-            html += '<div style="text-align:center;margin-top:25px;"><button type="button" class="btn btn-outline-success btn-small" onclick="confirmTime()">CONFIRM</button></div>';
+            html += '<div style="text-align:center;margin-top:20px;"><button type="button" class="btn btn-outline-success btn-small" onclick="confirmTime()">Confirm</button></div>';
             
             content.innerHTML = html;
             document.getElementById('appModal').style.display = 'block';
@@ -2967,7 +1365,7 @@
 
         function openDateSelector(field) {
             currentDateField = field;
-            document.getElementById('modalTitle').textContent = 'SELECT DATE';
+            document.getElementById('modalTitle').textContent = 'Select Date';
             document.getElementById('appSearch').style.display = 'none';
             document.getElementById('modalList').style.display = 'none';
             const content = document.getElementById('modalContent');
@@ -2978,13 +1376,13 @@
 
         function renderCalendar() {
             const content = document.getElementById('modalContent');
-            const monthNames = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
-            const dayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
             
             let html = '<div class="month-nav">';
-            html += '<button type="button" onclick="changeMonth(-1)">◀ PREV</button>';
+            html += '<button type="button" onclick="changeMonth(-1)">Previous</button>';
             html += '<span>' + monthNames[currentMonth] + ' ' + currentYear + '</span>';
-            html += '<button type="button" onclick="changeMonth(1)">NEXT ▶</button>';
+            html += '<button type="button" onclick="changeMonth(1)">Next</button>';
             html += '</div><div class="date-grid">';
             
             dayNames.forEach(day => html += '<div class="date-header">' + day + '</div>');
@@ -3026,7 +1424,7 @@
         }
 
         function openStatusSelector() {
-            document.getElementById('modalTitle').textContent = 'SELECT STATUS';
+            document.getElementById('modalTitle').textContent = 'Select Status';
             document.getElementById('appSearch').style.display = 'none';
             document.getElementById('modalContent').style.display = 'none';
             document.getElementById('modalList').style.display = 'block';
@@ -3058,7 +1456,7 @@
         }
 
         function openTeamMemberSelector() {
-            document.getElementById('modalTitle').textContent = 'SELECT TEAM MEMBER';
+            document.getElementById('modalTitle').textContent = 'Select Team Member';
             document.getElementById('appSearch').style.display = 'block';
             document.getElementById('modalContent').style.display = 'none';
             document.getElementById('modalList').style.display = 'block';
@@ -3083,7 +1481,7 @@
         }
 
         function openRCASelector() {
-            document.getElementById('modalTitle').textContent = 'SELECT RCA CATEGORY';
+            document.getElementById('modalTitle').textContent = 'Select RCA Category';
             document.getElementById('appSearch').style.display = 'block';
             document.getElementById('modalContent').style.display = 'none';
             document.getElementById('modalList').style.display = 'block';
@@ -3108,7 +1506,7 @@
         }
 
         function openAppSelector() {
-            document.getElementById('modalTitle').textContent = 'SELECT APPLICATIONS';
+            document.getElementById('modalTitle').textContent = 'Select Applications';
             document.getElementById('appSearch').style.display = 'block';
             document.getElementById('modalContent').style.display = 'none';
             document.getElementById('modalList').style.display = 'block';
@@ -3152,7 +1550,7 @@
             const display = document.getElementById('selectedAppsDisplay');
             display.innerHTML = '';
             if (selectedApps.length === 0) {
-                display.innerHTML = '<span style="color:#888!important;font-style:italic;padding:8px">NO APPS SELECTED</span>';
+                display.innerHTML = '<span style="color:#999!important;font-style:italic;padding:6px">No apps selected</span>';
                 return;
             }
             selectedApps.forEach(app => {
@@ -3177,7 +1575,7 @@
             othersBox.value = detailsOthers;
             
             if (selectedApps.length === 0) {
-                container.innerHTML = '<p style="padding:20px;text-align:center;color:#888!important;font-style:italic;font-size:14px;">NO APPLICATIONS SELECTED</p>';
+                container.innerHTML = '<p style="padding:15px;text-align:center;color:#999!important;font-style:italic">No applications selected</p>';
                 document.getElementById('impactPercent1').value = '';
                 document.getElementById('impactPercent2').value = '';
                 document.getElementById('impactPercent3').value = '';
@@ -3189,9 +1587,9 @@
                 row.className = 'impact-app-row';
                 row.innerHTML = '<div class="impact-app-name">' + app + '</div>' +
                     '<div class="impact-input-group">' +
-                    '<label>IMPACT %:</label>' +
-                    '<input type="text" name="impactPercentage' + (index + 1) + '" id="impactPercentage' + (index + 1) + '" class="form-control" style="width:90px">' +
-                    '<label style="margin-left:12px">REASON:</label>' +
+                    '<label>Impact %:</label>' +
+                    '<input type="text" name="impactPercentage' + (index + 1) + '" id="impactPercentage' + (index + 1) + '" class="form-control" style="width:80px">' +
+                    '<label style="margin-left:10px">Reason:</label>' +
                     '<input type="text" name="impactReason' + (index + 1) + '" id="impactReason' + (index + 1) + '" class="form-control" placeholder="Impact reason" style="flex:1">' +
                     '</div>';
                 container.appendChild(row);
@@ -3226,9 +1624,9 @@
             document.getElementById('imcForm').reset();
             document.getElementById('statusBtn').textContent = 'In Progress';
             document.getElementById('statusBtn').classList.add('selected');
-            document.getElementById('teamMemberBtn').textContent = 'SELECT TEAM MEMBER';
+            document.getElementById('teamMemberBtn').textContent = 'Select Team Member';
             document.getElementById('teamMemberBtn').classList.remove('selected');
-            document.getElementById('rcaBtn').textContent = 'SELECT RCA CATEGORY';
+            document.getElementById('rcaBtn').textContent = 'Select RCA Category';
             document.getElementById('rcaBtn').classList.remove('selected');
             
             const today = new Date();
@@ -3240,9 +1638,9 @@
             document.getElementById('endDateBtn').textContent = formatted;
             document.getElementById('startDateBtn').classList.add('selected');
             document.getElementById('endDateBtn').classList.add('selected');
-            document.getElementById('startTimeBtn').textContent = 'SELECT TIME';
+            document.getElementById('startTimeBtn').textContent = 'Select Time';
             document.getElementById('startTimeBtn').classList.remove('selected');
-            document.getElementById('endTimeBtn').textContent = 'SELECT TIME';
+            document.getElementById('endTimeBtn').textContent = 'Select Time';
             document.getElementById('endTimeBtn').classList.remove('selected');
         }
 
@@ -3318,9 +1716,6 @@
             };
         }
 
-        // ========================================
-        // ✅ SUBMIT ACTIVITY LOG - FIXED
-        // ========================================
         function submitActivityLog() {
             const data = getAllFormData();
             
@@ -3329,9 +1724,7 @@
                 return;
             }
             
-            // ✅ FIX: Check TS steps and show popup if Resolved + empty
             if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
-                console.log('❌ Showing popup - Resolved without TS steps');
                 showPopupNotification();
                 return;
             }
@@ -3355,9 +1748,6 @@
             submitToServer(data, true);
         }
 
-        // ========================================
-        // ✅ MAIN FORM SUBMIT - FIXED
-        // ========================================
         document.getElementById('imcForm').addEventListener('submit', (e) => {
             e.preventDefault();
             
@@ -3372,9 +1762,7 @@
                 return;
             }
             
-            // ✅ FIX: Check TS steps and show popup if Resolved + empty
             if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
-                console.log('❌ Showing popup - Resolved without TS steps');
                 showPopupNotification();
                 return;
             }
@@ -3396,7 +1784,7 @@
         function submitToServer(data, isActivity) {
             const btn = isActivity ? document.getElementById('submitActivityBtn') : document.getElementById('mainSubmitBtn');
             btn.disabled = true;
-            btn.textContent = 'SENDING...';
+            btn.textContent = 'Sending...';
             
             console.log('=== SUBMITTING TO SERVER ===');
             console.log('TO: ' + data.customRecipient);
@@ -3431,7 +1819,7 @@
                 document.body.removeChild(form);
                 document.body.removeChild(iframe);
                 btn.disabled = false;
-                btn.textContent = 'SUBMIT';
+                btn.textContent = 'Submit';
                 
                 const ccInfo = data.customCC ? '\nCC: ' + data.customCC : '';
                 alert('✓ Email Sent!\n\nTo: ' + data.customRecipient + ccInfo + '\nFrom: Application Support\nCreated By: ' + data.teamMember);
@@ -3465,9 +1853,6 @@
             }, 2000);
         }
 
-        // ========================================
-        // ✅ VALIDATION - FIXED TO INCLUDE EMAIL EDIT BUTTONS
-        // ========================================
         function initializeTroubleshootingValidation() {
             const tsSteps = document.getElementById('tsSteps');
             const ticketStatus = document.getElementById('ticketStatus');
@@ -3528,9 +1913,6 @@
             }
         });
 
-        // ========================================
-        // 🚀 INITIALIZATION
-        // ========================================
         window.addEventListener('DOMContentLoaded', () => {
             const today = new Date();
             const todayStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
@@ -3549,8 +1931,7 @@
             syncToImpactAssessment();
             document.getElementById('ticketStatus').value = 'In Progress';
             
-            console.log('🎯 Initializing Hi-Tech IMC System...');
-            loadSavedTheme();
+            console.log('🎯 Initializing IMC...');
             initializeTroubleshootingValidation();
             setupAutoSave();
             
