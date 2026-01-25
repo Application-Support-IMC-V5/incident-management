@@ -28,48 +28,36 @@
         .container { background: var(--telus-white); padding: 35px; border-radius: 16px; border: 2px solid var(--telus-medium-gray); max-width: 1400px; margin: auto; box-shadow: 0 10px 40px rgba(75, 40, 109, 0.08); }
         h1 { text-align: center; font-family: 'Inter', sans-serif; font-weight: 700; margin-bottom: 35px; font-size: 32px; letter-spacing: -0.5px; color: var(--telus-purple) !important; }
         label { font-size: 13px; font-weight: 500; color: var(--telus-text-dark) !important; }
-        .table { margin-bottom: 25px; border: 1px solid var(--telus-medium-gray); border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); background: var(--telus-white); }
-        th { padding: 16px; font-family: 'Inter', sans-serif; background: linear-gradient(135deg, var(--telus-purple), var(--telus-light-purple)) !important; font-size: 15px; font-weight: 600; border: none !important; color: var(--telus-white) !important; text-transform: uppercase; letter-spacing: 0.5px; }
+        .table { margin-bottom: 25px; border: 1px solid var(--telus-medium-gray); border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); background: var(--telus-white); position: relative; }
+        th { padding: 16px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; border: none !important; color: var(--telus-white) !important; text-transform: uppercase; letter-spacing: 0.5px; }
         td { padding: 14px; vertical-align: middle; background: var(--telus-white); font-weight: 400; font-size: 13px; font-family: 'Inter', sans-serif; border: 1px solid var(--telus-medium-gray); color: var(--telus-text-dark) !important; transition: background 0.2s ease; }
         tr:hover td { background: var(--telus-light-gray); }
-        .table-success { background: linear-gradient(135deg, var(--telus-purple), var(--telus-light-purple)) !important; border: none !important; }
+        .table-success { border: none !important; }
         input:required, select:required, textarea:required { border-color: var(--telus-accent-pink) !important; border-width: 2px !important; }
         .form-control { border: 1px solid var(--telus-medium-gray); border-radius: 8px; background: var(--telus-white); color: var(--telus-text-dark) !important; font-size: 13px; font-family: 'Inter', sans-serif; font-weight: 400; padding: 10px 14px; transition: all 0.2s ease; }
-        .form-control:focus { border-color: var(--telus-purple); outline: none; box-shadow: 0 0 0 3px rgba(75, 40, 109, 0.1); }
         .form-control:hover { border-color: var(--telus-light-purple); }
         textarea { resize: vertical; }
         input[type="checkbox"], input[type="radio"] { width: 18px; height: 18px; cursor: pointer; accent-color: var(--telus-purple); }
-        .btn-outline-success { background: var(--telus-green); border: 2px solid var(--telus-green); padding: 12px 28px; font-weight: 600; font-size: 14px; font-family: 'Inter', sans-serif; border-radius: 8px; color: var(--telus-white) !important; box-shadow: 0 2px 8px rgba(102, 204, 102, 0.2); transition: all 0.2s ease; cursor: pointer; }
-        .btn-outline-success:hover { background: var(--telus-dark-green); border-color: var(--telus-dark-green); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(102, 204, 102, 0.3); }
-        .btn-outline-danger { background: var(--telus-accent-pink); border: 2px solid var(--telus-accent-pink); padding: 12px 28px; font-weight: 600; font-size: 14px; font-family: 'Inter', sans-serif; border-radius: 8px; color: var(--telus-white) !important; box-shadow: 0 2px 8px rgba(233, 30, 99, 0.2); transition: all 0.2s ease; cursor: pointer; }
-        .btn-outline-danger:hover { background: #C2185B; border-color: #C2185B; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3); }
-        .btn-outline-primary { background: var(--telus-purple); border: 2px solid var(--telus-purple); padding: 12px 28px; font-weight: 600; font-size: 14px; font-family: 'Inter', sans-serif; border-radius: 8px; color: var(--telus-white) !important; box-shadow: 0 2px 8px rgba(75, 40, 109, 0.2); transition: all 0.2s ease; cursor: pointer; }
-        .btn-outline-primary:hover { background: var(--telus-dark-purple); border-color: var(--telus-dark-purple); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(75, 40, 109, 0.3); }
         .btn-small { padding: 9px 20px; font-size: 13px; }
-        .btn-disabled { opacity: 0.4 !important; cursor: not-allowed !important; pointer-events: none !important; filter: grayscale(50%); }
         .button-group { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
-        .save-indicator { position: fixed; top: 20px; right: 20px; background: var(--telus-green); color: var(--telus-white) !important; padding: 10px 18px; border-radius: 8px; font-weight: 600; opacity: 0; transition: all 0.3s ease; z-index: 10000; font-size: 12px; box-shadow: 0 4px 12px rgba(102, 204, 102, 0.3); }
+        .save-indicator { position: fixed; top: 20px; right: 20px; color: var(--telus-white) !important; padding: 10px 18px; border-radius: 8px; font-weight: 600; opacity: 0; transition: all 0.3s ease; z-index: 10000; font-size: 12px; }
         .save-indicator.show { opacity: 1; }
-        .draft-saved-indicator { position: fixed; top: 75px; right: 20px; background: var(--telus-purple); color: var(--telus-white) !important; padding: 10px 18px; border-radius: 8px; font-weight: 600; opacity: 0; transition: all 0.3s ease; z-index: 10003; font-size: 12px; box-shadow: 0 4px 12px rgba(75, 40, 109, 0.3); }
+        .draft-saved-indicator { position: fixed; top: 75px; right: 20px; color: var(--telus-white) !important; padding: 10px 18px; border-radius: 8px; font-weight: 600; opacity: 0; transition: all 0.3s ease; z-index: 10003; font-size: 12px; }
         .draft-saved-indicator.show { opacity: 1; }
         .draft-saved-indicator span { color: var(--telus-white) !important; }
-        .signature { position: fixed; bottom: 20px; left: 20px; background: linear-gradient(135deg, var(--telus-purple), var(--telus-green)); color: var(--telus-white) !important; padding: 10px 20px; border-radius: 8px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 12px; z-index: 9998; box-shadow: 0 4px 12px rgba(75, 40, 109, 0.2); }
+        .signature { position: fixed; bottom: 20px; left: 20px; color: var(--telus-white) !important; padding: 10px 20px; border-radius: 8px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 12px; z-index: 9998; }
         .signature span { color: var(--telus-white) !important; }
-        .error-highlight { border-color: var(--telus-accent-pink) !important; border-width: 2px !important; background-color: #FFF0F5 !important; animation: shake 0.3s ease; }
-        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
         .error-message { color: var(--telus-accent-pink) !important; font-size: 12px; font-weight: 600; margin-top: 8px; display: none; padding: 8px 12px; background: #FFF0F5; border-left: 3px solid var(--telus-accent-pink); border-radius: 4px; }
         .popup-notification { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); background: var(--telus-white); border: 3px solid var(--telus-accent-pink); border-radius: 16px; padding: 35px 45px; box-shadow: 0 12px 48px rgba(233, 30, 99, 0.25); z-index: 99999; max-width: 520px; text-align: center; opacity: 0; transition: all 0.3s ease; }
         .popup-notification.show { transform: translate(-50%, -50%) scale(1); opacity: 1; }
         .popup-notification-icon { font-size: 56px; margin-bottom: 18px; }
         .popup-notification-title { font-size: 22px; font-weight: 700; color: var(--telus-accent-pink) !important; margin-bottom: 12px; font-family: 'Inter', sans-serif; }
         .popup-notification-message { font-size: 15px; color: var(--telus-text-dark) !important; margin-bottom: 24px; line-height: 1.6; font-weight: 400; }
-        .popup-notification-btn { background: var(--telus-accent-pink); color: var(--telus-white) !important; border: none; padding: 12px 35px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; font-size: 14px; }
-        .popup-notification-btn:hover { background: #C2185B; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3); }
         .modal-overlay, .app-modal, .email-modal, .startup-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); z-index: 9999; overflow-y: auto; padding: 20px; }
         .modal-content, .app-modal-content, .email-modal-content, .startup-content { background: var(--telus-white); margin: 50px auto; padding: 0; border: 2px solid var(--telus-medium-gray); border-radius: 16px; max-width: 920px; box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15); }
         .app-modal-content { max-width: 600px; }
         .startup-content { max-width: 540px; margin: 12% auto; }
-        .modal-header, .app-modal-header, .email-modal-header, .startup-header { background: linear-gradient(135deg, var(--telus-purple), var(--telus-light-purple)); color: var(--telus-white) !important; padding: 22px 30px; border-radius: 14px 14px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header, .app-modal-header, .email-modal-header, .startup-header { color: var(--telus-white) !important; padding: 22px 30px; border-radius: 14px 14px 0 0; display: flex; justify-content: space-between; align-items: center; }
         .startup-header { display: block; text-align: center; }
         .modal-header h2, .modal-header h3, .app-modal-header h3, .email-modal-header h3, .startup-header h2 { color: var(--telus-white) !important; margin: 0; font-size: 20px; font-family: 'Inter', sans-serif; font-weight: 700; }
         .startup-header h2 { font-size: 24px; }
@@ -85,17 +73,11 @@
         .app-list { list-style: none; padding: 0; margin: 0; }
         .app-list-item { padding: 14px 18px; border: 1px solid var(--telus-medium-gray); border-radius: 8px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s ease; background: var(--telus-white); font-family: 'Inter', sans-serif; font-weight: 500; font-size: 13px; color: var(--telus-text-dark) !important; }
         .app-list-item:hover { background: var(--telus-light-gray); border-color: var(--telus-purple); transform: translateX(5px); }
-        .selected-apps { display: flex; flex-wrap: wrap; gap: 8px; min-height: 50px; padding: 12px; border: 1px solid var(--telus-medium-gray); border-radius: 8px; background: var(--telus-light-gray); margin-bottom: 10px; }
-        .app-tag { background: var(--telus-purple); color: var(--telus-white) !important; padding: 7px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; font-family: 'Inter', sans-serif; }
+        .selected-apps { display: flex; flex-wrap: wrap; gap: 8px; min-height: 50px; padding: 12px; border: 1px solid var(--telus-medium-gray); border-radius: 8px; background: var(--telus-light-gray); margin-bottom: 10px; position: relative; overflow: hidden; }
         .app-tag span { color: var(--telus-white) !important; }
-        .app-tag-remove { background: var(--telus-accent-pink); color: var(--telus-white) !important; border: none; border-radius: 50%; width: 19px; height: 19px; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 700; transition: all 0.2s ease; }
-        .app-tag-remove:hover { background: #C2185B; transform: scale(1.15); }
-        .add-app-btn { background: var(--telus-green); border: 2px solid var(--telus-green); color: var(--telus-white) !important; padding: 9px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px; transition: all 0.2s ease; font-family: 'Inter', sans-serif; }
-        .add-app-btn:hover { background: var(--telus-dark-green); border-color: var(--telus-dark-green); transform: translateY(-1px); }
         .select-btn { background: var(--telus-white); border: 1px solid var(--telus-medium-gray); color: var(--telus-text-dark) !important; padding: 9px 18px; border-radius: 8px; font-weight: 500; cursor: pointer; font-size: 13px; transition: all 0.2s ease; font-family: 'Inter', sans-serif; min-width: 160px; text-align: left; display: inline-block; }
         .select-btn:hover { background: var(--telus-light-gray); border-color: var(--telus-purple); }
-        .select-btn.selected { background: var(--telus-purple); color: var(--telus-white) !important; border-color: var(--telus-purple); font-weight: 600; }
-        .impact-app-row { background: var(--telus-light-gray); padding: 16px; margin-bottom: 12px; border-radius: 8px; border-left: 4px solid var(--telus-purple); display: flex; align-items: center; gap: 15px; transition: all 0.2s ease; }
+        .impact-app-row { background: var(--telus-light-gray); padding: 16px; margin-bottom: 12px; border-radius: 8px; border-left: 4px solid var(--telus-purple); display: flex; align-items: center; gap: 15px; transition: all 0.2s ease; position: relative; overflow: hidden; }
         .impact-app-row:hover { background: #EFEFEF; transform: translateX(3px); }
         .impact-app-name { flex: 0 0 190px; font-weight: 600; color: var(--telus-purple) !important; font-size: 13px; }
         .impact-input-group { display: flex; align-items: center; gap: 10px; flex: 1; }
@@ -106,31 +88,20 @@
         .time-input-group select { padding: 11px 14px; border: 1px solid var(--telus-medium-gray); border-radius: 8px; font-size: 14px; font-weight: 500; min-width: 85px; background: var(--telus-white); color: var(--telus-text-dark) !important; cursor: pointer; transition: all 0.2s ease; }
         .time-input-group select:focus { border-color: var(--telus-purple); outline: none; box-shadow: 0 0 0 3px rgba(75, 40, 109, 0.1); }
         .date-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
-        .date-header { text-align: center; font-weight: 600; padding: 10px; background: var(--telus-purple); color: var(--telus-white) !important; border-radius: 6px; font-size: 12px; }
         .date-btn { padding: 12px; border: 1px solid var(--telus-medium-gray); border-radius: 6px; background: var(--telus-white); cursor: pointer; text-align: center; font-weight: 500; transition: all 0.2s ease; font-size: 13px; color: var(--telus-text-dark) !important; }
         .date-btn:hover { background: var(--telus-light-gray); border-color: var(--telus-purple); transform: scale(1.05); }
-        .date-btn.selected { background: var(--telus-purple); color: var(--telus-white) !important; border-color: var(--telus-purple); }
         .date-btn.disabled { opacity: 0.25; cursor: not-allowed; }
         .month-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-        .month-nav button { background: var(--telus-green); border: none; color: var(--telus-white) !important; padding: 9px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
-        .month-nav button:hover { background: var(--telus-dark-green); transform: translateY(-1px); }
         .month-nav span { font-weight: 700; font-size: 17px; color: var(--telus-purple) !important; }
-        .incident-card { background: var(--telus-white); border: 1px solid var(--telus-medium-gray); border-radius: 10px; padding: 18px; margin-bottom: 14px; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); }
+        .incident-card { background: var(--telus-white); border: 1px solid var(--telus-medium-gray); border-radius: 10px; padding: 18px; margin-bottom: 14px; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); position: relative; overflow: hidden; }
         .incident-card:hover { background: var(--telus-light-gray); border-color: var(--telus-purple); transform: translateX(5px); box-shadow: 0 4px 16px rgba(75, 40, 109, 0.1); }
         .incident-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .incident-ticket { font-size: 17px; font-weight: 700; color: var(--telus-purple) !important; }
         .incident-status { padding: 5px 14px; border-radius: 14px; font-size: 11px; font-weight: 600; }
-        .status-progress { background: #FFF3CD; color: #856404 !important; }
-        .status-resolved { background: #D4EDDA; color: #155724 !important; }
-        .status-pending { background: #D1ECF1; color: #0C5460 !important; }
         .incident-info { font-size: 12px; color: #666 !important; margin-top: 8px; }
         .incident-actions { margin-top: 12px; display: flex; gap: 10px; }
         .incident-btn { padding: 7px 16px; font-size: 12px; border-radius: 6px; border: 2px solid; cursor: pointer; font-weight: 600; transition: all 0.2s ease; }
-        .incident-btn.load { background: var(--telus-green); border-color: var(--telus-green); color: var(--telus-white) !important; }
-        .incident-btn.load:hover { background: var(--telus-dark-green); transform: translateY(-2px); }
-        .incident-btn.delete { background: var(--telus-accent-pink); border-color: var(--telus-accent-pink); color: var(--telus-white) !important; }
-        .incident-btn.delete:hover { background: #C2185B; transform: translateY(-2px); }
-        .current-incident-bar { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--telus-purple), var(--telus-green)); color: var(--telus-white) !important; padding: 12px 24px; border-radius: 10px; z-index: 9999; box-shadow: 0 4px 16px rgba(75, 40, 109, 0.2); font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px; display: none; }
+        .current-incident-bar { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); color: var(--telus-white) !important; padding: 12px 24px; border-radius: 10px; z-index: 9999; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px; display: none; }
         .current-incident-bar span { color: var(--telus-white) !important; }
         .current-incident-bar button { background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.4); color: var(--telus-white) !important; padding: 5px 14px; border-radius: 6px; margin-left: 12px; cursor: pointer; font-size: 12px; font-weight: 600; transition: all 0.2s ease; }
         .current-incident-bar button:hover { background: rgba(255, 255, 255, 0.3); }
@@ -138,26 +109,14 @@
         .email-field { margin-bottom: 18px; }
         .email-field label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 13px; color: var(--telus-purple) !important; }
         .email-field input, .email-field textarea { width: 100%; padding: 11px 14px; border: 1px solid var(--telus-medium-gray); border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 13px; background: var(--telus-white); color: var(--telus-text-dark) !important; transition: all 0.2s ease; }
-        .email-field input:focus, .email-field textarea:focus { border-color: var(--telus-purple); outline: none; box-shadow: 0 0 0 3px rgba(75, 40, 109, 0.1); }
         .email-field textarea { min-height: 420px; font-family: 'Courier New', monospace; resize: vertical; }
-        .email-preview-badge { display: inline-block; background: var(--telus-purple); color: var(--telus-white) !important; padding: 5px 13px; border-radius: 12px; font-size: 11px; font-weight: 600; margin-left: 10px; }
         .email-preview-container { background: var(--telus-light-gray); border: 2px solid var(--telus-green); border-radius: 10px; padding: 22px; margin-top: 22px; max-height: 520px; overflow-y: auto; }
-        .email-preview-header { background: linear-gradient(135deg, var(--telus-purple), var(--telus-green)); color: var(--telus-white) !important; padding: 16px 22px; border-radius: 8px; margin-bottom: 22px; text-align: center; }
         .email-preview-header h4 { color: var(--telus-white) !important; margin: 0; font-size: 18px; font-family: 'Inter', sans-serif; font-weight: 700; }
         .email-preview-body { background: var(--telus-white); border: 1px solid var(--telus-medium-gray); border-radius: 8px; padding: 28px; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.8; white-space: pre-wrap; word-wrap: break-word; color: var(--telus-text-dark) !important; }
         .cc-suggestions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
-        .cc-suggestion-btn { background: var(--telus-light-gray); border: 1px solid var(--telus-green); color: var(--telus-purple) !important; padding: 5px 13px; border-radius: 16px; font-size: 11px; cursor: pointer; font-weight: 600; transition: all 0.2s ease; }
-        .cc-suggestion-btn:hover { background: var(--telus-green); color: var(--telus-white) !important; transform: scale(1.05); }
-        .preview-toggle-btn { background: var(--telus-purple); border: 2px solid var(--telus-purple); color: var(--telus-white) !important; padding: 11px 22px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px; transition: all 0.2s ease; margin-bottom: 18px; width: 100%; }
-        .preview-toggle-btn:hover { background: var(--telus-dark-purple); transform: translateY(-1px); }
-        .preview-toggle-btn.active { background: var(--telus-green); border-color: var(--telus-green); }
-        .startup-btn { background: var(--telus-green); border: 2px solid var(--telus-green); color: var(--telus-white) !important; padding: 16px 42px; font-size: 16px; font-weight: 600; border-radius: 10px; margin: 12px; cursor: pointer; transition: all 0.2s ease; font-family: 'Inter', sans-serif; }
-        .startup-btn:hover { background: var(--telus-dark-green); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102, 204, 102, 0.25); }
-        .startup-btn.secondary { background: var(--telus-purple); border-color: var(--telus-purple); }
-        .startup-btn.secondary:hover { background: var(--telus-dark-purple); box-shadow: 0 6px 20px rgba(75, 40, 109, 0.25); }
 
         /* ========================================
-           ✨ SHINY ANIMATIONS - INTEGRATED
+           ✨ SHINY ANIMATIONS - COMPLETE
            ======================================== */
 
         @keyframes shine {
@@ -180,11 +139,6 @@
             50% { box-shadow: 0 0 20px rgba(233, 30, 99, 0.8), 0 0 30px rgba(233, 30, 99, 0.6); }
         }
 
-        @keyframes line-shine {
-            0% { background-position: -200% center; }
-            100% { background-position: 200% center; }
-        }
-
         @keyframes shimmer {
             0% { background-position: -1000px 0; }
             100% { background-position: 1000px 0; }
@@ -195,54 +149,513 @@
             50% { opacity: 0.8; transform: scale(1.05); }
         }
 
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
         .btn-outline-success {
             background: linear-gradient(90deg, var(--telus-green) 0%, var(--telus-green) 40%, var(--telus-light-green) 50%, var(--telus-green) 60%, var(--telus-green) 100%) !important;
             background-size: 200% auto !important;
+            border: 2px solid var(--telus-green);
+            padding: 12px 28px;
+            font-weight: 600;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            border-radius: 8px;
+            color: var(--telus-white) !important;
+            transition: all 0.2s ease;
+            cursor: pointer;
             animation: shine 3s linear infinite, pulse-glow 2s ease-in-out infinite;
         }
 
         .btn-outline-success:hover {
             animation: shine 1.5s linear infinite, pulse-glow 1s ease-in-out infinite;
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        .btn-outline-primary {
+            background: linear-gradient(90deg, var(--telus-purple) 0%, var(--telus-purple) 40%, var(--telus-light-purple) 50%, var(--telus-purple) 60%, var(--telus-purple) 100%) !important;
+            background-size: 200% auto !important;
+            border: 2px solid var(--telus-purple);
+            padding: 12px 28px;
+            font-weight: 600;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            border-radius: 8px;
+            color: var(--telus-white) !important;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            animation: shine 3s linear infinite, pulse-glow-purple 2s ease-in-out infinite;
+        }
+
+        .btn-outline-primary:hover {
+            animation: shine 1.5s linear infinite, pulse-glow-purple 1s ease-in-out infinite;
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        .btn-outline-danger {
+            background: linear-gradient(90deg, var(--telus-accent-pink) 0%, var(--telus-accent-pink) 40%, #FF4081 50%, var(--telus-accent-pink) 60%, var(--telus-accent-pink) 100%) !important;
+            background-size: 200% auto !important;
+            border: 2px solid var(--telus-accent-pink);
+            padding: 12px 28px;
+            font-weight: 600;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            border-radius: 8px;
+            color: var(--telus-white) !important;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            animation: shine 3s linear infinite, pulse-glow-pink 2s ease-in-out infinite;
+        }
+
+        .btn-outline-danger:hover {
+            animation: shine 1.5s linear infinite, pulse-glow-pink 1s ease-in-out infinite;
+            transform: translateY(-2px);
+            filter: brightness(1.1);
         }
 
         .add-app-btn {
             background: linear-gradient(90deg, var(--telus-green) 0%, var(--telus-green) 40%, var(--telus-light-green) 50%, var(--telus-green) 60%, var(--telus-green) 100%) !important;
             background-size: 200% auto !important;
+            border: 2px solid var(--telus-green);
+            color: var(--telus-white) !important;
+            padding: 9px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 13px;
+            font-family: 'Inter', sans-serif;
             animation: shine 3s linear infinite;
+            transition: all 0.2s ease;
         }
 
         .add-app-btn:hover {
             animation: shine 1.5s linear infinite;
+            transform: translateY(-1px);
         }
 
         .startup-btn {
             background: linear-gradient(90deg, var(--telus-green) 0%, var(--telus-green) 40%, var(--telus-light-green) 50%, var(--telus-green) 60%, var(--telus-green) 100%) !important;
             background-size: 200% auto !important;
+            border: 2px solid var(--telus-green);
+            color: var(--telus-white) !important;
+            padding: 16px 42px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            margin: 12px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
             animation: shine 3s linear infinite, pulse-glow 2s ease-in-out infinite;
+            transition: all 0.2s ease;
         }
 
         .startup-btn:hover {
             animation: shine 1.5s linear infinite, pulse-glow 1.5s ease-in-out infinite;
+            transform: translateY(-2px);
         }
 
-        .incident-btn.load {
+        .startup-btn.secondary {
+            background: linear-gradient(90deg, var(--telus-purple) 0%, var(--telus-purple) 40%, var(--telus-light-purple) 50%, var(--telus-purple) 60%, var(--telus-purple) 100%) !important;
+            background-size: 200% auto !important;
+            border-color: var(--telus-purple);
+            animation: shine 3s linear infinite, pulse-glow-purple 2s ease-in-out infinite;
+        }
+
+        .startup-btn.secondary:hover {
+            animation: shine 1.5s linear infinite, pulse-glow-purple 1.5s ease-in-out infinite;
+        }
+
+        th {
+            background: linear-gradient(90deg, var(--telus-purple) 0%, var(--telus-purple) 40%, var(--telus-light-purple) 50%, var(--telus-purple) 60%, var(--telus-purple) 100%) !important;
+            background-size: 200% auto !important;
+            animation: shine 5s linear infinite;
+        }
+
+        .modal-header, .app-modal-header, .email-modal-header, .startup-header {
+            background: linear-gradient(90deg, var(--telus-purple) 0%, var(--telus-purple) 30%, var(--telus-light-purple) 50%, var(--telus-purple) 70%, var(--telus-purple) 100%) !important;
+            background-size: 200% auto !important;
+            animation: shine 5s linear infinite;
+        }
+
+        .save-indicator {
             background: linear-gradient(90deg, var(--telus-green) 0%, var(--telus-green) 40%, var(--telus-light-green) 50%, var(--telus-green) 60%, var(--telus-green) 100%) !important;
             background-size: 200% auto !important;
+            box-shadow: 0 4px 12px rgba(102, 204, 102, 0.3);
+            animation: shine 2s linear infinite, glow-pulse 2s ease-in-out infinite;
+        }
+
+        .draft-saved-indicator {
+            background: linear-gradient(90deg, var(--telus-purple) 0%, var(--telus-purple) 40%, var(--telus-light-purple) 50%, var(--telus-purple) 60%, var(--telus-purple) 100%) !important;
+            background-size: 200% auto !important;
+            box-shadow: 0 4px 12px rgba(75, 40, 109, 0.3);
+            animation: shine 2s linear infinite, glow-pulse 2s ease-in-out infinite;
+        }
+
+        .signature {
+            background: linear-gradient(90deg, var(--telus-purple) 0%, var(--telus-purple) 30%, var(--telus-green) 50%, var(--telus-purple) 70%, var(--telus-purple) 100%) !important;
+            background-size: 200% auto !important;
+            box-shadow: 0 4px 12px rgba(75, 40, 109, 0.2);
+            animation: shine 4s linear infinite;
+        }
+
+        .current-incident-bar {
+            background: linear-gradient(90deg, var(--telus-purple) 0%, var(--telus-purple) 30%, var(--telus-green) 50%, var(--telus-purple) 70%, var(--telus-purple) 100%) !important;
+            background-size: 200% auto !important;
+            box-shadow: 0 4px 16px rgba(75, 40, 109, 0.2);
+            animation: shine 4s linear infinite;
+        }
+
+        .select-btn.selected {
+            background: linear-gradient(90deg, var(--telus-purple) 0%, var(--telus-purple) 40%, var(--telus-light-purple) 50%, var(--telus-purple) 60%, var(--telus-purple) 100%) !important;
+            background-size: 200% auto !important;
+            color: var(--telus-white) !important;
+            border-color: var(--telus-purple);
+            font-weight: 600;
             animation: shine 3s linear infinite;
         }
 
-        .incident-btn.load:hover {
-            animation: shine 1.5s linear infinite;
+        .app-tag {
+            background: linear-gradient(90deg, var(--telus-purple) 0%, var(--telus-purple) 40%, var(--telus-light-purple) 50%, var(--telus-purple) 60%, var(--telus-purple) 100%) !important;
+            background-size: 200% auto !important;
+            color: var(--telus-white) !important;
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Inter', sans-serif;
+            animation: shine 3s linear infinite;
+        }
+
+        .app-tag-remove {
+            background: var(--telus-accent-pink) !important;
+            color: var(--telus-white) !important;
+            border: none;
+            border-radius: 50%;
+            width: 19px;
+            height: 19px;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+
+        .app-tag-remove:hover {
+            background: #C2185B !important;
+            transform: scale(1.15);
+            box-shadow: 0 0 10px rgba(233, 30, 99, 0.6);
         }
 
         .month-nav button {
             background: linear-gradient(90deg, var(--telus-green) 0%, var(--telus-green) 40%, var(--telus-light-green) 50%, var(--telus-green) 60%, var(--telus-green) 100%) !important;
             background-size: 200% auto !important;
+            border: none;
+            color: var(--telus-white) !important;
+            padding: 9px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
             animation: shine 3s linear infinite;
+            transition: all 0.2s ease;
         }
 
         .month-nav button:hover {
             animation: shine 1.5s linear infinite;
+            transform: translateY(-1px);
+        }
+
+        .date-header {
+            text-align: center;
+            font-weight: 600;
+            padding: 10px;
+            background: linear-gradient(90deg, var(--telus-purple) 0%, var(--telus-purple) 40%, var(--telus-light-purple) 50%, var(--telus-purple) 60%, var(--telus-purple) 100%) !important;
+            background-size: 200% auto !important;
+            color: var(--telus-white) !important;
+            border-radius: 6px;
+            font-size: 12px;
+            animation: shine 4s linear infinite;
+        }
+
+        .date-btn.selected {
+            background: linear-gradient(90deg, var(--telus-purple) 0%, var(--telus-purple) 40%, var(--telus-light-purple) 50%, var(--telus-purple) 60%, var(--telus-purple) 100%) !important;
+            background-size: 200% auto !important;
+            color: var(--telus-white) !important;
+            border-color: var(--telus-purple);
+            animation: shine 3s linear infinite;
+        }
+
+        .incident-btn.load {
+            background: linear-gradient(90deg, var(--telus-green) 0%, var(--telus-green) 40%, var(--telus-light-green) 50%, var(--telus-green) 60%, var(--telus-green) 100%) !important;
+            background-size: 200% auto !important;
+            border-color: var(--telus-green);
+            color: var(--telus-white) !important;
+            animation: shine 3s linear infinite;
+        }
+
+        .incident-btn.load:hover {
+            animation: shine 1.5s linear infinite;
+            transform: translateY(-2px);
+        }
+
+        .incident-btn.delete {
+            background: linear-gradient(90deg, var(--telus-accent-pink) 0%, var(--telus-accent-pink) 40%, #FF4081 50%, var(--telus-accent-pink) 60%, var(--telus-accent-pink) 100%) !important;
+            background-size: 200% auto !important;
+            border-color: var(--telus-accent-pink);
+            color: var(--telus-white) !important;
+            animation: shine 3s linear infinite;
+        }
+
+        .incident-btn.delete:hover {
+            animation: shine 1.5s linear infinite;
+            transform: translateY(-2px);
+        }
+
+        .popup-notification-btn {
+            background: linear-gradient(90deg, var(--telus-accent-pink) 0%, var(--telus-accent-pink) 40%, #FF4081 50%, var(--telus-accent-pink) 60%, var(--telus-accent-pink) 100%) !important;
+            background-size: 200% auto !important;
+            color: var(--telus-white) !important;
+            border: none;
+            padding: 12px 35px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            animation: shine 2s linear infinite, pulse-glow-pink 1.5s ease-in-out infinite;
+            transition: all 0.2s ease;
+        }
+
+        .popup-notification-btn:hover {
+            animation: shine 1s linear infinite, pulse-glow-pink 0.8s ease-in-out infinite;
+            transform: translateY(-2px);
+        }
+
+        .preview-toggle-btn {
+            background: linear-gradient(90deg, var(--telus-purple) 0%, var(--telus-purple) 40%, var(--telus-light-purple) 50%, var(--telus-purple) 60%, var(--telus-purple) 100%) !important;
+            background-size: 200% auto !important;
+            border: 2px solid var(--telus-purple);
+            color: var(--telus-white) !important;
+            padding: 11px 22px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 13px;
+            margin-bottom: 18px;
+            width: 100%;
+            animation: shine 3s linear infinite;
+            transition: all 0.2s ease;
+        }
+
+        .preview-toggle-btn:hover {
+            animation: shine 1.5s linear infinite;
+            transform: translateY(-1px);
+        }
+
+        .preview-toggle-btn.active {
+            background: linear-gradient(90deg, var(--telus-green) 0%, var(--telus-green) 40%, var(--telus-light-green) 50%, var(--telus-green) 60%, var(--telus-green) 100%) !important;
+            background-size: 200% auto !important;
+            border-color: var(--telus-green);
+        }
+
+        .email-preview-badge {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--telus-purple) 0%, var(--telus-purple) 40%, var(--telus-light-purple) 50%, var(--telus-purple) 60%, var(--telus-purple) 100%) !important;
+            background-size: 200% auto !important;
+            color: var(--telus-white) !important;
+            padding: 5px 13px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 10px;
+            animation: shine 3s linear infinite;
+        }
+
+        .email-preview-header {
+            background: linear-gradient(90deg, var(--telus-purple) 0%, var(--telus-purple) 30%, var(--telus-green) 50%, var(--telus-purple) 70%, var(--telus-purple) 100%) !important;
+            background-size: 200% auto !important;
+            color: var(--telus-white) !important;
+            padding: 16px 22px;
+            border-radius: 8px;
+            margin-bottom: 22px;
+            text-align: center;
+            animation: shine 4s linear infinite;
+        }
+
+        .cc-suggestion-btn {
+            background: var(--telus-light-gray);
+            border: 1px solid var(--telus-green);
+            color: var(--telus-purple) !important;
+            padding: 5px 13px;
+            border-radius: 16px;
+            font-size: 11px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .cc-suggestion-btn:hover {
+            background: var(--telus-green) !important;
+            color: var(--telus-white) !important;
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(102, 204, 102, 0.5);
+            animation: pulse-glow 1s ease-in-out infinite;
+        }
+
+        .status-progress {
+            background: linear-gradient(90deg, #FFF3CD 0%, #FFF3CD 40%, #FFFAEB 50%, #FFF3CD 60%, #FFF3CD 100%) !important;
+            background-size: 200% auto !important;
+            color: #856404 !important;
+            animation: shimmer 3s linear infinite;
+        }
+
+        .status-resolved {
+            background: linear-gradient(90deg, #D4EDDA 0%, #D4EDDA 40%, #E8F5E9 50%, #D4EDDA 60%, #D4EDDA 100%) !important;
+            background-size: 200% auto !important;
+            color: #155724 !important;
+            animation: shimmer 3s linear infinite;
+        }
+
+        .status-pending {
+            background: linear-gradient(90deg, #D1ECF1 0%, #D1ECF1 40%, #E0F7FA 50%, #D1ECF1 60%, #D1ECF1 100%) !important;
+            background-size: 200% auto !important;
+            color: #0C5460 !important;
+            animation: shimmer 3s linear infinite;
+        }
+
+        .table::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent 0%, rgba(102, 204, 102, 0.1) 50%, transparent 100%);
+            animation: shimmer 4s linear infinite;
+            pointer-events: none;
+        }
+
+        .impact-app-row::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent 0%, rgba(75, 40, 109, 0.1) 50%, transparent 100%);
+            animation: shimmer 3s linear infinite;
+            pointer-events: none;
+        }
+
+        .incident-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent 0%, rgba(75, 40, 109, 0.08) 50%, transparent 100%);
+            animation: shimmer 4s linear infinite;
+            pointer-events: none;
+        }
+
+        .incident-card:hover::before {
+            animation: shimmer 2s linear infinite;
+        }
+
+        .selected-apps::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent 0%, rgba(102, 204, 102, 0.1) 50%, transparent 100%);
+            animation: shimmer 5s linear infinite;
+            pointer-events: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--telus-purple);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(75, 40, 109, 0.1), 0 0 15px rgba(75, 40, 109, 0.3);
+            animation: pulse-glow-purple 2s ease-in-out infinite;
+        }
+
+        .error-highlight {
+            border-color: var(--telus-accent-pink) !important;
+            border-width: 2px !important;
+            background-color: #FFF0F5 !important;
+            animation: shake 0.3s ease, pulse-glow-pink 1.5s ease-in-out infinite !important;
+        }
+
+        .popup-notification.show {
+            animation: glow-pulse 2s ease-in-out infinite;
+        }
+
+        .popup-notification::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -100%;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent 0%, rgba(233, 30, 99, 0.8) 50%, transparent 100%);
+            animation: shine 2s linear infinite;
+        }
+
+        .app-list-item:hover {
+            background: var(--telus-light-gray);
+            box-shadow: 0 0 15px rgba(75, 40, 109, 0.2);
+            animation: shimmer 2s linear infinite;
+        }
+
+        .close-btn:hover {
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            animation: glow-pulse 1s ease-in-out infinite;
+        }
+
+        .current-incident-bar button:hover {
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+            animation: glow-pulse 1s ease-in-out infinite;
+        }
+
+        .btn-disabled,
+        .btn-disabled:hover {
+            animation: none !important;
+            background: #999 !important;
+            box-shadow: none !important;
+            cursor: not-allowed !important;
+            opacity: 0.4 !important;
+            pointer-events: none !important;
+            filter: grayscale(50%);
+        }
+
+        hr {
+            height: 3px;
+            background: linear-gradient(90deg, var(--telus-green) 0%, var(--telus-green) 40%, var(--telus-light-green) 50%, var(--telus-green) 60%, var(--telus-green) 100%);
+            background-size: 200% auto;
+            animation: shine 3s linear infinite;
+            border: none;
+            margin: 25px 0;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>
@@ -1402,6 +1815,7 @@
             }
             return '';
         }
+
         function openTimeSelector(field) {
             currentTimeField = field;
             document.getElementById('modalTitle').textContent = 'Select Time';
@@ -1833,7 +2247,6 @@
             
             submitToServer(data, true);
         }
-
         document.getElementById('imcForm').addEventListener('submit', (e) => {
             e.preventDefault();
             
@@ -1879,6 +2292,7 @@
             console.log('CC: ' + (data.customCC || 'None'));
             console.log('Status: ' + data.ticketStatus);
             console.log('Team: ' + data.teamMember);
+            console.log('Send Email: ' + data.sendEmail);
             
             const iframeName = 'submit_iframe_' + Date.now();
             const iframe = document.createElement('iframe');
@@ -2040,3 +2454,4 @@
     </script>
 </body>
 </html>
+
