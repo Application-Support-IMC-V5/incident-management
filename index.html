@@ -1133,22 +1133,42 @@
             console.log('✓ New incident created');
         }
 
+        // ✅ UPDATED: Load from Google Sheets (SHARED)
         function showIncidentManager() {
             document.getElementById('startupModal').style.display = 'none';
-            const incidents = getAllIncidents();
             const list = document.getElementById('incidentList');
             
-            if (incidents.length === 0) {
-                list.innerHTML = '<p style="text-align:center;padding:30px;color:#999!important;font-style:italic;">No saved incidents found. Create a new one!</p>';
-            } else {
-                list.innerHTML = '';
-                incidents.forEach(incident => {
-                    const card = createIncidentCard(incident);
-                    list.appendChild(card);
-                });
-            }
-            
+            list.innerHTML = '<p style="text-align:center;padding:30px;color:#999!important;font-style:italic;">⏳ Loading shared incidents...</p>';
             document.getElementById('incidentManagerModal').style.display = 'block';
+            
+            fetch(GOOGLE_SCRIPT_URL + '?action=loadIncidents')
+                .then(response => response.json())
+                .then(result => {
+                    console.log('Load result:', result);
+                    
+                    if (result.success) {
+                        const incidents = result.incidents || [];
+                        
+                        console.log('✓ Loaded ' + incidents.length + ' shared incidents');
+                        
+                        if (incidents.length === 0) {
+                            list.innerHTML = '<p style="text-align:center;padding:30px;color:#999!important;font-style:italic;">No saved incidents found. Create a new one!</p>';
+                        } else {
+                            list.innerHTML = '';
+                            incidents.forEach(incident => {
+                                const card = createIncidentCard(incident);
+                                list.appendChild(card);
+                            });
+                        }
+                    } else {
+                        console.log('❌ Load failed:', result.error);
+                        list.innerHTML = '<p style="text-align:center;padding:30px;color:#E91E63!important;">⚠️ Error loading incidents: ' + result.error + '</p>';
+                    }
+                })
+                .catch(err => {
+                    console.log('❌ Network error:', err);
+                    list.innerHTML = '<p style="text-align:center;padding:30px;color:#E91E63!important;">⚠️ Cannot connect to server. Check your internet connection.</p>';
+                });
         }
 
         function closeIncidentManager() {
@@ -1200,42 +1220,90 @@
             return incidents;
         }
 
+        // ✅ UPDATED: Load from Google Sheets (SHARED)
         function loadIncident(incidentId) {
-            try {
-                const data = JSON.parse(localStorage.getItem(incidentId));
-                if (!data) {
-                    alert('Incident not found!');
-                    return;
-                }
-                
-                currentIncidentId = incidentId;
-                restoreIncidentData(data);
-                closeIncidentManager();
-                
-                document.getElementById('currentIncidentDisplay').textContent = '📋 ' + (data.ticketNumber || 'Untitled');
-                document.getElementById('currentIncidentBar').style.display = 'block';
-                
-                alert('✓ Incident loaded: ' + (data.ticketNumber || 'Untitled'));
-            } catch (e) {
-                alert('Error loading incident: ' + e.message);
-            }
-        }
-
-        function deleteIncident(incidentId) {
-            const data = JSON.parse(localStorage.getItem(incidentId));
-            const ticketNum = data.ticketNumber || 'this incident';
+            console.log('Loading incident:', incidentId);
             
-            if (confirm('Delete ' + ticketNum + '?')) {
-                localStorage.removeItem(incidentId);
-                showIncidentManager();
-                
-                if (currentIncidentId === incidentId) {
-                    currentIncidentId = null;
-                    document.getElementById('currentIncidentBar').style.display = 'none';
-                }
-            }
+            fetch(GOOGLE_SCRIPT_URL + '?action=loadIncidents')
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        const incident = result.incidents.find(inc => inc.id === incidentId || inc.ticketNumber === incidentId);
+                        
+                        if (!incident) {
+                            alert('❌ Incident not found!');
+                            return;
+                        }
+                        
+                        console.log('✓ Found incident:', incident.ticketNumber);
+                        
+                        if (typeof incident.selectedApps === 'string') {
+                            try {
+                                incident.selectedApps = JSON.parse(incident.selectedApps);
+                            } catch (e) {
+                                incident.selectedApps = [];
+                            }
+                        }
+                        
+                        currentIncidentId = incident.ticketNumber;
+                        restoreIncidentData(incident);
+                        closeIncidentManager();
+                        
+                        document.getElementById('currentIncidentDisplay').textContent = '📋 ' + (incident.ticketNumber || 'Untitled');
+                        document.getElementById('currentIncidentBar').style.display = 'block';
+                        
+                        alert('✓ Incident loaded: ' + (incident.ticketNumber || 'Untitled'));
+                    } else {
+                        alert('❌ Error loading incidents: ' + result.error);
+                    }
+                })
+                .catch(err => {
+                    console.log('❌ Network error:', err);
+                    alert('❌ Cannot connect to server. Check your internet connection.');
+                });
         }
 
+        // ✅ UPDATED: Delete from Google Sheets (SHARED)
+        function deleteIncident(incidentId) {
+            const ticketNum = incidentId;
+            
+            if (!confirm('Delete incident: ' + ticketNum + '?\n\nThis will remove it for ALL team members.')) {
+                return;
+            }
+            
+            console.log('Deleting incident:', incidentId);
+            
+            const formData = new URLSearchParams({
+                action: 'deleteIncident',
+                ticketNumber: incidentId
+            });
+            
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    console.log('✓ Incident deleted from shared storage');
+                    alert('✓ Incident deleted successfully');
+                    showIncidentManager();
+                    
+                    if (currentIncidentId === incidentId) {
+                        currentIncidentId = null;
+                        document.getElementById('currentIncidentBar').style.display = 'none';
+                    }
+                } else {
+                    alert('❌ Error deleting incident: ' + result.error);
+                }
+            })
+            .catch(err => {
+                console.log('❌ Network error:', err);
+                alert('❌ Cannot connect to server. Check your internet connection.');
+            });
+        }
+
+        // ✅ UPDATED: Save to Google Sheets (SHARED)
         function saveCurrentIncident() {
             const ticketNumber = document.getElementById('ticketNumber').value.trim();
             
@@ -1244,15 +1312,12 @@
                 return;
             }
             
-            if (!currentIncidentId) {
-                currentIncidentId = 'imc_incident_' + ticketNumber.replace(/[^a-zA-Z0-9]/g, '_');
-            }
-            
             const data = {
+                action: 'saveIncident',
                 ticketNumber: ticketNumber,
                 ticketPriority: getRadioValue('ticketPriority'),
                 ticketStatus: document.getElementById('ticketStatus').value,
-                selectedApps: selectedApps,
+                selectedApps: JSON.stringify(selectedApps),
                 impactedAppOthers: document.getElementById('impactedAppOthers').value,
                 custAgentImpact: document.getElementById('custAgentImpact').value,
                 technicalImpact: document.getElementById('technicalImpact').value,
@@ -1287,15 +1352,39 @@
                 lastSaved: new Date().toISOString()
             };
             
-            localStorage.setItem(currentIncidentId, JSON.stringify(data));
+            currentIncidentId = ticketNumber;
             
-            document.getElementById('currentIncidentDisplay').textContent = '📋 ' + ticketNumber;
-            document.getElementById('currentIncidentBar').style.display = 'block';
+            const formData = new URLSearchParams(data);
             
-            const indicator = document.getElementById('saveIndicator');
-            indicator.textContent = 'Saved ' + new Date().toLocaleTimeString();
-            indicator.classList.add('show');
-            setTimeout(() => indicator.classList.remove('show'), 2000);
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    console.log('✓ Incident saved to shared storage: ' + ticketNumber);
+                    
+                    document.getElementById('currentIncidentDisplay').textContent = '📋 ' + ticketNumber;
+                    document.getElementById('currentIncidentBar').style.display = 'block';
+                    
+                    const indicator = document.getElementById('saveIndicator');
+                    indicator.textContent = 'Saved ' + new Date().toLocaleTimeString();
+                    indicator.classList.add('show');
+                    setTimeout(() => indicator.classList.remove('show'), 2000);
+                } else {
+                    console.log('⚠️ Save to sheets failed: ' + result.error);
+                }
+            })
+            .catch(err => {
+                console.log('⚠️ Network error, using local backup:', err);
+                localStorage.setItem('imc_incident_' + ticketNumber, JSON.stringify(data));
+                
+                const indicator = document.getElementById('saveIndicator');
+                indicator.textContent = 'Saved locally';
+                indicator.classList.add('show');
+                setTimeout(() => indicator.classList.remove('show'), 2000);
+            });
         }
 
         function restoreIncidentData(data) {
@@ -1415,7 +1504,6 @@
                 return;
             }
             
-            // ✅ FIXED: Only show popup if status is "Resolved"
             if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
                 showPopupNotification();
                 return;
@@ -2002,7 +2090,6 @@
             closeAppModal();
             saveCurrentIncident();
         }
-
         function openAppSelector() {
             document.getElementById('modalTitle').textContent = 'Select Applications';
             document.getElementById('appSearch').style.display = 'block';
@@ -2222,7 +2309,6 @@
                 return;
             }
             
-            // ✅ FIXED: Only show popup if status is "Resolved"
             if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
                 showPopupNotification();
                 return;
@@ -2247,6 +2333,7 @@
             
             submitToServer(data, true);
         }
+
         document.getElementById('imcForm').addEventListener('submit', (e) => {
             e.preventDefault();
             
@@ -2261,7 +2348,6 @@
                 return;
             }
             
-            // ✅ FIXED: Only show popup if status is "Resolved"
             if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
                 showPopupNotification();
                 return;
@@ -2355,7 +2441,6 @@
             }, 2000);
         }
 
-        // ✅ FIXED: Validation only triggers on "Resolved" status
         function initializeTroubleshootingValidation() {
             const tsSteps = document.getElementById('tsSteps');
             const ticketStatus = document.getElementById('ticketStatus');
@@ -2370,7 +2455,6 @@
                 const errorMsg = document.getElementById('tsStepsError');
                 const currentStatus = ticketStatus.value;
                 
-                // ✅ ONLY validate if status is "Resolved"
                 if (currentStatus === 'Resolved' && !tsSteps.value.trim()) {
                     tsSteps.classList.add('error-highlight');
                     errorMsg.style.display = 'block';
@@ -2438,6 +2522,7 @@
             console.log('🎯 Initializing TELUS IMC System...');
             console.log('📧 Email Map loaded with ' + Object.keys(EMAIL_MAP).length + ' team members');
             console.log('✨ Shiny animations enabled!');
+            console.log('🌐 Shared incident storage enabled!');
             initializeTroubleshootingValidation();
             setupAutoSave();
             
@@ -2454,4 +2539,3 @@
     </script>
 </body>
 </html>
-
