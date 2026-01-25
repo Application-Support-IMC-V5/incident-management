@@ -115,10 +115,6 @@
         .email-preview-body { background: var(--telus-white); border: 1px solid var(--telus-medium-gray); border-radius: 8px; padding: 28px; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.8; white-space: pre-wrap; word-wrap: break-word; color: var(--telus-text-dark) !important; }
         .cc-suggestions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
 
-        /* ========================================
-           🔧 ADMIN PANEL STYLES
-           ======================================== */
-
         .admin-panel {
             position: fixed;
             top: 0;
@@ -169,10 +165,6 @@
             font-family: 'Inter', sans-serif;
             font-weight: 700;
         }
-
-        /* ========================================
-           ✨ SHINY ANIMATIONS - COMPLETE
-           ======================================== */
 
         @keyframes shine {
             0% { background-position: -200% center; }
@@ -1276,6 +1268,9 @@
             
             keysToDelete.forEach(key => localStorage.removeItem(key));
             
+            // ✅ Also clear current incident tracking
+            localStorage.removeItem('imc_current_incident');
+            
             alert('✓ Cleared ' + count + ' email drafts from your browser');
             console.log('✓ Cleared ' + count + ' email drafts');
         }
@@ -1321,6 +1316,10 @@
         function createNewIncident() {
             document.getElementById('startupModal').style.display = 'none';
             currentIncidentId = null;
+            
+            // ✅ UPDATED: Clear tracking
+            localStorage.removeItem('imc_current_incident');
+            
             resetForm();
             document.getElementById('currentIncidentBar').style.display = 'none';
             console.log('✓ New incident created');
@@ -1437,6 +1436,10 @@
                         }
                         
                         currentIncidentId = incident.ticketNumber;
+                        
+                        // ✅ UPDATED: Track current incident
+                        localStorage.setItem('imc_current_incident', incident.ticketNumber);
+                        
                         restoreIncidentData(incident);
                         closeIncidentManager();
                         
@@ -1481,6 +1484,7 @@
                     
                     if (currentIncidentId === incidentId) {
                         currentIncidentId = null;
+                        localStorage.removeItem('imc_current_incident');
                         document.getElementById('currentIncidentBar').style.display = 'none';
                     }
                 } else {
@@ -1493,6 +1497,7 @@
             });
         }
 
+        // ✅ UPDATED: Save to Google Sheets + Track Current
         function saveCurrentIncident() {
             const ticketNumber = document.getElementById('ticketNumber').value.trim();
             
@@ -1543,6 +1548,9 @@
             
             currentIncidentId = ticketNumber;
             
+            // ✅ UPDATED: Track current incident
+            localStorage.setItem('imc_current_incident', ticketNumber);
+            
             const formData = new URLSearchParams(data);
             
             fetch(GOOGLE_SCRIPT_URL, {
@@ -1574,6 +1582,37 @@
                 indicator.classList.add('show');
                 setTimeout(() => indicator.classList.remove('show'), 2000);
             });
+        }
+
+        // ✅ NEW: Auto-load function
+        function checkForAutoLoad() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const incidentParam = urlParams.get('incident');
+            
+            if (incidentParam) {
+                console.log('🔄 Auto-loading incident from URL: ' + incidentParam);
+                setTimeout(() => {
+                    loadIncident(incidentParam);
+                }, 1000);
+                return;
+            }
+            
+            const lastIncidentId = localStorage.getItem('imc_current_incident');
+            
+            if (lastIncidentId) {
+                console.log('🔄 Found last incident: ' + lastIncidentId);
+                
+                setTimeout(() => {
+                    if (confirm('Continue working on: ' + lastIncidentId + '?')) {
+                        loadIncident(lastIncidentId);
+                    } else {
+                        localStorage.removeItem('imc_current_incident');
+                        showStartupModal();
+                    }
+                }, 500);
+            } else {
+                showStartupModal();
+            }
         }
 
         function restoreIncidentData(data) {
@@ -1888,7 +1927,6 @@
             
             previewContent.innerHTML = '<pre style="margin:0;font-family:\'Courier New\',monospace;white-space:pre-wrap;word-wrap:break-word;">' + formattedHTML + '</pre>';
         }
-
         function generateEmailBody(data) {
             const isResolved = data.ticketStatus === 'Resolved';
             let body = '';
@@ -1908,37 +1946,22 @@
             if (data.impactedAppOthers) body += `  - Others: ${data.impactedAppOthers}\n`;
             body += '\n';
             
-            if (data.custAgentImpact) {
-                body += `Customer/Agent Impact:\n${data.custAgentImpact}\n\n`;
-            }
-            
-            if (data.technicalImpact) {
-                body += `Technical Impact:\n${data.technicalImpact}\n\n`;
-            }
+            if (data.custAgentImpact) body += `Customer/Agent Impact:\n${data.custAgentImpact}\n\n`;
+            if (data.technicalImpact) body += `Technical Impact:\n${data.technicalImpact}\n\n`;
             
             body += `Start Time: ${data.startTime} ET on ${data.startDate}\n`;
             body += `End Time: ${data.endTime} ET on ${data.endDate}\n`;
-            if (data.explainTime) {
-                body += `Time Explanation: ${data.explainTime}\n`;
-            }
+            if (data.explainTime) body += `Time Explanation: ${data.explainTime}\n`;
             body += '\n';
             
-            if (data.ticketReplication) {
-                body += `Can Replicate: ${data.ticketReplication}\n`;
-            }
-            if (data.numSamples) {
-                body += `CSESM Samples: ${data.numSamples}\n`;
-            }
-            if (data.lobImpact) {
-                body += `Line of Business: ${data.lobImpact}\n`;
-            }
+            if (data.ticketReplication) body += `Can Replicate: ${data.ticketReplication}\n`;
+            if (data.numSamples) body += `CSESM Samples: ${data.numSamples}\n`;
+            if (data.lobImpact) body += `Line of Business: ${data.lobImpact}\n`;
             body += '\n';
             
             if (data.workaroundStrat && data.workaroundStrat !== 'NA') {
                 body += `Workaround Available: ${data.workaroundStrat}\n`;
-                if (data.mitigationDesc) {
-                    body += `Mitigation Strategy:\n${data.mitigationDesc}\n`;
-                }
+                if (data.mitigationDesc) body += `Mitigation Strategy:\n${data.mitigationDesc}\n`;
                 body += '\n';
             }
             
@@ -1950,13 +1973,8 @@
             body += `Created By: ${data.teamMember}\n`;
             body += `Timestamp: ${data.timestamp}\n\n`;
             
-            if (data.teamsOnBridge) {
-                body += `Teams/Individuals on Bridge:\n${data.teamsOnBridge}\n\n`;
-            }
-            
-            if (data.details) {
-                body += `Details:\n${data.details}\n\n`;
-            }
+            if (data.teamsOnBridge) body += `Teams/Individuals on Bridge:\n${data.teamsOnBridge}\n\n`;
+            if (data.details) body += `Details:\n${data.details}\n\n`;
             
             if (isResolved) {
                 body += '═══════════════════════════════════════════════════\n';
@@ -1991,25 +2009,11 @@
                 body += '🎯 ROOT CAUSE AND RESOLUTION\n';
                 body += '═══════════════════════════════════════════════════\n\n';
                 
-                if (data.resolverTeam) {
-                    body += `Resolved By: ${data.resolverTeam}\n\n`;
-                }
-                
-                if (data.rcaCategory) {
-                    body += `Root Cause Category: ${data.rcaCategory}\n\n`;
-                }
-                
-                if (data.rootcause) {
-                    body += `Root Cause:\n${data.rootcause}\n\n`;
-                }
-                
-                if (data.impactedComponent) {
-                    body += `Impacted Component: ${data.impactedComponent}\n\n`;
-                }
-                
-                if (data.tsSteps) {
-                    body += `Troubleshooting Steps:\n${data.tsSteps}\n\n`;
-                }
+                if (data.resolverTeam) body += `Resolved By: ${data.resolverTeam}\n\n`;
+                if (data.rcaCategory) body += `Root Cause Category: ${data.rcaCategory}\n\n`;
+                if (data.rootcause) body += `Root Cause:\n${data.rootcause}\n\n`;
+                if (data.impactedComponent) body += `Impacted Component: ${data.impactedComponent}\n\n`;
+                if (data.tsSteps) body += `Troubleshooting Steps:\n${data.tsSteps}\n\n`;
                 
                 body += '═══════════════════════════════════════════════════\n';
                 body += '📊 IMPACT ASSESSMENT\n';
@@ -2036,13 +2040,8 @@
                     body += '\n';
                 }
                 
-                if (data.impactPercentOthers) {
-                    body += `Other Applications:\n${data.impactPercentOthers}\n\n`;
-                }
-                
-                if (data.impactedRemarks) {
-                    body += `Remarks: ${data.impactedRemarks}\n\n`;
-                }
+                if (data.impactPercentOthers) body += `Other Applications:\n${data.impactPercentOthers}\n\n`;
+                if (data.impactedRemarks) body += `Remarks: ${data.impactedRemarks}\n\n`;
             }
             
             body += '═══════════════════════════════════════════════════\n';
@@ -2381,11 +2380,6 @@
             document.getElementById('impactPercent3').value = selectedApps[2] || '';
         }
 
-        // ✅ REMOVED: Auto-population disabled
-        // document.getElementById('impactedAppOthers').addEventListener('input', function() {
-        //     document.getElementById('impactPercentOthers').value = this.value;
-        // });
-
         function filterModalItems() {
             const searchTerm = document.getElementById('appSearch').value.toLowerCase();
             const items = document.querySelectorAll('.app-list-item');
@@ -2438,6 +2432,7 @@
                 });
             });
         }
+
         function getAllFormData() {
             return {
                 ticketNumber: document.getElementById('ticketNumber').value,
@@ -2500,7 +2495,6 @@
                 return;
             }
             
-            // ✅ FIXED: Only check TS steps if status is "Resolved"
             if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
                 showPopupNotification();
                 return;
@@ -2540,7 +2534,6 @@
                 return;
             }
             
-            // ✅ FIXED: Only check TS steps if status is "Resolved"
             if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
                 showPopupNotification();
                 return;
@@ -2620,6 +2613,7 @@
                         const currentTeamsOnBridge = document.querySelector('[name="teamsOnBridge"]').value;
                         
                         currentIncidentId = null;
+                        localStorage.removeItem('imc_current_incident');
                         resetForm();
                         
                         const updateNum = parseInt(currentUpdate) || 0;
@@ -2650,7 +2644,6 @@
                 const errorMsg = document.getElementById('tsStepsError');
                 const currentStatus = ticketStatus.value;
                 
-                // ✅ ONLY validate if status is "Resolved"
                 if (currentStatus === 'Resolved' && !tsSteps.value.trim()) {
                     tsSteps.classList.add('error-highlight');
                     errorMsg.style.display = 'block';
@@ -2697,6 +2690,7 @@
             }
         });
 
+        // ✅ UPDATED: Initialize with auto-load check
         window.addEventListener('DOMContentLoaded', () => {
             const today = new Date();
             const todayStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
@@ -2720,10 +2714,12 @@
             console.log('✨ Shiny animations enabled!');
             console.log('🌐 Shared incident storage enabled!');
             console.log('🔧 Admin panel ready (Ctrl+Shift+A)');
+            console.log('🔄 Auto-load enabled!');
             initializeTroubleshootingValidation();
             setupAutoSave();
             
-            showStartupModal();
+            // ✅ NEW: Check for auto-load before showing startup modal
+            checkForAutoLoad();
         });
 
         window.addEventListener('beforeunload', saveCurrentIncident);
