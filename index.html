@@ -155,6 +155,95 @@
         .startup-btn:hover { background: var(--telus-dark-green); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102, 204, 102, 0.25); }
         .startup-btn.secondary { background: var(--telus-purple); border-color: var(--telus-purple); }
         .startup-btn.secondary:hover { background: var(--telus-dark-purple); box-shadow: 0 6px 20px rgba(75, 40, 109, 0.25); }
+
+        /* ========================================
+           ✨ SHINY ANIMATIONS - INTEGRATED
+           ======================================== */
+
+        @keyframes shine {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(102, 204, 102, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(102, 204, 102, 0.8), 0 0 30px rgba(102, 204, 102, 0.6); }
+        }
+
+        @keyframes pulse-glow-purple {
+            0%, 100% { box-shadow: 0 0 5px rgba(75, 40, 109, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(75, 40, 109, 0.8), 0 0 30px rgba(75, 40, 109, 0.6); }
+        }
+
+        @keyframes pulse-glow-pink {
+            0%, 100% { box-shadow: 0 0 5px rgba(233, 30, 99, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(233, 30, 99, 0.8), 0 0 30px rgba(233, 30, 99, 0.6); }
+        }
+
+        @keyframes line-shine {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+
+        .btn-outline-success {
+            background: linear-gradient(90deg, var(--telus-green) 0%, var(--telus-green) 40%, var(--telus-light-green) 50%, var(--telus-green) 60%, var(--telus-green) 100%) !important;
+            background-size: 200% auto !important;
+            animation: shine 3s linear infinite, pulse-glow 2s ease-in-out infinite;
+        }
+
+        .btn-outline-success:hover {
+            animation: shine 1.5s linear infinite, pulse-glow 1s ease-in-out infinite;
+        }
+
+        .add-app-btn {
+            background: linear-gradient(90deg, var(--telus-green) 0%, var(--telus-green) 40%, var(--telus-light-green) 50%, var(--telus-green) 60%, var(--telus-green) 100%) !important;
+            background-size: 200% auto !important;
+            animation: shine 3s linear infinite;
+        }
+
+        .add-app-btn:hover {
+            animation: shine 1.5s linear infinite;
+        }
+
+        .startup-btn {
+            background: linear-gradient(90deg, var(--telus-green) 0%, var(--telus-green) 40%, var(--telus-light-green) 50%, var(--telus-green) 60%, var(--telus-green) 100%) !important;
+            background-size: 200% auto !important;
+            animation: shine 3s linear infinite, pulse-glow 2s ease-in-out infinite;
+        }
+
+        .startup-btn:hover {
+            animation: shine 1.5s linear infinite, pulse-glow 1.5s ease-in-out infinite;
+        }
+
+        .incident-btn.load {
+            background: linear-gradient(90deg, var(--telus-green) 0%, var(--telus-green) 40%, var(--telus-light-green) 50%, var(--telus-green) 60%, var(--telus-green) 100%) !important;
+            background-size: 200% auto !important;
+            animation: shine 3s linear infinite;
+        }
+
+        .incident-btn.load:hover {
+            animation: shine 1.5s linear infinite;
+        }
+
+        .month-nav button {
+            background: linear-gradient(90deg, var(--telus-green) 0%, var(--telus-green) 40%, var(--telus-light-green) 50%, var(--telus-green) 60%, var(--telus-green) 100%) !important;
+            background-size: 200% auto !important;
+            animation: shine 3s linear infinite;
+        }
+
+        .month-nav button:hover {
+            animation: shine 1.5s linear infinite;
+        }
     </style>
 </head>
 <body>
@@ -542,7 +631,7 @@
             </table>
         </form>
     </div>
-	    <script>
+    <script>
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/a/macros/telusinternational.com/s/AKfycbxTM9uNbovGMbbuO1c-7GDRq-WzS8GxVxSORxYvjBCZYCFQlMxpccHxVfDGVU--gjpjZg/exec';
         const HARDCODED_SUBJECT = 'AppSupport - Incident Management Checklist';
         
@@ -913,6 +1002,7 @@
                 return;
             }
             
+            // ✅ FIXED: Only show popup if status is "Resolved"
             if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
                 showPopupNotification();
                 return;
@@ -1299,6 +1389,7 @@
             data.customCC = editedCC;
             data.customSubject = document.getElementById('emailSubject').value;
             data.isCustomEmail = 'true';
+            data.sendEmail = 'true';
             
             closeEmailModal();
             submitToServer(data, isActivity);
@@ -1311,7 +1402,7 @@
             }
             return '';
         }
-		        function openTimeSelector(field) {
+        function openTimeSelector(field) {
             currentTimeField = field;
             document.getElementById('modalTitle').textContent = 'Select Time';
             document.getElementById('appSearch').style.display = 'none';
@@ -1717,6 +1808,7 @@
                 return;
             }
             
+            // ✅ FIXED: Only show popup if status is "Resolved"
             if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
                 showPopupNotification();
                 return;
@@ -1735,6 +1827,7 @@
             data.customCC = '';
             data.customSubject = HARDCODED_SUBJECT;
             data.isCustomEmail = 'true';
+            data.sendEmail = 'true';
             
             console.log('📧 Submitting to: ' + emailRecipient);
             
@@ -1755,6 +1848,7 @@
                 return;
             }
             
+            // ✅ FIXED: Only show popup if status is "Resolved"
             if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
                 showPopupNotification();
                 return;
@@ -1768,6 +1862,7 @@
             data.customCC = '';
             data.customSubject = HARDCODED_SUBJECT;
             data.isCustomEmail = 'true';
+            data.sendEmail = 'true';
             
             console.log('📧 Submitting to: ' + emailRecipient);
             
@@ -1846,6 +1941,7 @@
             }, 2000);
         }
 
+        // ✅ FIXED: Validation only triggers on "Resolved" status
         function initializeTroubleshootingValidation() {
             const tsSteps = document.getElementById('tsSteps');
             const ticketStatus = document.getElementById('ticketStatus');
@@ -1860,6 +1956,7 @@
                 const errorMsg = document.getElementById('tsStepsError');
                 const currentStatus = ticketStatus.value;
                 
+                // ✅ ONLY validate if status is "Resolved"
                 if (currentStatus === 'Resolved' && !tsSteps.value.trim()) {
                     tsSteps.classList.add('error-highlight');
                     errorMsg.style.display = 'block';
@@ -1926,6 +2023,7 @@
             
             console.log('🎯 Initializing TELUS IMC System...');
             console.log('📧 Email Map loaded with ' + Object.keys(EMAIL_MAP).length + ' team members');
+            console.log('✨ Shiny animations enabled!');
             initializeTroubleshootingValidation();
             setupAutoSave();
             
@@ -1942,4 +2040,3 @@
     </script>
 </body>
 </html>
-	
