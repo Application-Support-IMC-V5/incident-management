@@ -251,6 +251,33 @@
         }
 
         /* ========================================
+           🔄 LOADING SPINNER
+           ======================================== */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .btn-loading {
+            position: relative;
+            pointer-events: none;
+        }
+
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            top: 50%;
+            left: 12px;
+            margin-top: -7px;
+            border: 2px solid transparent;
+            border-top-color: currentColor;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        /* ========================================
            💾 CLEAN INDICATORS
            ======================================== */
         .save-indicator { 
@@ -1538,10 +1565,13 @@
             </table>
         </form>
     </div>
-	    <script>
+    <script>
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/a/macros/telusinternational.com/s/AKfycbxTM9uNbovGMbbuO1c-7GDRq-WzS8GxVxSORxYvjBCZYCFQlMxpccHxVfDGVU--gjpjZg/exec';
         const HARDCODED_SUBJECT = 'AppSupport - Incident Management Checklist';
         
+        // ========================================
+        // ✅ ENHANCED EMAIL_MAP - ADD YOUR TEAM MEMBERS HERE
+        // ========================================
         const EMAIL_MAP = {
             'Angelo Anastacio': 'angelodominic.anastacio@telus.com',
             'Algin Zoleta': 'algin.zoleta2@telus.com',
@@ -1555,6 +1585,11 @@
             'Manny Ho': 'manny.ho@telus.com',
             'Moises Cupcupin': 'moisesvergel.cupcupin@telus.com',
             'Ican Balinong': 'ican.balinong@telus.com'
+            
+            // ✅ ADD MORE TEAM MEMBERS BELOW (format: 'Name': 'email@telus.com',)
+            // Example:
+            // 'John Smith': 'john.smith@telus.com',
+            // 'Jane Doe': 'jane.doe@telus.com',
         };
 
         const ALL_APPS = [
@@ -1606,7 +1641,7 @@
                     console.log('✅ TEST STATUS → Sending to: ' + teamEmail);
                     return teamEmail;
                 } else {
-                    console.log('⚠️ Team member not found, using DL');
+                    console.log('⚠️ Team member not found in EMAIL_MAP, using DL');
                     return 'dlApplicationSupport@telus.com';
                 }
             }
@@ -2772,8 +2807,22 @@
 
         function submitToServer(data, isActivity) {
             const btn = isActivity ? document.getElementById('submitActivityBtn') : document.getElementById('mainSubmitBtn');
-            btn.disabled = true;
-            btn.textContent = 'Sending...';
+            const originalText = btn.textContent;
+            
+            const allBtns = [
+                document.getElementById('submitActivityBtn'),
+                document.getElementById('mainSubmitBtn'),
+                document.getElementById('editEmailActivityBtn'),
+                document.getElementById('editEmailMainBtn')
+            ];
+            allBtns.forEach(b => { if(b) { b.disabled = true; b.classList.add('btn-disabled'); } });
+            
+            let dots = 0;
+            btn.textContent = 'Sending';
+            const loadingInterval = setInterval(() => {
+                dots = (dots + 1) % 4;
+                btn.textContent = 'Sending' + '.'.repeat(dots);
+            }, 300);
             
             console.log('=== SUBMITTING TO SERVER ===');
             console.log('TO: ' + data.customRecipient);
@@ -2802,13 +2851,43 @@
             });
             
             document.body.appendChild(form);
+            
+            const submitTime = Date.now();
             form.submit();
             
-            setTimeout(() => {
-                document.body.removeChild(form);
-                document.body.removeChild(iframe);
-                btn.disabled = false;
-                btn.textContent = 'Submit';
+            const minWait = 1200;
+            const maxWait = 3000;
+            
+            let emailSent = false;
+            iframe.onload = () => {
+                emailSent = true;
+                console.log('✓ Email sent confirmation received');
+            };
+            
+            const checkInterval = setInterval(() => {
+                const elapsed = Date.now() - submitTime;
+                
+                if (emailSent && elapsed >= minWait) {
+                    clearInterval(checkInterval);
+                    clearInterval(loadingInterval);
+                    completeSubmission();
+                } else if (elapsed >= maxWait) {
+                    clearInterval(checkInterval);
+                    clearInterval(loadingInterval);
+                    completeSubmission();
+                }
+            }, 100);
+            
+            function completeSubmission() {
+                try {
+                    document.body.removeChild(form);
+                    document.body.removeChild(iframe);
+                } catch(e) {
+                    console.log('Cleanup error (non-critical):', e);
+                }
+                
+                allBtns.forEach(b => { if(b) { b.disabled = false; b.classList.remove('btn-disabled'); } });
+                btn.textContent = originalText;
                 
                 const ccInfo = data.customCC ? '\nCC: ' + data.customCC : '';
                 alert('✓ Email Sent!\n\nTo: ' + data.customRecipient + ccInfo + '\nFrom: Application Support\nCreated By: ' + data.teamMember);
@@ -2839,7 +2918,7 @@
                         document.getElementById('currentIncidentBar').style.display = 'none';
                     }
                 }
-            }, 2000);
+            }
         }
 
         function initializeTroubleshootingValidation() {
@@ -2920,7 +2999,8 @@
             syncToImpactAssessment();
             document.getElementById('ticketStatus').value = 'In Progress';
             
-            console.log('🎯 Initializing TELUS IMC...');
+            console.log('🎯 Initializing TELUS IMC System...');
+            console.log('📧 Email Map loaded with ' + Object.keys(EMAIL_MAP).length + ' team members');
             initializeTroubleshootingValidation();
             setupAutoSave();
             
