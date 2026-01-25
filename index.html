@@ -116,6 +116,61 @@
         .cc-suggestions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
 
         /* ========================================
+           🔧 ADMIN PANEL STYLES
+           ======================================== */
+
+        .admin-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .admin-content {
+            background: var(--telus-white);
+            border-radius: 16px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
+        }
+
+        .admin-header {
+            background: linear-gradient(90deg, var(--telus-purple) 0%, var(--telus-purple) 30%, var(--telus-light-purple) 50%, var(--telus-purple) 70%, var(--telus-purple) 100%) !important;
+            background-size: 200% auto !important;
+            color: var(--telus-white) !important;
+            padding: 22px 30px;
+            border-radius: 14px 14px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: shine 5s linear infinite;
+        }
+
+        .admin-header h3 {
+            color: var(--telus-white) !important;
+            margin: 0;
+            font-size: 20px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+        }
+
+        .admin-body {
+            padding: 30px;
+        }
+
+        .admin-body h4 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+        }
+
+        /* ========================================
            ✨ SHINY ANIMATIONS - COMPLETE
            ======================================== */
 
@@ -660,6 +715,46 @@
     </style>
 </head>
 <body>
+    <!-- ========================================
+         🔧 ADMIN PANEL (HIDDEN - CTRL+SHIFT+A)
+         ======================================== -->
+    <div class="admin-panel" id="adminPanel" style="display:none;">
+        <div class="admin-content">
+            <div class="admin-header">
+                <h3>🔧 Admin Panel</h3>
+                <button class="close-btn" onclick="closeAdminPanel()">&times;</button>
+            </div>
+            <div class="admin-body">
+                <h4 style="color:#E91E63;margin-bottom:20px;">⚠️ Danger Zone</h4>
+                
+                <div style="background:#FFF0F5;border:2px solid #E91E63;border-radius:8px;padding:20px;margin-bottom:20px;">
+                    <p style="font-weight:600;margin-bottom:10px;">Delete All Shared Incidents</p>
+                    <p style="font-size:12px;color:#666;margin-bottom:15px;">
+                        This will permanently delete ALL incidents from the "Shared_Incidents" sheet.
+                        <br><strong>This affects ALL team members!</strong>
+                    </p>
+                    <button type="button" class="btn btn-outline-danger" onclick="deleteAllSharedIncidents()">
+                        🗑️ Delete All Shared Incidents
+                    </button>
+                </div>
+                
+                <div style="background:#F7F7F7;border:1px solid #E5E5E5;border-radius:8px;padding:20px;">
+                    <p style="font-weight:600;margin-bottom:10px;">Clear Local Storage</p>
+                    <p style="font-size:12px;color:#666;margin-bottom:15px;">
+                        This will clear incidents and drafts from YOUR browser only.
+                        <br>Does not affect other team members.
+                    </p>
+                    <button type="button" class="btn btn-outline-danger btn-small" onclick="clearLocalIncidents()">
+                        Clear Local Incidents
+                    </button>
+                    <button type="button" class="btn btn-outline-danger btn-small" onclick="clearLocalDrafts()">
+                        Clear Local Drafts
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="startup-modal" id="startupModal">
         <div class="startup-content">
             <div class="startup-header">
@@ -1030,7 +1125,7 @@
                 </tr>
                 <tr>
                     <td style="width:18%">If Others, Provide App then Impact Percentage (i.e. SD=10%,DT1=5%):</td>
-                    <td colspan="2"><textarea id="impactPercentOthers" name="impactPercentOthers" rows="2" class="form-control" readonly></textarea></td>
+                    <td colspan="2"><textarea id="impactPercentOthers" name="impactPercentOthers" rows="2" class="form-control" readonly placeholder="Leave empty or enter manually"></textarea></td>
                     <td style="width:12%">Remarks (If Any):</td>
                     <td colspan="2"><textarea name="impactedRemarks" rows="2" class="form-control"></textarea></td>
                 </tr>
@@ -1091,6 +1186,104 @@
         let currentYear = new Date().getFullYear();
         let currentIncidentId = null;
 
+        // ========================================
+        // 🔧 ADMIN PANEL FUNCTIONS
+        // ========================================
+
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+                e.preventDefault();
+                document.getElementById('adminPanel').style.display = 'flex';
+                console.log('🔧 Admin panel opened');
+            }
+        });
+
+        function closeAdminPanel() {
+            document.getElementById('adminPanel').style.display = 'none';
+        }
+
+        function deleteAllSharedIncidents() {
+            const confirmation = prompt('⚠️ DELETE ALL SHARED INCIDENTS?\n\nThis will permanently delete ALL incidents for ALL team members.\n\nType "DELETE ALL" to confirm:');
+            
+            if (confirmation !== 'DELETE ALL') {
+                alert('❌ Deletion cancelled');
+                return;
+            }
+            
+            console.log('🗑️ Deleting all shared incidents...');
+            
+            const formData = new URLSearchParams({
+                action: 'deleteAllIncidents'
+            });
+            
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    alert('✓ All shared incidents deleted!\n\nDeleted: ' + (result.count || 0) + ' incidents');
+                    console.log('✓ Deleted ' + (result.count || 0) + ' incidents');
+                    closeAdminPanel();
+                } else {
+                    alert('❌ Error: ' + result.error);
+                }
+            })
+            .catch(err => {
+                console.log('❌ Network error:', err);
+                alert('❌ Cannot connect to server. Check your internet connection.');
+            });
+        }
+
+        function clearLocalIncidents() {
+            if (!confirm('Clear all LOCAL incidents from YOUR browser?\n\nThis does not affect other team members.')) {
+                return;
+            }
+            
+            let count = 0;
+            const keysToDelete = [];
+            
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.startsWith('imc_incident_')) {
+                    keysToDelete.push(key);
+                    count++;
+                }
+            }
+            
+            keysToDelete.forEach(key => localStorage.removeItem(key));
+            
+            alert('✓ Cleared ' + count + ' local incidents from your browser');
+            console.log('✓ Cleared ' + count + ' local incidents');
+        }
+
+        function clearLocalDrafts() {
+            if (!confirm('Clear all email drafts from YOUR browser?')) {
+                return;
+            }
+            
+            let count = 0;
+            const keysToDelete = [];
+            
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.startsWith('imc_draft_')) {
+                    keysToDelete.push(key);
+                    count++;
+                }
+            }
+            
+            keysToDelete.forEach(key => localStorage.removeItem(key));
+            
+            alert('✓ Cleared ' + count + ' email drafts from your browser');
+            console.log('✓ Cleared ' + count + ' email drafts');
+        }
+
+        // ========================================
+        // 📧 CORE FUNCTIONS
+        // ========================================
+
         function showPopupNotification() {
             const popup = document.getElementById('popupNotification');
             popup.classList.add('show');
@@ -1133,7 +1326,6 @@
             console.log('✓ New incident created');
         }
 
-        // ✅ UPDATED: Load from Google Sheets (SHARED)
         function showIncidentManager() {
             document.getElementById('startupModal').style.display = 'none';
             const list = document.getElementById('incidentList');
@@ -1220,7 +1412,6 @@
             return incidents;
         }
 
-        // ✅ UPDATED: Load from Google Sheets (SHARED)
         function loadIncident(incidentId) {
             console.log('Loading incident:', incidentId);
             
@@ -1263,7 +1454,6 @@
                 });
         }
 
-        // ✅ UPDATED: Delete from Google Sheets (SHARED)
         function deleteIncident(incidentId) {
             const ticketNum = incidentId;
             
@@ -1303,7 +1493,6 @@
             });
         }
 
-        // ✅ UPDATED: Save to Google Sheets (SHARED)
         function saveCurrentIncident() {
             const ticketNumber = document.getElementById('ticketNumber').value.trim();
             
@@ -2090,6 +2279,7 @@
             closeAppModal();
             saveCurrentIncident();
         }
+
         function openAppSelector() {
             document.getElementById('modalTitle').textContent = 'Select Applications';
             document.getElementById('appSearch').style.display = 'block';
@@ -2155,9 +2345,10 @@
         function syncToImpactAssessment() {
             const container = document.getElementById('impactAssessmentRows');
             const othersBox = document.getElementById('impactPercentOthers');
-            const detailsOthers = document.getElementById('impactedAppOthers').value;
             container.innerHTML = '';
-            othersBox.value = detailsOthers;
+            
+            // ✅ FIXED: Keep "If Others" field empty
+            othersBox.value = '';
             
             if (selectedApps.length === 0) {
                 container.innerHTML = '<p style="padding:15px;text-align:center;color:#999!important;font-style:italic">No applications selected</p>';
@@ -2190,9 +2381,10 @@
             document.getElementById('impactPercent3').value = selectedApps[2] || '';
         }
 
-        document.getElementById('impactedAppOthers').addEventListener('input', function() {
-            document.getElementById('impactPercentOthers').value = this.value;
-        });
+        // ✅ REMOVED: Auto-population disabled
+        // document.getElementById('impactedAppOthers').addEventListener('input', function() {
+        //     document.getElementById('impactPercentOthers').value = this.value;
+        // });
 
         function filterModalItems() {
             const searchTerm = document.getElementById('appSearch').value.toLowerCase();
@@ -2246,7 +2438,6 @@
                 });
             });
         }
-
         function getAllFormData() {
             return {
                 ticketNumber: document.getElementById('ticketNumber').value,
@@ -2309,6 +2500,7 @@
                 return;
             }
             
+            // ✅ FIXED: Only check TS steps if status is "Resolved"
             if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
                 showPopupNotification();
                 return;
@@ -2329,7 +2521,7 @@
             data.isCustomEmail = 'true';
             data.sendEmail = 'true';
             
-            console.log('📧 Submitting to: ' + emailRecipient);
+            console.log('📧 Activity Log - Submitting to: ' + emailRecipient);
             
             submitToServer(data, true);
         }
@@ -2348,6 +2540,7 @@
                 return;
             }
             
+            // ✅ FIXED: Only check TS steps if status is "Resolved"
             if (data.ticketStatus === 'Resolved' && !data.tsSteps.trim()) {
                 showPopupNotification();
                 return;
@@ -2363,7 +2556,9 @@
             data.isCustomEmail = 'true';
             data.sendEmail = 'true';
             
-            console.log('📧 Submitting to: ' + emailRecipient);
+            console.log('📧 Main Submit - Submitting to: ' + emailRecipient);
+            console.log('📧 Status: ' + data.ticketStatus);
+            console.log('📧 Send Email Flag: ' + data.sendEmail);
             
             submitToServer(data, false);
         });
@@ -2455,6 +2650,7 @@
                 const errorMsg = document.getElementById('tsStepsError');
                 const currentStatus = ticketStatus.value;
                 
+                // ✅ ONLY validate if status is "Resolved"
                 if (currentStatus === 'Resolved' && !tsSteps.value.trim()) {
                     tsSteps.classList.add('error-highlight');
                     errorMsg.style.display = 'block';
@@ -2523,6 +2719,7 @@
             console.log('📧 Email Map loaded with ' + Object.keys(EMAIL_MAP).length + ' team members');
             console.log('✨ Shiny animations enabled!');
             console.log('🌐 Shared incident storage enabled!');
+            console.log('🔧 Admin panel ready (Ctrl+Shift+A)');
             initializeTroubleshootingValidation();
             setupAutoSave();
             
@@ -2535,6 +2732,7 @@
             if (e.target.id === 'appModal') closeAppModal();
             if (e.target.id === 'emailModal') closeEmailModal();
             if (e.target.id === 'incidentManagerModal') closeIncidentManager();
+            if (e.target.id === 'adminPanel') closeAdminPanel();
         }
     </script>
 </body>
